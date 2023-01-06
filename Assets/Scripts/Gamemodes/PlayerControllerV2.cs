@@ -3043,6 +3043,14 @@ public class PlayerControllerV2 : MonoBehaviour
                 chargeTeleportTimer = CHARGEDTIMER;
 
                 PortalTouched = collision.gameObject;
+
+                // Dash Direction
+                if (inDash)
+                {
+                    dashDirection = -tb.right;
+                    dash_parent.transform.eulerAngles = new Vector3(0, 0, tb.rotation.eulerAngles.z + 180);
+                }
+
                 break;
             case "ChargedTeleportC":
                 if (ChargedTeleportCTouched != null && collision.gameObject == ChargedTeleportCTouched && chargeTeleportTimerC > 0) return;
@@ -3089,6 +3097,14 @@ public class PlayerControllerV2 : MonoBehaviour
                 ChargedTeleportCTouched = tb.gameObject;
 
                 PortalTouched = collision.gameObject;
+
+                // Dash Direction
+                if (inDash)
+                {
+                    dashDirection = -tb.right;
+                    dash_parent.transform.eulerAngles = new Vector3(0, 0, tb.rotation.eulerAngles.z + 180);
+                }
+
                 break;
             case "PurpleDash":
                 purple_dash = true;
