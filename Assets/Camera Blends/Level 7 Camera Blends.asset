@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36baaa8bdcb9d8b49b9199833965d2c3, type: 3}
+  m_Name: Level 7 Camera Blends
+  m_EditorClassIdentifier: 
+  m_CustomBlends:
+  - m_From: CM vcam2
+    m_To: CM vcam1
+    m_Blend:
+      m_Style: 1
+      m_Time: 0
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: CM vcam6
+    m_To: CM vcam7
+    m_Blend:
+      m_Style: 7
+      m_Time: 0.45
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: -2.0817597
+          outSlope: -2.0817597
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.026452918
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 3.7085693
+          outSlope: 3.7085693
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.028559148
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: CM vcam7
+    m_To: CM vcam8
+    m_Blend:
+      m_Style: 3
+      m_Time: 0.3
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: -2.0817597
+          outSlope: -2.0817597
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.026452918
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 3.7085693
+          outSlope: 3.7085693
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.028559148
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+  - m_From: '**ANY CAMERA**'
+    m_To: CM vcam9 [AUTO START]
+    m_Blend:
+      m_Style: 1
+      m_Time: 0
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: -2.0817597
+          outSlope: -2.0817597
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.026452918
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 3.7085693
+          outSlope: 3.7085693
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.028559148
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0

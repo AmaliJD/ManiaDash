@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0457ffbc3f8d52d458db5b10ebb9f241, type: 3}
+  m_Name: Global Light L1
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 0, b: 0.93397665, a: 1}
+  reference: {fileID: 11400000, guid: 49eab7c734e5d6540bb93b190cdafb0e, type: 2}

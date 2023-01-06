@@ -1,0 +1,379 @@
+fileFormatVersion: 2
+guid: ee28de2c01d723e4c9124a2a12e6c2df
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -982075517606153215
+    second: Toxic Factory Temp00
+  - first:
+      213: -2699847287020969536
+    second: Toxic Factory Temp01
+  - first:
+      213: -2961134083328197789
+    second: Toxic Factory Temp02
+  - first:
+      213: -2675162276609202437
+    second: Toxic Factory Temp03
+  - first:
+      213: -9121655736424110440
+    second: Toxic Factory Temp04
+  - first:
+      213: -1154502250185314147
+    second: Toxic Factory Temp05
+  - first:
+      213: -3382804035196959582
+    second: Toxic Factory Temp06
+  - first:
+      213: 8088445291456576966
+    second: Toxic Factory Temp07
+  - first:
+      213: 2135851980927432939
+    second: Toxic Factory Temp08
+  - first:
+      213: 3035435777639829501
+    second: Toxic Factory Temp09
+  - first:
+      213: 2863611009059368085
+    second: Toxic Factory Temp10
+  - first:
+      213: 3633450444843746961
+    second: Toxic Factory Temp11
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Toxic Factory Temp00
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2869
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1043a7e1587fe52f0800000000000000
+      internalID: -982075517606153215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp01
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 2869
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c120556237388ad0800000000000000
+      internalID: -2699847287020969536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp02
+      rect:
+        serializedVersion: 2
+        x: 2165
+        y: 2869
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36bbbee6d30f7e6d0800000000000000
+      internalID: -2961134083328197789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp03
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2152
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf6ee22451aefdad0800000000000000
+      internalID: -2675162276609202437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp04
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 2152
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8966903bf6e596180800000000000000
+      internalID: -9121655736424110440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp05
+      rect:
+        serializedVersion: 2
+        x: 2165
+        y: 2152
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d90b05df1526affe0800000000000000
+      internalID: -1154502250185314147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp06
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1435
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a4c35127addd01d0800000000000000
+      internalID: -3382804035196959582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp07
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 1435
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cd337e532eef3070800000000000000
+      internalID: 8088445291456576966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp08
+      rect:
+        serializedVersion: 2
+        x: 2165
+        y: 1435
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be87ef77f0214ad10800000000000000
+      internalID: 2135851980927432939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp09
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 718
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dffcbb0e1c8002a20800000000000000
+      internalID: 3035435777639829501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp10
+      rect:
+        serializedVersion: 2
+        x: 1083
+        y: 718
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59ca1e96a079db720800000000000000
+      internalID: 2863611009059368085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toxic Factory Temp11
+      rect:
+        serializedVersion: 2
+        x: 2165
+        y: 718
+        width: 1080
+        height: 715
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19685e1cdeb9c6230800000000000000
+      internalID: 3633450444843746961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

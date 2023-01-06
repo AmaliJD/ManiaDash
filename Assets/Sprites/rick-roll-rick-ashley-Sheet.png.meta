@@ -1,0 +1,680 @@
+fileFormatVersion: 2
+guid: e2ba0807bd1917e44a5d76a36803d1b2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5884067565227155319
+    second: rick-roll-rick-ashley-Sheet_0
+  - first:
+      213: 6449266728591325782
+    second: rick-roll-rick-ashley-Sheet_1
+  - first:
+      213: 2321132909945181761
+    second: rick-roll-rick-ashley-Sheet_2
+  - first:
+      213: 6995650711634656449
+    second: rick-roll-rick-ashley-Sheet_3
+  - first:
+      213: 3280657142483914848
+    second: rick-roll-rick-ashley-Sheet_4
+  - first:
+      213: 1535310930181035242
+    second: rick-roll-rick-ashley-Sheet_5
+  - first:
+      213: -120227247977719578
+    second: rick-roll-rick-ashley-Sheet_6
+  - first:
+      213: -3665281270509035295
+    second: rick-roll-rick-ashley-Sheet_7
+  - first:
+      213: -6009131137573807492
+    second: rick-roll-rick-ashley-Sheet_8
+  - first:
+      213: 6850833739595617068
+    second: rick-roll-rick-ashley-Sheet_9
+  - first:
+      213: 2892593707948657541
+    second: rick-roll-rick-ashley-Sheet_10
+  - first:
+      213: -1938157031930858845
+    second: rick-roll-rick-ashley-Sheet_11
+  - first:
+      213: -8491513440086024177
+    second: rick-roll-rick-ashley-Sheet_12
+  - first:
+      213: -1123476709190621177
+    second: rick-roll-rick-ashley-Sheet_13
+  - first:
+      213: 6923509354543523392
+    second: rick-roll-rick-ashley-Sheet_14
+  - first:
+      213: 8999880795515462286
+    second: rick-roll-rick-ashley-Sheet_15
+  - first:
+      213: 8688552167161681565
+    second: rick-roll-rick-ashley-Sheet_16
+  - first:
+      213: 8190533265713332520
+    second: rick-roll-rick-ashley-Sheet_17
+  - first:
+      213: 3673578896007550703
+    second: rick-roll-rick-ashley-Sheet_18
+  - first:
+      213: -778261091946072130
+    second: rick-roll-rick-ashley-Sheet_19
+  - first:
+      213: -238533794479286554
+    second: rick-roll-rick-ashley-Sheet_20
+  - first:
+      213: -5845834118507819075
+    second: rick-roll-rick-ashley-Sheet_21
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1044
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77f13c3864868a150800000000000000
+      internalID: 5884067565227155319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 1044
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65a7e638be5608950800000000000000
+      internalID: 6449266728591325782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 1044
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14650cd6512563020800000000000000
+      internalID: 2321132909945181761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 1044
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cc31b7f14b851160800000000000000
+      internalID: 6995650711634656449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 1044
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0601a971a4c378d20800000000000000
+      internalID: 3280657142483914848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 783
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae4173518258e4510800000000000000
+      internalID: 1535310930181035242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 783
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e817f774fdd45ef0800000000000000
+      internalID: -120227247977719578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 783
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e0aa6d9a1e422dc0800000000000000
+      internalID: -3665281270509035295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 783
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7a9c2071174b9ca0800000000000000
+      internalID: -6009131137573807492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 783
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c239bd72dfc031f50800000000000000
+      internalID: 6850833739595617068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 522
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58b4fc9d6ae842820800000000000000
+      internalID: 2892593707948657541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 522
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a2f5d0c2784a15e0800000000000000
+      internalID: -1938157031930858845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 522
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f00a7362485182a80800000000000000
+      internalID: -8491513440086024177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 522
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 708a44ba2eb9860f0800000000000000
+      internalID: -1123476709190621177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 522
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04629ac531f351060800000000000000
+      internalID: 6923509354543523392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 261
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e822f8d66eff5ec70800000000000000
+      internalID: 8999880795515462286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 261
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d965f108920f39870800000000000000
+      internalID: 8688552167161681565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 261
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8210ddf1c9e9aa170800000000000000
+      internalID: 8190533265713332520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 261
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe6d6eeda8c2bf230800000000000000
+      internalID: 3673578896007550703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 261
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb7fb0809af0335f0800000000000000
+      internalID: -778261091946072130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e6d22917ce80bcf0800000000000000
+      internalID: -238533794479286554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rick-roll-rick-ashley-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 0
+        width: 220
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbf8b7e77dc6fdea0800000000000000
+      internalID: -5845834118507819075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

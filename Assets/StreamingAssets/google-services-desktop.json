@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "878171252039",
+    "project_id": "mania-dash-37a6c",
+    "storage_bucket": "mania-dash-37a6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878171252039:android:443a998a587e15bc07d862",
+        "android_client_info": {
+          "package_name": "com.OmegaFalcon.ManiaDash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "878171252039-lojt2vls03n6ii2kpko8nkmc1b6uoh95.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVdZGf38ONd1i92y8MrBc7chTQ22S2a4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "878171252039-lojt2vls03n6ii2kpko8nkmc1b6uoh95.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

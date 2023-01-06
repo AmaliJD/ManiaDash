@@ -1,0 +1,859 @@
+fileFormatVersion: 2
+guid: ac7b7daad5b68124fa87c855fa348dd3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1368589314541404351
+    second: Gamemode Portals_0
+  - first:
+      213: -1528277294032217480
+    second: Gamemode Portals_1
+  - first:
+      213: -5615507501522436652
+    second: Gamemode Portals_2
+  - first:
+      213: -2444334749622759151
+    second: Gamemode Portals_3
+  - first:
+      213: 8123585229672119147
+    second: Gamemode Portals_4
+  - first:
+      213: -2816570339311156008
+    second: Gamemode Portals_5
+  - first:
+      213: 3359896181753723982
+    second: Gamemode Portals_6
+  - first:
+      213: 9175908844745951346
+    second: Gamemode Portals_7
+  - first:
+      213: -7109223997492312473
+    second: Gamemode Portals_8
+  - first:
+      213: 4977655937244737088
+    second: Gamemode Portals_9
+  - first:
+      213: 3883065126313337880
+    second: Gamemode Portals_10
+  - first:
+      213: -203617029588980689
+    second: Gamemode Portals_11
+  - first:
+      213: -2434659102928348277
+    second: Gamemode Portals_12
+  - first:
+      213: 9047050096850346215
+    second: Gamemode Portals_13
+  - first:
+      213: -7423034682110537995
+    second: Gamemode Portals_14
+  - first:
+      213: 1720662497539709950
+    second: Gamemode Portals_15
+  - first:
+      213: 4477798199574625401
+    second: Gamemode Portals_16
+  - first:
+      213: 1892778834747885442
+    second: Gamemode Portals_17
+  - first:
+      213: -8466315147594977030
+    second: Gamemode Portals_0
+  - first:
+      213: -5310014793753085874
+    second: Gamemode Portals_1
+  - first:
+      213: 6635274962657394583
+    second: Gamemode Portals_2
+  - first:
+      213: 7077587349211443838
+    second: Gamemode Portals_3
+  - first:
+      213: -4427984363362130814
+    second: Gamemode Portals_4
+  - first:
+      213: 6948625879952528406
+    second: Gamemode Portals_5
+  - first:
+      213: -6252149723561649691
+    second: Gamemode Portals_6
+  - first:
+      213: -392111590365742474
+    second: Gamemode Portals_7
+  - first:
+      213: -7690452686723903646
+    second: Gamemode Portals_8
+  - first:
+      213: -6956365427646407831
+    second: Gamemode Portals_9
+  - first:
+      213: -3866359364169603513
+    second: Gamemode Portals_10
+  - first:
+      213: -5289146207516061500
+    second: Gamemode Portals_11
+  - first:
+      213: 8387255962025393825
+    second: Gamemode Portals_12
+  - first:
+      213: 7997560938954430517
+    second: Gamemode Portals_13
+  - first:
+      213: 8004978567142431154
+    second: Gamemode Portals_14
+  - first:
+      213: 4053204522182991125
+    second: Gamemode Portals_15
+  - first:
+      213: 6790372433894531646
+    second: Gamemode Portals_16
+  - first:
+      213: 2348002849253595429
+    second: Gamemode Portals_17
+  - first:
+      213: 6576484275247863156
+    second: Gamemode Portals_18
+  - first:
+      213: 3297914343202977816
+    second: Gamemode Portals_19
+  - first:
+      213: -1999109250600569986
+    second: Gamemode Portals_20
+  - first:
+      213: 7348385486389983849
+    second: Gamemode Portals_21
+  - first:
+      213: -8388803592070688418
+    second: Gamemode Portals_22
+  - first:
+      213: -3134559254801086972
+    second: Gamemode Portals_18
+  - first:
+      213: -1577158974404715237
+    second: Gamemode Portals_19
+  - first:
+      213: -5983188688083531660
+    second: Gamemode Portals_20
+  - first:
+      213: -8576514619351767741
+    second: Gamemode Portals_21
+  - first:
+      213: 4746162288792685173
+    second: Gamemode Portals_22
+  - first:
+      213: -9029057568221158857
+    second: Gamemode Portals_23
+  - first:
+      213: 5960584632244143834
+    second: Gamemode Portals_23
+  - first:
+      213: -7901196767942527392
+    second: Gamemode Portals_24
+  - first:
+      213: -2524142538764188574
+    second: Gamemode Portals_25
+  - first:
+      213: 7723118366927052285
+    second: Gamemode Portals_26
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 200
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Gamemode Portals_6
+      rect:
+        serializedVersion: 2
+        x: 2052
+        y: 1800
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e91d84a3f6eb39a0800000000000000
+      internalID: -6252149723561649691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1200
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67abfe70690fe8af0800000000000000
+      internalID: -392111590365742474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_8
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 1200
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26f8fd5f606064590800000000000000
+      internalID: -7690452686723903646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_9
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1200
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96bd35dff76067f90800000000000000
+      internalID: -6956365427646407831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_10
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 1200
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7466aa4a4aee75ac0800000000000000
+      internalID: -3866359364169603513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af0b71fca3b918a80800000000000000
+      internalID: -8466315147594977030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_1
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 1800
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e483742cda90f46b0800000000000000
+      internalID: -5310014793753085874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_2
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1800
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79fbc306c6b351c50800000000000000
+      internalID: 6635274962657394583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_3
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 1800
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e72fb880234a83260800000000000000
+      internalID: 7077587349211443838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_4
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 1800
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 284e0d69ea3ac82c0800000000000000
+      internalID: -4427984363362130814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_5
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 1800
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61418a32c6a7e6060800000000000000
+      internalID: 6948625879952528406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_11
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 1200
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c096ef1c8d2996b0800000000000000
+      internalID: -5289146207516061500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_12
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 1200
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1aefcc02cd4856470800000000000000
+      internalID: 8387255962025393825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_13
+      rect:
+        serializedVersion: 2
+        x: 2052
+        y: 1200
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5381be31d4b0dfe60800000000000000
+      internalID: 7997560938954430517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b9d3293895671f60800000000000000
+      internalID: 8004978567142431154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_15
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 600
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51d59b2c900ef3830800000000000000
+      internalID: 4053204522182991125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_16
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 600
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3263ee60cf3c3e50800000000000000
+      internalID: 6790372433894531646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_17
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 600
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5299d51b628c59020800000000000000
+      internalID: 2348002849253595429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_18
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 600
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4060b2227fecf74d0800000000000000
+      internalID: -3134559254801086972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_19
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 600
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1d9948d44ecc1ae0800000000000000
+      internalID: -1577158974404715237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_20
+      rect:
+        serializedVersion: 2
+        x: 2052
+        y: 600
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47845a6a69177fca0800000000000000
+      internalID: -5983188688083531660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 345e79ed4691af880800000000000000
+      internalID: -8576514619351767741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_22
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 0
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57ac7d59471cdd140800000000000000
+      internalID: 4746162288792685173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_23
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 0
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad6809a742048b250800000000000000
+      internalID: 5960584632244143834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_24
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 0
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0663252e66f495290800000000000000
+      internalID: -7901196767942527392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_25
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 0
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26402860cb178fcd0800000000000000
+      internalID: -2524142538764188574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gamemode Portals_26
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 0
+        width: 342
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfd5bf26c370e2b60800000000000000
+      internalID: 7723118366927052285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

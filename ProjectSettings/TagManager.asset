@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - YellowOrb
+  - PinkOrb
+  - RedOrb
+  - BlueOrb
+  - Ground
+  - GreenOrb
+  - BlackOrb
+  - YellowPad
+  - PinkPad
+  - RedPad
+  - BluePad
+  - PortalGravity
+  - PortalGravityN
+  - TeleportA
+  - TeleportB
+  - Death
+  - Checkpoint
+  - Speed1x
+  - Speed2x
+  - Speed3x
+  - Speed4x
+  - Speed0x
+  - Camera
+  - Controller
+  - Global Light
+  - Mini
+  - Mega
+  - TriggerOrb
+  - TeleOrb
+  - PortalGravityC
+  - ToggleTrigger
+  - SpawnTrigger
+  - MoveTrigger
+  - MusicTrigger
+  - ColorTrigger
+  - PulseTrigger
+  - MovingObject
+  - RandomTrigger
+  - ShakeTrigger
+  - PulseManager
+  - GreenPad
+  - PurpleOrb
+  - StopTrigger
+  - GameManager
+  - ChargedTeleportA
+  - ChargedTeleportB
+  - ChargedTeleportC
+  - Parent
+  - Master
+  - SfxTrigger
+  - PurplePad
+  - BlackPad
+  - CWOrb
+  - CCWOrb
+  - PurpleDash
+  - Gravity0
+  - Gravity1
+  - Gravity2
+  - Gravity3
+  - Dash
+  - BlackDash
+  - PlayerSettings
+  - TimeScaleTrigger
+  - ReboundOrb
+  - ReboundPad
+  - InputTrigger
+  - Canvas
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Player
+  - Ground
+  - Death
+  - PostProcessing
+  - Intangible
+  - Camera
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Collider
+    uniqueID: 326192205
+    locked: 0

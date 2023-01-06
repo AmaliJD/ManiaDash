@@ -1,0 +1,451 @@
+fileFormatVersion: 2
+guid: d5cec0a6600cb2a44979cbee4dd2d9e2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7415175696649500301
+    second: Topala City Temp00
+  - first:
+      213: 4418182798461469994
+    second: Topala City Temp01
+  - first:
+      213: 2965113431221752002
+    second: Topala City Temp02
+  - first:
+      213: 4777111646343659535
+    second: Topala City Temp03
+  - first:
+      213: 6821411109134602974
+    second: Topala City Temp04
+  - first:
+      213: -3450925097004884261
+    second: Topala City Temp05
+  - first:
+      213: -3194591721048602103
+    second: Topala City Temp06
+  - first:
+      213: 3713910860532131660
+    second: Topala City Temp07
+  - first:
+      213: 6173573953063901661
+    second: Topala City Temp08
+  - first:
+      213: 2441299919381535978
+    second: Topala City Temp09
+  - first:
+      213: -5835201437119276313
+    second: Topala City Temp10
+  - first:
+      213: 8257891275847997229
+    second: Topala City Temp11
+  - first:
+      213: 1708194157613571668
+    second: Topala City Temp12
+  - first:
+      213: 1845938799701518196
+    second: Topala City Temp13
+  - first:
+      213: -7614767253532453214
+    second: Topala City Temp14
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Topala City Temp00
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2473
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8637e1420ff7e660800000000000000
+      internalID: 7415175696649500301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp01
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 2473
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a25890fb8d9805d30800000000000000
+      internalID: 4418182798461469994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp02
+      rect:
+        serializedVersion: 2
+        x: 2565
+        y: 2473
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c056b2b4f2362920800000000000000
+      internalID: 2965113431221752002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp03
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2061
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0002bc6bb5bb4240800000000000000
+      internalID: 4777111646343659535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp04
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 2061
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed21fda23458aae50800000000000000
+      internalID: 6821411109134602974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp05
+      rect:
+        serializedVersion: 2
+        x: 2565
+        y: 2061
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bde1b8678e9db10d0800000000000000
+      internalID: -3450925097004884261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp06
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1649
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90a8e7061c78aa3d0800000000000000
+      internalID: -3194591721048602103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp07
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 1649
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c47ab7120467a8330800000000000000
+      internalID: 3713910860532131660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp08
+      rect:
+        serializedVersion: 2
+        x: 2565
+        y: 1649
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd95af22dc0fca550800000000000000
+      internalID: 6173573953063901661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp09
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1237
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aec1de4975d31e120800000000000000
+      internalID: 2441299919381535978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp10
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 1237
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ea18ab8533350fa0800000000000000
+      internalID: -5835201437119276313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp11
+      rect:
+        serializedVersion: 2
+        x: 2565
+        y: 1237
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2797bafc5ce99270800000000000000
+      internalID: 8257891275847997229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp12
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 825
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45e54f33989b4b710800000000000000
+      internalID: 1708194157613571668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp13
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 825
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 477e151ee871e9910800000000000000
+      internalID: 1845938799701518196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Topala City Temp14
+      rect:
+        serializedVersion: 2
+        x: 2565
+        y: 825
+        width: 1280
+        height: 410
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a6dbe51789e25690800000000000000
+      internalID: -7614767253532453214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

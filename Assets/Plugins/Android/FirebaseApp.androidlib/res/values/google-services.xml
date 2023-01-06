@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+  <string name="gcm_defaultSenderId" translatable="false">878171252039</string>
+  <string name="google_storage_bucket" translatable="false">mania-dash-37a6c.appspot.com</string>
+  <string name="project_id" translatable="false">mania-dash-37a6c</string>
+  <string name="google_api_key" translatable="false">AIzaSyBVdZGf38ONd1i92y8MrBc7chTQ22S2a4Q</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBVdZGf38ONd1i92y8MrBc7chTQ22S2a4Q</string>
+  <string name="google_app_id" translatable="false">1:878171252039:android:443a998a587e15bc07d862</string>
+  <string name="default_web_client_id" translatable="false">878171252039-lojt2vls03n6ii2kpko8nkmc1b6uoh95.apps.googleusercontent.com</string>
+</resources>
