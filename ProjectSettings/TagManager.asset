@@ -71,6 +71,7 @@ TagManager:
   - ReboundPad
   - InputTrigger
   - Canvas
+  - CameraTrigger
   layers:
   - Default
   - TransparentFX
