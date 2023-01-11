@@ -3044,7 +3044,6 @@ public class PlayerControllerV2 : MonoBehaviour
 
                 PortalTouched = collision.gameObject;
 
-                // Dash Direction
                 if (inDash)
                 {
                     dashDirection = -tb.right;
@@ -3098,7 +3097,6 @@ public class PlayerControllerV2 : MonoBehaviour
 
                 PortalTouched = collision.gameObject;
 
-                // Dash Direction
                 if (inDash)
                 {
                     dashDirection = -tb.right;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TimeScaleTrigger : MonoBehaviour
 {
     private TimeManager timeManager;
-    public float scale, duration, cooldown;
+    public float scale, duration, holdFadeOut, cooldown;
     public bool hold, oneuse;
 
     private bool inuse;
@@ -44,7 +44,7 @@ public class TimeScaleTrigger : MonoBehaviour
         {
             if (hold)
             {
-                timeManager.setFade(2, startScale, duration);
+                timeManager.setFade(2, startScale, holdFadeOut);
             }
             StartCoroutine(Cooldown(cooldown));
         }
