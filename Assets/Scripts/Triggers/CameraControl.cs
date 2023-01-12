@@ -231,18 +231,18 @@ public class CameraControl : MonoBehaviour
     // -------------------------------------------- LOCKS
 
 
-    public void StartLockCenter(Transform target, float endLerpValue, float duration, EasingFunction.Ease ease)
+    public void StartLockCenter(Transform target, Vector2 offset, LockCameraXY.LockType type, float endLerpValue, float duration, EasingFunction.Ease ease)
     {
         if (lockCenterCoroutine != null) { StopCoroutine(lockCenterCoroutine); }
-        lockCenterCoroutine = StartCoroutine(SetLockCenter(target, endLerpValue, duration, ease));
+        lockCenterCoroutine = StartCoroutine(SetLockCenter(target, offset, type, endLerpValue, duration, ease));
     }
 
-    public IEnumerator SetLockCenter(Transform target, float endLerpValue, float duration, EasingFunction.Ease ease)
+    public IEnumerator SetLockCenter(Transform target, Vector2 offset, LockCameraXY.LockType type, float endLerpValue, float duration, EasingFunction.Ease ease)
     {
         LockCameraXY lockCam = virtualCamera.GetComponent<LockCameraXY>();
         
         // break if already at value
-        if ((lockCam.lockTarget == target && lockCam.lerpLock == endLerpValue) || (lockCam.lockTarget == null && target == null)) { yield break; }
+        if ((lockCam.lockTarget == target && lockCam.lerpLock == endLerpValue && lockCam.offset == offset && lockCam.lockAxis == type) || (lockCam.lockTarget == null && target == null)) { yield break; }
 
         // set parameters
         float startLerpValue = lockCam.lerpLock;
@@ -263,8 +263,18 @@ public class CameraControl : MonoBehaviour
         Vector2 startTargetPos = lockCam.lockTarget != null ? lockCam.lockTarget.position : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.lockTarget.position;
 
+        Vector2 startOffset = lockCam.offset;
         float time = duration != 0 ? 0 : 1;
         duration = duration != 0 ? duration : 1;
+
+        float startAxisXWeight = lockCam.lerpAxisX;
+        float startAxisYWeight = lockCam.lerpAxisY;
+        float startAxisXYWeight = lockCam.lerpAxisXY;
+        float endAxisXWeight = type == LockCameraXY.LockType.lock_X ? 1 : 0;
+        float endAxisYWeight = type == LockCameraXY.LockType.lock_Y ? 1 : 0;
+        float endAxisXYWeight = type == LockCameraXY.LockType.lock_XY ? 1 : 0;
+
+        lockCam.lockAxis = type;
 
         // ease value
         while (time < duration)
@@ -274,6 +284,14 @@ public class CameraControl : MonoBehaviour
             lockCam.lockTarget.position = new Vector3(EasingFunction.GetEasingFunction(ease)(startTargetPos.x, endTargetPos.x, Mathf.Clamp01(time / duration)),
                                                         EasingFunction.GetEasingFunction(ease)(startTargetPos.y, endTargetPos.y, Mathf.Clamp01(time / duration)),
                                                         lockCam.lockTarget.position.z);
+
+            lockCam.offset = new Vector2(EasingFunction.GetEasingFunction(ease)(startOffset.x, offset.x, Mathf.Clamp01(time / duration)),
+                                        EasingFunction.GetEasingFunction(ease)(startOffset.y, offset.y, Mathf.Clamp01(time / duration)));
+
+            lockCam.lerpAxisX = EasingFunction.GetEasingFunction(ease)(startAxisXWeight, endAxisXWeight, Mathf.Clamp01(time / duration));
+            lockCam.lerpAxisY = EasingFunction.GetEasingFunction(ease)(startAxisYWeight, endAxisYWeight, Mathf.Clamp01(time / duration));
+            lockCam.lerpAxisXY = EasingFunction.GetEasingFunction(ease)(startAxisXYWeight, endAxisXYWeight, Mathf.Clamp01(time / duration));
+
             time += Time.deltaTime;
             yield return null;
         }
@@ -286,7 +304,14 @@ public class CameraControl : MonoBehaviour
                                                     EasingFunction.GetEasingFunction(ease)(startTargetPos.y, endTargetPos.y, Mathf.Clamp01(time / duration)),
                                                     lockCam.lockTarget.position.z);
 
-        if(target == null || endLerpValue == 0) { lockCam.lockTarget = null; }
+        lockCam.offset = new Vector2(EasingFunction.GetEasingFunction(ease)(startOffset.x, offset.x, Mathf.Clamp01(time / duration)),
+                                        EasingFunction.GetEasingFunction(ease)(startOffset.y, offset.y, Mathf.Clamp01(time / duration)));
+
+        lockCam.lerpAxisX = EasingFunction.GetEasingFunction(ease)(startAxisXWeight, endAxisXWeight, Mathf.Clamp01(time / duration));
+        lockCam.lerpAxisY = EasingFunction.GetEasingFunction(ease)(startAxisYWeight, endAxisYWeight, Mathf.Clamp01(time / duration));
+        lockCam.lerpAxisXY = EasingFunction.GetEasingFunction(ease)(startAxisXYWeight, endAxisXYWeight, Mathf.Clamp01(time / duration));
+
+        if (target == null || endLerpValue == 0) { lockCam.lockTarget = null; }
     }
 
     public void StartLockLeft(Transform target, float endLerpValue, float duration, EasingFunction.Ease ease)

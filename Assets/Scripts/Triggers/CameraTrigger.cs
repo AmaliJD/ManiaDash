@@ -52,6 +52,8 @@ public class CameraTrigger : MonoBehaviour
     [Header("Locks")]
     public bool useLockCenter;
     public Transform lockCenterTarget;
+    public Vector2 lockCenterOffset;
+    public LockCameraXY.LockType lockCenterType;
     [Range(0, 1)] public float lockCenterLerp;
     [Min(0)] public float lockCenterDuration;
     public EasingFunction.Ease lockCenterEase;
@@ -126,6 +128,8 @@ public class CameraTrigger : MonoBehaviour
 
                 lockCenterTarget = lockCam.lockTarget;
                 lockCenterLerp = lockCam.lerpLock;
+                lockCenterOffset = lockCam.offset;
+                lockCenterType = lockCam.lockAxis;
                 lockLeftTarget = lockCam.leftWall;
                 lockLeftLerp = lockCam.lerpLeft;
                 lockRightTarget = lockCam.rightWall;
@@ -184,7 +188,7 @@ public class CameraTrigger : MonoBehaviour
             }
             if (useLockCenter)
             {
-                cameraControl.StartLockCenter(lockCenterTarget, lockCenterLerp, lockCenterDuration, lockCenterEase);
+                cameraControl.StartLockCenter(lockCenterTarget, lockCenterOffset, lockCenterType, lockCenterLerp, lockCenterDuration, lockCenterEase);
             }
             if (useLockLeft)
             {

@@ -18,6 +18,15 @@ public class LockCameraXY : CinemachineExtension
 
     public Transform leftWall, rightWall, topWall, bottomWall;
     [Range(0,1)] public float lerpLock = 1, lerpLeft = 1, lerpRight = 1, lerpTop = 1, lerpBottom = 1;
+    
+    [HideInInspector] public float lerpAxisY = 0, lerpAxisX = 0, lerpAxisXY = 0;
+
+    protected void OnValidate()
+    {
+        lerpAxisXY = lockAxis == LockType.lock_XY ? 1 : 0;
+        lerpAxisX = lockAxis == LockType.lock_X ? 1 : 0;
+        lerpAxisY = lockAxis == LockType.lock_Y ? 1 : 0;
+    }
 
     protected override void PostPipelineStageCallback(
         CinemachineVirtualCameraBase vcam,
@@ -25,21 +34,28 @@ public class LockCameraXY : CinemachineExtension
     {
         if (stage == CinemachineCore.Stage.Body)
         {
-            var pos = state.RawPosition;
-            var halfHeight = state.Lens.OrthographicSize;
-            var halfWidth = halfHeight * state.Lens.Aspect;
+            Vector3 pos = state.RawPosition;
+            float halfHeight = state.Lens.OrthographicSize;
+            float halfWidth = halfHeight * state.Lens.Aspect;
 
-            var RawPos = pos;
+            Vector3 RawPos = pos;
 
             if (lockTarget != null)
             {
-                if (lockAxis == LockType.lock_X) { pos.x = lockTarget.position.x + offset.x; }
+                Vector3 posLockX = new Vector3(lockTarget.position.x + offset.x, pos.y, pos.z);
+                Vector3 posLockY = new Vector3(pos.x, lockTarget.position.y + offset.y, pos.z);
+                Vector3 posLockXY = new Vector3(lockTarget.position.x + offset.x, lockTarget.position.y + offset.y, pos.z);
+
+                /*if (lockAxis == LockType.lock_X) { pos.x = lockTarget.position.x + offset.x; }
                 else if (lockAxis == LockType.lock_Y) { pos.y = lockTarget.position.y + offset.y; }
                 else if (lockAxis == LockType.lock_XY)
                 {
                     pos.x = lockTarget.position.x + offset.x;
                     pos.y = lockTarget.position.y + offset.y;
-                }
+                }*/
+
+                float totalLerpAxis = lerpAxisXY + lerpAxisX + lerpAxisY;
+                pos = ((lerpAxisY / totalLerpAxis) * posLockY) + ((lerpAxisX / totalLerpAxis) * posLockX) + ((lerpAxisXY / totalLerpAxis) * posLockXY);
 
                 pos = Vector3.LerpUnclamped(RawPos, pos, lerpLock);
                 RawPos = pos;
