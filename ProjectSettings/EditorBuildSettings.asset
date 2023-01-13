@@ -51,6 +51,9 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 0
+    path: Assets/Scenes/Camera Trigger Test.unity
+    guid: ea94e464a9919184093f6469d6255ba0
+  - enabled: 0
     path: Assets/Scenes/Super Testroom.unity
     guid: a986001c67f5e2e4bbd08dab48079ab0
   - enabled: 1

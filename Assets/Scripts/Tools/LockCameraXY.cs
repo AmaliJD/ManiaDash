@@ -61,32 +61,63 @@ public class LockCameraXY : CinemachineExtension
                 RawPos = pos;
             }
 
-            if(leftWall != null)
+            float distX = halfWidth;
+            float distY = halfHeight;
+            float clampedRotation = (state.Lens.Dutch + 720) % 360;
+
+            if (clampedRotation <= 90)
             {
-                pos.x = pos.x <= leftWall.position.x + halfWidth ? leftWall.position.x + halfWidth : pos.x;
+                distX = remap(0, 90, halfWidth, halfHeight, clampedRotation);
+                distY = remap(0, 90, halfHeight, halfWidth, clampedRotation);
+            }
+            else if (clampedRotation <= 180)
+            {
+                distX = remap(90, 180, halfHeight, halfWidth, clampedRotation);
+                distY = remap(90, 180, halfWidth, halfHeight, clampedRotation);
+            }
+            else if (clampedRotation <= 270)
+            {
+                distX = remap(180, 270, halfWidth, halfHeight, clampedRotation);
+                distY = remap(180, 270, halfHeight, halfWidth, clampedRotation);
+            }
+            else if (clampedRotation <= 360)
+            {
+                distX = remap(270, 360, halfHeight, halfWidth, clampedRotation);
+                distY = remap(270, 360, halfWidth, halfHeight, clampedRotation);
+            }
+
+            if (leftWall != null)
+            {
+                pos.x = pos.x <= leftWall.position.x + distX ? leftWall.position.x + distX : pos.x;
                 pos = Vector3.LerpUnclamped(RawPos, pos, lerpLeft);
                 RawPos = pos;
             }
             if (rightWall != null)
             {
-                pos.x = pos.x >= rightWall.position.x - halfWidth ? rightWall.position.x - halfWidth : pos.x;
+                pos.x = pos.x >= rightWall.position.x - distX ? rightWall.position.x - distX : pos.x;
                 pos = Vector3.LerpUnclamped(RawPos, pos, lerpRight);
                 RawPos = pos;
             }
             if (topWall != null)
             {
-                pos.y = pos.y >= topWall.position.y - halfHeight ? topWall.position.y - halfHeight : pos.y;
+                pos.y = pos.y >= topWall.position.y - distY ? topWall.position.y - distY : pos.y;
                 pos = Vector3.LerpUnclamped(RawPos, pos, lerpTop);
                 RawPos = pos;
             }
             if (bottomWall != null)
             {
-                pos.y = pos.y <= bottomWall.position.y + halfHeight ? bottomWall.position.y + halfHeight : pos.y;
+                pos.y = pos.y <= bottomWall.position.y + distY ? bottomWall.position.y + distY : pos.y;
                 pos = Vector3.LerpUnclamped(RawPos, pos, lerpBottom);
                 RawPos = pos;
             }
 
             state.RawPosition = pos;
         }
+    }
+
+    public static float remap(float origFrom, float origTo, float targetFrom, float targetTo, float value)
+    {
+        float rel = Mathf.InverseLerp(origFrom, origTo, value);
+        return Mathf.Lerp(targetFrom, targetTo, rel);
     }
 }

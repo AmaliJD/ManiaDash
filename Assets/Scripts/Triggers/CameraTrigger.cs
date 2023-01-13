@@ -96,6 +96,20 @@ public class CameraTrigger : MonoBehaviour
     {
         // delete trigger icon
         if (hideIcon) { gameObject.transform.GetChild(0).gameObject.SetActive(false); }
+        else
+        {
+            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().color = useZoom ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(2).GetComponent<TextMeshPro>().color = useRotation ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(3).GetComponent<TextMeshPro>().color = useOffset ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(4).GetComponent<TextMeshPro>().color = useLookAhead ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(5).GetComponent<TextMeshPro>().color = useDeadZone ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(6).GetComponent<TextMeshPro>().color = useDamping ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(7).GetComponent<TextMeshPro>().color = useLockCenter ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(8).GetComponent<TextMeshPro>().color = useLockLeft ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(9).GetComponent<TextMeshPro>().color = useLockRight ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(10).GetComponent<TextMeshPro>().color = useLockTop ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(11).GetComponent<TextMeshPro>().color = useLockBottom ? Color.white : new Color(1, 1, 1, .25f);
+        }
 
         if(getCurrentValues)
         {

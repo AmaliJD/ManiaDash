@@ -21,6 +21,8 @@ public class CameraControl : MonoBehaviour
     [HideInInspector] public Coroutine lockTopCoroutine;
     [HideInInspector] public Coroutine lockBottomCoroutine;
 
+    Transform emptyLockCenter, emptyLockLeft, emptyLockRight, emptyLockTop, emptyLockBottom;
+
     private void Awake()
     {
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
@@ -96,7 +98,7 @@ public class CameraControl : MonoBehaviour
     public IEnumerator SetOffset(float endXValue, float endYValue, float duration, EasingFunction.Ease ease)
     {
         CinemachineFramingTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        endXValue *= -1f; endYValue *= -1f;
+        //endXValue *= -1f; endYValue *= -1f;
         endXValue /= 2f; endYValue /= 2f;
         endXValue += 0.5f; endYValue += 0.5f;
 
@@ -244,6 +246,12 @@ public class CameraControl : MonoBehaviour
         // break if already at value
         if ((lockCam.lockTarget == target && lockCam.lerpLock == endLerpValue && lockCam.offset == offset && lockCam.lockAxis == type) || (lockCam.lockTarget == null && target == null)) { yield break; }
 
+        if(emptyLockCenter == null)
+        {
+            emptyLockCenter = new GameObject().transform;
+            emptyLockCenter.gameObject.name = "Empty Lock Center: " + this.GetHashCode();
+        }
+
         // set parameters
         float startLerpValue = lockCam.lerpLock;
         if(lockCam.lockTarget == null && target != null)
@@ -251,7 +259,8 @@ public class CameraControl : MonoBehaviour
             lockCam.lerpLock = 0;
             startLerpValue = 0;
 
-            lockCam.lockTarget = target;
+            emptyLockCenter.position = target.position;
+            lockCam.lockTarget = emptyLockCenter;
         }
         else if (lockCam.lockTarget != null && target == null)
         {
@@ -259,6 +268,8 @@ public class CameraControl : MonoBehaviour
             startLerpValue = 1;
             endLerpValue = 0;
         }
+
+        lockCam.lockTarget.parent = target;
 
         Vector2 startTargetPos = lockCam.lockTarget != null ? lockCam.lockTarget.position : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.lockTarget.position;
@@ -327,6 +338,12 @@ public class CameraControl : MonoBehaviour
         // break if already at value
         if ((lockCam.leftWall == target && lockCam.lerpLeft == endLerpValue) || (lockCam.leftWall == null && target == null)) { yield break; }
 
+        if (emptyLockLeft == null)
+        {
+            emptyLockLeft = new GameObject().transform;
+            emptyLockLeft.gameObject.name = "Empty Lock Left: " + this.GetHashCode();
+        }
+
         // set parameters
         float startLerpValue = lockCam.lerpLeft;
         if (lockCam.leftWall == null && target != null)
@@ -334,7 +351,8 @@ public class CameraControl : MonoBehaviour
             lockCam.lerpLeft = 0;
             startLerpValue = 0;
 
-            lockCam.leftWall = target;
+            emptyLockLeft.position = target.position;
+            lockCam.leftWall = emptyLockLeft;
         }
         else if (lockCam.leftWall != null && target == null)
         {
@@ -342,6 +360,8 @@ public class CameraControl : MonoBehaviour
             startLerpValue = 1;
             endLerpValue = 0;
         }
+
+        lockCam.leftWall.parent = target;
 
         Vector2 startTargetPos = lockCam.leftWall != null ? lockCam.leftWall.position : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.leftWall.position;
@@ -385,6 +405,12 @@ public class CameraControl : MonoBehaviour
         // break if already at value
         if ((lockCam.rightWall == target && lockCam.lerpRight == endLerpValue) || (lockCam.rightWall == null && target == null)) { yield break; }
 
+        if (emptyLockRight == null)
+        {
+            emptyLockRight = new GameObject().transform;
+            emptyLockRight.gameObject.name = "Empty Lock Right: " + this.GetHashCode();
+        }
+
         // set parameters
         float startLerpValue = lockCam.lerpRight;
         if (lockCam.rightWall == null && target != null)
@@ -392,7 +418,8 @@ public class CameraControl : MonoBehaviour
             lockCam.lerpRight = 0;
             startLerpValue = 0;
 
-            lockCam.rightWall = target;
+            emptyLockRight.position = target.position;
+            lockCam.rightWall = emptyLockRight;
         }
         else if (lockCam.rightWall != null && target == null)
         {
@@ -400,6 +427,8 @@ public class CameraControl : MonoBehaviour
             startLerpValue = 1;
             endLerpValue = 0;
         }
+
+        lockCam.rightWall.parent = target;
 
         Vector2 startTargetPos = lockCam.rightWall != null ? lockCam.rightWall.position : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.rightWall.position;
@@ -443,6 +472,12 @@ public class CameraControl : MonoBehaviour
         // break if already at value
         if ((lockCam.topWall == target && lockCam.lerpTop == endLerpValue) || (lockCam.topWall == null && target == null)) { yield break; }
 
+        if (emptyLockTop == null)
+        {
+            emptyLockTop = new GameObject().transform;
+            emptyLockTop.gameObject.name = "Empty Lock Top: " + this.GetHashCode();
+        }
+
         // set parameters
         float startLerpValue = lockCam.lerpTop;
         if (lockCam.topWall == null && target != null)
@@ -450,7 +485,8 @@ public class CameraControl : MonoBehaviour
             lockCam.lerpTop = 0;
             startLerpValue = 0;
 
-            lockCam.topWall = target;
+            emptyLockTop.position = target.position;
+            lockCam.topWall = emptyLockTop;
         }
         else if (lockCam.topWall != null && target == null)
         {
@@ -458,6 +494,8 @@ public class CameraControl : MonoBehaviour
             startLerpValue = 1;
             endLerpValue = 0;
         }
+
+        lockCam.topWall.parent = target;
 
         Vector2 startTargetPos = lockCam.topWall != null ? lockCam.topWall.position : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.topWall.position;
@@ -501,6 +539,12 @@ public class CameraControl : MonoBehaviour
         // break if already at value
         if ((lockCam.bottomWall == target && lockCam.lerpBottom == endLerpValue) || (lockCam.bottomWall == null && target == null)) { yield break; }
 
+        if (emptyLockBottom == null)
+        {
+            emptyLockBottom = new GameObject().transform;
+            emptyLockBottom.gameObject.name = "Empty Lock Bottom: " + this.GetHashCode();
+        }
+
         // set parameters
         float startLerpValue = lockCam.lerpBottom;
         if (lockCam.bottomWall == null && target != null)
@@ -508,7 +552,8 @@ public class CameraControl : MonoBehaviour
             lockCam.lerpBottom = 0;
             startLerpValue = 0;
 
-            lockCam.bottomWall = target;
+            emptyLockBottom.position = target.position;
+            lockCam.bottomWall = emptyLockBottom;
         }
         else if (lockCam.bottomWall != null && target == null)
         {
@@ -516,6 +561,8 @@ public class CameraControl : MonoBehaviour
             startLerpValue = 1;
             endLerpValue = 0;
         }
+
+        lockCam.bottomWall.parent = target;
 
         Vector2 startTargetPos = lockCam.bottomWall != null ? lockCam.bottomWall.position : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.bottomWall.position;
