@@ -1069,7 +1069,7 @@ public class PlayerControllerV2 : MonoBehaviour
                         //bool overAngle = iconParent.localEulerAngles.z > baseRotation.z + maxDiff || iconParent.localEulerAngles.z < baseRotation.z - maxDiff;
                         bool overAngle = Mathf.Abs(Mathf.DeltaAngle(baseRotation.z, iconParent.localEulerAngles.z)) > maxDiff;
                         Vector3 newRotation = new Vector3(0, 0, (normalBaseOrientation ? 1 : -1) * (360 + Mathf.Rad2Deg * Mathf.Atan(vY / vX)) + baseRotation.z);
-                        float rotateSpeed = !overAngle ? 160 : 64000;
+                        float rotateSpeed = !overAngle ? 140 : 64000;
                         //iconParent.localEulerAngles = newRotation;
                         //iconParent.localEulerAngles = Vector3.MoveTowards(iconParent.localEulerAngles, newRotation, 300 * Time.deltaTime);
                         iconParent.localEulerAngles = new Vector3(0, 0, Mathf.MoveTowardsAngle(iconParent.localEulerAngles.z, newRotation.z, rotateSpeed * Time.deltaTime));

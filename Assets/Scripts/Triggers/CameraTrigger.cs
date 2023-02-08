@@ -13,24 +13,28 @@ public class CameraTrigger : MonoBehaviour
 
     [Header("Zoom")]
     public bool useZoom;
+    public bool getCurrentZoom;
     [Min(0)] public float zoomValue;
     [Min(0)] public float zoomDuration;
     public EasingFunction.Ease zoomEase;
 
     [Header("Rotation")]
     public bool useRotation;
+    public bool getCurrentRotation;
     [Range(-360, 360)] public float rotationValue;
     [Min(0)] public float rotationDuration;
     public EasingFunction.Ease rotationEase;
 
     [Header("Offset")]
     public bool useOffset;
+    public bool getCurrentOffset;
     public Vector2 offsetValue;
     [Min(0)] public float offsetDuration;
     public EasingFunction.Ease offsetEase;
 
     [Header("Look Ahead")]
     public bool useLookAhead;
+    public bool getCurrentLookAhead;
     public bool ignoreY;
     [Min(0)] public float lookaheadTimeValue;
     [Min(0)] public float lookaheadSmoothingValue;
@@ -39,18 +43,21 @@ public class CameraTrigger : MonoBehaviour
 
     [Header("Dead Zone")]
     public bool useDeadZone;
+    public bool getCurrentDeadZone;
     public Vector2 deadzoneValue;
     [Min(0)] public float deadzoneDuration;
     public EasingFunction.Ease deadzoneEase;
 
     [Header("Damping")]
     public bool useDamping;
+    public bool getCurrentDamping;
     public Vector2 dampingValue;
     [Min(0)] public float dampingDuration;
     public EasingFunction.Ease dampingEase;
 
     [Header("Locks")]
     public bool useLockCenter;
+    public bool getCurrentLockCenter;
     public Transform lockCenterTarget;
     public Vector2 lockCenterOffset;
     public LockCameraXY.LockType lockCenterType;
@@ -60,6 +67,7 @@ public class CameraTrigger : MonoBehaviour
 
     [Header("")]
     public bool useLockLeft;
+    public bool getCurrentLockLeft;
     public Transform lockLeftTarget;
     [Range(0, 1)] public float lockLeftLerp;
     [Min(0)] public float lockLeftDuration;
@@ -67,6 +75,7 @@ public class CameraTrigger : MonoBehaviour
 
     [Header("")]
     public bool useLockRight;
+    public bool getCurrentLockRight;
     public Transform lockRightTarget;
     [Range(0, 1)] public float lockRightLerp;
     [Min(0)] public float lockRightDuration;
@@ -74,6 +83,7 @@ public class CameraTrigger : MonoBehaviour
 
     [Header("")]
     public bool useLockTop;
+    public bool getCurrentLockTop;
     public Transform lockTopTarget;
     [Range(0, 1)] public float lockTopLerp;
     [Min(0)] public float lockTopDuration;
@@ -81,6 +91,7 @@ public class CameraTrigger : MonoBehaviour
 
     [Header("")]
     public bool useLockBottom;
+    public bool getCurrentLockBottom;
     public Transform lockBottomTarget;
     [Range(0, 1)] public float lockBottomLerp;
     [Min(0)] public float lockBottomDuration;
@@ -89,6 +100,7 @@ public class CameraTrigger : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private bool hideIcon;
     [SerializeField] private bool getCurrentValues;
+    [SerializeField] [Min(0)] private float duration;
     [SerializeField] [Min(0)] private int maxUses;
     private int uses;
 
@@ -113,55 +125,114 @@ public class CameraTrigger : MonoBehaviour
 
         if(getCurrentValues)
         {
-            CinemachineVirtualCamera virtualCamera = cameraControl.GetComponent<CinemachineVirtualCamera>();            
+            getCurrentZoom = getCurrentRotation = getCurrentOffset = getCurrentLookAhead = getCurrentDeadZone = getCurrentDamping
+                = getCurrentLockCenter = getCurrentLockLeft = getCurrentLockRight = getCurrentLockTop = getCurrentLockBottom = true;
+        }
 
-            zoomValue = virtualCamera.m_Lens.OrthographicSize;
-            rotationValue = virtualCamera.m_Lens.Dutch;
+        if(duration > 0)
+        {
+            zoomDuration += duration;
+            rotationDuration += duration;
+            offsetDuration += duration;
+            lookaheadDuration += duration;
+            deadzoneDuration += duration;
+            dampingDuration += duration;
+            lockCenterDuration += duration;
+            lockLeftDuration += duration;
+            lockRightDuration += duration;
+            lockTopDuration += duration;
+            lockBottomDuration += duration;
+        }
 
-            if (virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>() != null)
+        CinemachineVirtualCamera virtualCamera = cameraControl.GetComponent<CinemachineVirtualCamera>();
+
+        if (getCurrentZoom) { zoomValue = virtualCamera.m_Lens.OrthographicSize; }
+        if (getCurrentRotation) { rotationValue = virtualCamera.m_Lens.Dutch; }
+
+        if (virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>() != null)
+        {
+            CinemachineFramingTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+            if (getCurrentOffset) { offsetValue = new Vector2((transposer.m_ScreenX-.5f) * -2, (transposer.m_ScreenY-.5f) * -2); }
+            if (getCurrentLookAhead)
             {
-                CinemachineFramingTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-                offsetValue = new Vector2(transposer.m_ScreenX, transposer.m_ScreenY);
                 lookaheadTimeValue = transposer.m_LookaheadTime;
                 lookaheadSmoothingValue = transposer.m_LookaheadSmoothing;
                 ignoreY = transposer.m_LookaheadIgnoreY;
-                deadzoneValue = new Vector2(transposer.m_DeadZoneWidth, transposer.m_DeadZoneHeight);
-                dampingValue = new Vector2(transposer.m_XDamping, transposer.m_YDamping);
             }
-            else
-            {
-                useOffset = false;
-                useLookAhead = false;
-                useDeadZone = false;
-                useDamping = false;
-            }
+            if (getCurrentDeadZone) { deadzoneValue = new Vector2(transposer.m_DeadZoneWidth, transposer.m_DeadZoneHeight); }
+            if (getCurrentDamping) { dampingValue = new Vector2(transposer.m_XDamping, transposer.m_YDamping); }
+        }
+        else
+        {
+            useOffset = false;
+            useLookAhead = false;
+            useDeadZone = false;
+            useDamping = false;
+        }
 
-            if (virtualCamera.GetComponent<LockCameraXY>() != null)
-            {
-                LockCameraXY lockCam = virtualCamera.GetComponent<LockCameraXY>();
+        if (virtualCamera.GetComponent<LockCameraXY>() != null)
+        {
+            LockCameraXY lockCam = virtualCamera.GetComponent<LockCameraXY>();
 
+            if (getCurrentLockCenter)
+            {
                 lockCenterTarget = lockCam.lockTarget;
                 lockCenterLerp = lockCam.lerpLock;
                 lockCenterOffset = lockCam.offset;
                 lockCenterType = lockCam.lockAxis;
+            }
+            if (getCurrentLockLeft)
+            {
                 lockLeftTarget = lockCam.leftWall;
                 lockLeftLerp = lockCam.lerpLeft;
+            }
+            if (getCurrentLockRight)
+            {
                 lockRightTarget = lockCam.rightWall;
                 lockRightLerp = lockCam.lerpRight;
+            }
+            if (getCurrentLockTop)
+            {
                 lockTopTarget = lockCam.topWall;
                 lockTopLerp = lockCam.lerpTop;
+            }
+            if (getCurrentLockBottom)
+            {
                 lockBottomTarget = lockCam.bottomWall;
                 lockBottomLerp = lockCam.lerpBottom;
             }
-            else
-            {
-                useLockCenter = false;
-                useLockLeft = false;
-                useLockRight = false;
-                useLockTop = false;
-                useLockBottom = false;
-            }
         }
+        else
+        {
+            useLockCenter = false;
+            useLockLeft = false;
+            useLockRight = false;
+            useLockTop = false;
+            useLockBottom = false;
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (getCurrentValues)
+        {
+            getCurrentZoom = getCurrentRotation = getCurrentOffset = getCurrentLookAhead = getCurrentDeadZone = getCurrentDamping
+                = getCurrentLockCenter = getCurrentLockLeft = getCurrentLockRight = getCurrentLockTop = getCurrentLockBottom = true;
+
+            getCurrentValues = false;
+        }
+
+        /*if (getCurrentZoom) { useZoom = true; }
+        if (getCurrentRotation) { useRotation = true; }
+        if (getCurrentOffset) { useOffset = true; }
+        if (getCurrentLookAhead) { useLookAhead = true; }
+        if (getCurrentDeadZone) { useDeadZone = true; }
+        if (getCurrentDamping) { useDamping = true; }
+        if (getCurrentLockCenter) { useLockCenter = true; }
+        if (getCurrentLockLeft) { useLockLeft = true; }
+        if (getCurrentLockRight) { useLockRight = true; }
+        if (getCurrentLockTop) { useLockTop = true; }
+        if (getCurrentLockBottom) { useLockBottom = true; }*/
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -232,7 +303,7 @@ public class CameraTrigger : MonoBehaviour
     public Speed speed = Speed.x1;
 
 #if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         float scale = 0;
         switch (speed)
@@ -251,47 +322,58 @@ public class CameraTrigger : MonoBehaviour
 
         gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().color = useZoom ? Color.white : new Color(1,1,1,.25f);
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position + (Vector3.down * .4f), transform.position + (Vector3.down * .4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * zoomDuration, 0, 0));
+        if(useZoom)
+            Gizmos.DrawLine(transform.position + (Vector3.down * .4f), transform.position + (Vector3.down * .4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (zoomDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(2).GetComponent<TextMeshPro>().color = useRotation ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = new Color(.5f, 0, 1f);
-        Gizmos.DrawLine(transform.position + (Vector3.down * .6f), transform.position + (Vector3.down * .6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * rotationDuration, 0, 0));
+        if(useRotation)
+            Gizmos.DrawLine(transform.position + (Vector3.down * .6f), transform.position + (Vector3.down * .6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (rotationDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(3).GetComponent<TextMeshPro>().color = useOffset ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = new Color(0, 1f, 1f);
-        Gizmos.DrawLine(transform.position + (Vector3.down * .8f), transform.position + (Vector3.down * .8f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * offsetDuration, 0, 0));
+        if(useOffset)
+            Gizmos.DrawLine(transform.position + (Vector3.down * .8f), transform.position + (Vector3.down * .8f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (offsetDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(4).GetComponent<TextMeshPro>().color = useLookAhead ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = new Color(1f, 1f, 0f);
-        Gizmos.DrawLine(transform.position + (Vector3.down * 1f), transform.position + (Vector3.down * 1f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * lookaheadDuration, 0, 0));
+        if(useLookAhead)
+            Gizmos.DrawLine(transform.position + (Vector3.down * 1f), transform.position + (Vector3.down * 1f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lookaheadDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(5).GetComponent<TextMeshPro>().color = useDeadZone ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = new Color(1f, 0f, 0f);
-        Gizmos.DrawLine(transform.position + (Vector3.down * 1.2f), transform.position + (Vector3.down * 1.2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * deadzoneDuration, 0, 0));
+        if(useDeadZone)
+            Gizmos.DrawLine(transform.position + (Vector3.down * 1.2f), transform.position + (Vector3.down * 1.2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (deadzoneDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(6).GetComponent<TextMeshPro>().color = useDamping ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = new Color(1f, 0f, 1f);
-        Gizmos.DrawLine(transform.position + (Vector3.down * 1.4f), transform.position + (Vector3.down * 1.4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * dampingDuration, 0, 0));
+        if(useDamping)
+            Gizmos.DrawLine(transform.position + (Vector3.down * 1.4f), transform.position + (Vector3.down * 1.4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (dampingDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(7).GetComponent<TextMeshPro>().color = useLockCenter ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position + (Vector3.down * 1.6f), transform.position + (Vector3.down * 1.6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * lockCenterDuration, 0, 0));
+        if(useLockCenter)
+            Gizmos.DrawLine(transform.position + (Vector3.down * 1.6f), transform.position + (Vector3.down * 1.6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockCenterDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(8).GetComponent<TextMeshPro>().color = useLockLeft ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position + (Vector3.down * 1.8f), transform.position + (Vector3.down * 1.8f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * lockLeftDuration, 0, 0));
+        if(useLockLeft)
+            Gizmos.DrawLine(transform.position + (Vector3.down * 1.8f), transform.position + (Vector3.down * 1.8f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockLeftDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(9).GetComponent<TextMeshPro>().color = useLockRight ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position + (Vector3.down * 2f), transform.position + (Vector3.down * 2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * lockRightDuration, 0, 0));
+        if(useLockRight)
+            Gizmos.DrawLine(transform.position + (Vector3.down * 2f), transform.position + (Vector3.down * 2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockRightDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(10).GetComponent<TextMeshPro>().color = useLockTop ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position + (Vector3.down * 2.2f), transform.position + (Vector3.down * 2.2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * lockTopDuration, 0, 0));
+        if(useLockTop)
+            Gizmos.DrawLine(transform.position + (Vector3.down * 2.2f), transform.position + (Vector3.down * 2.2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockTopDuration + duration), 0, 0));
 
         gameObject.transform.GetChild(0).GetChild(11).GetComponent<TextMeshPro>().color = useLockBottom ? Color.white : new Color(1, 1, 1, .25f);
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position + (Vector3.down * 2.4f), transform.position + (Vector3.down * 2.4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * lockBottomDuration, 0, 0));
+        if(useLockBottom)
+            Gizmos.DrawLine(transform.position + (Vector3.down * 2.4f), transform.position + (Vector3.down * 2.4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockBottomDuration + duration), 0, 0));
     }
 #endif
 }

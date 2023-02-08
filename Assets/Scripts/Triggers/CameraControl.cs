@@ -98,8 +98,7 @@ public class CameraControl : MonoBehaviour
     public IEnumerator SetOffset(float endXValue, float endYValue, float duration, EasingFunction.Ease ease)
     {
         CinemachineFramingTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        //endXValue *= -1f; endYValue *= -1f;
-        endXValue /= 2f; endYValue /= 2f;
+        endXValue /= -2f; endYValue /= -2f;
         endXValue += 0.5f; endYValue += 0.5f;
 
         // break if already at value
