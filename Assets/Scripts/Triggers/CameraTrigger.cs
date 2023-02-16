@@ -212,6 +212,9 @@ public class CameraTrigger : MonoBehaviour
         }
     }
 
+    /*CinemachineVirtualCamera validate_virtualCamera;
+    CinemachineFramingTransposer validate_transposer;
+    LockCameraXY validate_lockCam;*/
     private void OnValidate()
     {
         if (getCurrentValues)
@@ -220,6 +223,61 @@ public class CameraTrigger : MonoBehaviour
                 = getCurrentLockCenter = getCurrentLockLeft = getCurrentLockRight = getCurrentLockTop = getCurrentLockBottom = true;
 
             getCurrentValues = false;
+        }
+
+        if (Application.isEditor && cameraControl != null)
+        {
+            CinemachineVirtualCamera validate_virtualCamera = cameraControl.GetComponent<CinemachineVirtualCamera>();
+
+            if (getCurrentZoom) { zoomValue = validate_virtualCamera.m_Lens.OrthographicSize; }
+            if (getCurrentRotation) { rotationValue = validate_virtualCamera.m_Lens.Dutch; }
+
+            if (validate_virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>() != null)
+            {
+                CinemachineFramingTransposer validate_transposer = validate_virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+                if (getCurrentOffset) { offsetValue = new Vector2((validate_transposer.m_ScreenX - .5f) * -2, (validate_transposer.m_ScreenY - .5f) * -2); }
+                if (getCurrentLookAhead)
+                {
+                    lookaheadTimeValue = validate_transposer.m_LookaheadTime;
+                    lookaheadSmoothingValue = validate_transposer.m_LookaheadSmoothing;
+                    ignoreY = validate_transposer.m_LookaheadIgnoreY;
+                }
+                if (getCurrentDeadZone) { deadzoneValue = new Vector2(validate_transposer.m_DeadZoneWidth, validate_transposer.m_DeadZoneHeight); }
+                if (getCurrentDamping) { dampingValue = new Vector2(validate_transposer.m_XDamping, validate_transposer.m_YDamping); }
+            }
+
+            if (validate_virtualCamera.GetComponent<LockCameraXY>() != null)
+            {
+                LockCameraXY validate_lockCam = validate_virtualCamera.GetComponent<LockCameraXY>();
+
+                if (getCurrentLockCenter)
+                {
+                    lockCenterTarget = validate_lockCam.lockTarget;
+                    lockCenterLerp = validate_lockCam.lerpLock;
+                    lockCenterOffset = validate_lockCam.offset;
+                    lockCenterType = validate_lockCam.lockAxis;
+                }
+                if (getCurrentLockLeft)
+                {
+                    lockLeftTarget = validate_lockCam.leftWall;
+                    lockLeftLerp = validate_lockCam.lerpLeft;
+                }
+                if (getCurrentLockRight)
+                {
+                    lockRightTarget = validate_lockCam.rightWall;
+                    lockRightLerp = validate_lockCam.lerpRight;
+                }
+                if (getCurrentLockTop)
+                {
+                    lockTopTarget = validate_lockCam.topWall;
+                    lockTopLerp = validate_lockCam.lerpTop;
+                }
+                if (getCurrentLockBottom)
+                {
+                    lockBottomTarget = validate_lockCam.bottomWall;
+                    lockBottomLerp = validate_lockCam.lerpBottom;
+                }
+            }
         }
 
         /*if (getCurrentZoom) { useZoom = true; }

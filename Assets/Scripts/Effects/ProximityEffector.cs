@@ -67,6 +67,7 @@ public class ProximityEffector : MonoBehaviour
     public distanceDirection directionType;
     public enum distanceDirection { radial, x, y };    
     public bool exclusive = false, keepstate, xPos = true, xNeg = true, yPos = true, yNeg = true;
+    public bool enableWhileNotVisible;
 
     private Transform player;
     private Light2D light;
@@ -264,6 +265,7 @@ public class ProximityEffector : MonoBehaviour
 
     private void OnBecameInvisible()
     {
+        if (enableWhileNotVisible) { return; }
         //transform.GetChild(0).gameObject.SetActive(false);
         if (dc == null || (dc != null && !dc.hideRenderers)) { enabled = false; }
         //visible = false;
@@ -271,6 +273,7 @@ public class ProximityEffector : MonoBehaviour
 
     private void OnBecameVisible()
     {
+        if (enableWhileNotVisible) { return; }
         //transform.GetChild(0).gameObject.SetActive(true);
         enabled = true;
         //visible = true;
