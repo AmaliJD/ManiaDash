@@ -237,6 +237,9 @@ public class PlayerControllerV2 : MonoBehaviour
     public bool fixedJumpHeight;
     public bool cubeHoldJump;
 
+    // TRIGGERS TO RESET
+    private List<MoveObject> movetriggers;
+
     private void Awake()
     {
         // INPUT
@@ -385,6 +388,9 @@ public class PlayerControllerV2 : MonoBehaviour
 
         MovingObjectVelocities = new List<Rigidbody2D>();
         movingObjectVelocity = Vector2.zero;
+
+        // TRIGGER LISTS
+        movetriggers = new List<MoveObject>();
     }
     private void Start()
     {
