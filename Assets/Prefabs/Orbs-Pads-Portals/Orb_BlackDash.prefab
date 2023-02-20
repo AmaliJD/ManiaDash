@@ -15369,12 +15369,15 @@ MonoBehaviour:
   reverse: 0
   overrideCancelJump: 0
   cancel_jump: 0
+  keepOrbActive: 0
   TeleportTo: {fileID: 0}
   smoothTeleport: 0
   overrideSpeed: 1
   dashSpeed: 3
   gravityDirection: -1
   parent: {fileID: 3362548639886038787}
+  rebound: 0
+  innerSection: {fileID: 0}
   sfx: {fileID: 0}
   disableVisibleCheck: 0
 --- !u!58 &6360127112740154955
@@ -15657,7 +15660,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6360127113170169211
 Transform:
   m_ObjectHideFlags: 0

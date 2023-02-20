@@ -103,7 +103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6199834798182241188
 Transform:
   m_ObjectHideFlags: 0
@@ -176,7 +176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3288254411083185600
 Transform:
   m_ObjectHideFlags: 0
@@ -373,12 +373,17 @@ MonoBehaviour:
   ring: {fileID: 3288254412726134470}
   multiplier: 1
   reverse: 0
+  overrideCancelJump: 0
   cancel_jump: 1
+  keepOrbActive: 0
   TeleportTo: {fileID: 8587006503976209663}
+  smoothTeleport: 0
   overrideSpeed: 0
   dashSpeed: 3
   gravityDirection: -1
   parent: {fileID: 0}
+  rebound: 0
+  innerSection: {fileID: 0}
   sfx: {fileID: 0}
   disableVisibleCheck: 0
 --- !u!58 &4685488560264882554
@@ -607,7 +612,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c769eb5bb08d0ab42ab915d94fa67f2c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -816,12 +821,17 @@ MonoBehaviour:
   ring: {fileID: 5103076499967006201}
   multiplier: 1
   reverse: 0
+  overrideCancelJump: 0
   cancel_jump: 1
+  keepOrbActive: 0
   TeleportTo: {fileID: 3288254412329595938}
+  smoothTeleport: 0
   overrideSpeed: 0
   dashSpeed: 3
   gravityDirection: -1
   parent: {fileID: 0}
+  rebound: 0
+  innerSection: {fileID: 0}
   sfx: {fileID: 0}
   disableVisibleCheck: 0
 --- !u!58 &406246460219999498
@@ -10768,7 +10778,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c769eb5bb08d0ab42ab915d94fa67f2c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

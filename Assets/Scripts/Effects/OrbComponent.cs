@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using DG.Tweening;
 
 public class OrbComponent : MonoBehaviour
 {
@@ -76,7 +77,7 @@ public class OrbComponent : MonoBehaviour
         if (!visible && !disableVisibleCheck) return;
         transform.Rotate(Vector3.forward, speed * Time.deltaTime);
 
-        if(entered)
+        /*if(entered)
         {
             ring_speed = .07f / ring.transform.localScale.x;
             ring.transform.localScale = new Vector2(ring.transform.localScale.x + ring_speed, ring.transform.localScale.y + ring_speed);
@@ -105,7 +106,7 @@ public class OrbComponent : MonoBehaviour
                 pulse.transform.localScale = new Vector2(scale, scale);
                 pulseSprite.color = new Color(red, green, blue, 1f);
             }
-        }
+        }*/
 
         if(rebound)
         {
@@ -232,20 +233,45 @@ public class OrbComponent : MonoBehaviour
         pulse.GetComponent<SpriteRenderer>().color = new Color(red, green, blue, 1f);*/
     }
 
+    //Sequence pulseSequence;// = DOTween.Sequence();
+    Tweener pulseScaleTween;
+    Tweener pulseAlphaTween;
     public void Pulse()
     {
-        PulseSetup();
+        /*PulseSetup();
         pulse.SetActive(true);
-        jumped = true;
+        jumped = true;*/
+        pulse.SetActive(true);
+
+        pulseScaleTween.Kill();
+        pulseAlphaTween.Kill();
+
+        pulse.transform.localScale = new Vector2(scale, scale);
+        pulseSprite.color = new Color(red, green, blue, 1);
+        pulse_light.intensity = 1;
+
+        pulseScaleTween = pulse.transform.DOScale(Vector3.zero, .5f).SetEase(Ease.Linear);
+        pulseAlphaTween = pulseSprite.DOColor(new Color(red, green, blue, 0), .3f).SetEase(Ease.Linear);
 
         if (rebound)
         {
-            //transitionSpeed = 1;
-            //SetRebound();
             transitionSpeed = 0;
         }
-        //StopCoroutine("PulseStart");
-        //StartCoroutine(PulseStart());
+    }
+
+    Tweener ringScaleTween;
+    Tweener ringAlphaTween;
+    public void RingPulse()
+    {
+        ring.SetActive(true);
+        ringScaleTween.Kill();
+        ringAlphaTween.Kill();
+
+        ring.transform.localScale = new Vector2(.6f, .6f);
+        ringSprite.color = new Color(ringSprite.color.r, ringSprite.color.g, ringSprite.color.b, 1f);
+
+        ringScaleTween = ring.transform.DOScale(Vector3.one * 3, .5f).SetEase(Ease.Linear);
+        ringAlphaTween = ringSprite.DOColor(new Color(ringSprite.color.r, ringSprite.color.g, ringSprite.color.b, 0), .4f).SetEase(Ease.OutQuad);
     }
 
     public Vector2 GetDirection()
@@ -282,21 +308,19 @@ public class OrbComponent : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            RingSetup();
-            ring.SetActive(true);
-            entered = true;
+            //RingSetup();
+            //ring.SetActive(true);
+            //entered = true;
             //StopCoroutine("RingStart");
             //StartCoroutine(RingStart());
+            /*ring.SetActive(false);
+            ring.transform.localScale = new Vector2(.6f, .6f);
+            ringSprite.color = new Color(ringSprite.color.r, ringSprite.color.g, ringSprite.color.b, 1);
+
+            pulse.transform.DOScale(Vector3.zero, 2).SetEase(Ease.InBack);*/
+            RingPulse();
         }
     }
-    /*
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            entered = false;
-        }
-    }*/
 
     public bool disableVisibleCheck;
     bool visible = false;

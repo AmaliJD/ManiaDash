@@ -239,6 +239,14 @@ public class PlayerControllerV2 : MonoBehaviour
 
     // TRIGGERS TO RESET
     private List<MoveObject> movetriggers;
+    public void AddMoveTriggers(MoveObject mo) { if (!movetriggers.Contains(mo) && mo.resetOnDeathPerCheckpoint) { movetriggers.Add(mo); } }
+    public void ResetMoveTriggers() { foreach(MoveObject mo in movetriggers) { mo.ResetTrigger(); } }
+    public void ClearMoveTriggers() { movetriggers.Clear(); }
+
+    private List<RotateObject> rotatetriggers;
+    public void AddRotateTriggers(RotateObject ro) { if (!rotatetriggers.Contains(ro) && ro.resetOnDeathPerCheckpoint) { rotatetriggers.Add(ro); } }
+    public void ResetRotateTriggers() { foreach (RotateObject ro in rotatetriggers) { ro.ResetTrigger(); } }
+    public void ClearRotateTriggers() { rotatetriggers.Clear(); }
 
     private void Awake()
     {
@@ -391,6 +399,7 @@ public class PlayerControllerV2 : MonoBehaviour
 
         // TRIGGER LISTS
         movetriggers = new List<MoveObject>();
+        rotatetriggers = new List<RotateObject>();
     }
     private void Start()
     {
@@ -1229,6 +1238,8 @@ public class PlayerControllerV2 : MonoBehaviour
         velocityComponentY = Vector2.Dot(player_body.velocity, -gravityOrientation);
         velocityVectorX = velocityComponentX * forwardOrientation;
         velocityVectorY = velocityComponentY * -gravityOrientation;
+
+        //Vector2 angularVelocity = MovingObjectVelocities.Count > 0 ? MovingObjectVelocities[MovingObjectVelocities.Count - 1].angularVelocity * Vector2.Perpendicular(player_body.position - MovingObjectVelocities[MovingObjectVelocities.Count - 1].position).normalized : Vector2.zero;
 
         movingObjectVelocity = MovingObjectVelocities.Count > 0 ? MovingObjectVelocities[MovingObjectVelocities.Count - 1].velocity : Vector2.zero;
 
@@ -2790,6 +2801,8 @@ public class PlayerControllerV2 : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
+        ResetTriggers();
+
         Vector3 positionDelta = respawn.position - transform.position;
         transform.position = respawn.position;
         gravityDirection = respawn.gravityDirection;
@@ -3451,7 +3464,20 @@ public class PlayerControllerV2 : MonoBehaviour
 
     public void IncrementCheckpointCount(int add)
     {
+        ClearTriggers();
         checkpointCount += add;
+    }
+
+    void ClearTriggers()
+    {
+        ClearMoveTriggers();
+        ClearRotateTriggers();
+    }
+
+    void ResetTriggers()
+    {
+        ResetMoveTriggers();
+        ResetRotateTriggers();
     }
 
     public Quaternion getIconRotation()

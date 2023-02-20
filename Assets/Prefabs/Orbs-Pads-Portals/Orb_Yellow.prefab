@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8910377435570634365
 Transform:
   m_ObjectHideFlags: 0
@@ -5421,12 +5421,15 @@ MonoBehaviour:
   reverse: 0
   overrideCancelJump: 0
   cancel_jump: 1
+  keepOrbActive: 0
   TeleportTo: {fileID: 0}
   smoothTeleport: 0
   overrideSpeed: 0
   dashSpeed: 3
   gravityDirection: -1
   parent: {fileID: 0}
+  rebound: 0
+  innerSection: {fileID: 0}
   sfx: {fileID: 0}
   disableVisibleCheck: 0
 --- !u!58 &2048242552742975395
@@ -5545,7 +5548,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c769eb5bb08d0ab42ab915d94fa67f2c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

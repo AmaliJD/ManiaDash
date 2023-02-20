@@ -9,9 +9,21 @@ using UnityEditor;
 
 public enum EasingOption
 {
-    AnimationCurve,
-    EasingFunction
+    EasingFunction,
+    AnimationCurve
 }
+
+/*public enum EaseFunction
+{
+    Linear,
+    EaseInOut, EaseIn, EaseOut,
+    ElasInOut, ElasIn, ElasOut,
+    ExpoInOut, ExpoIn, ExpoOut,
+    SinInOut, SinIn, SinOut,
+    BackInOut, BackIn, BackOut,
+    BounceInOut, BounceIn, BounceOut,
+    Custom, Curve
+};*/
 
 public enum SpeedGizmo
 {
@@ -27,7 +39,7 @@ public class MoveObject : MonoBehaviour
     public bool useDestinationObject = false;
     public bool updateDestinationDistance = false;
 
-    [Header("Target Objects")]
+    [Header("Pre-Move Conditions")]
     [Min(0)]
     public float delay;
     [Min(0)]
@@ -54,9 +66,10 @@ public class MoveObject : MonoBehaviour
     public bool reverseModMultiply = false;
 
     [Header("Easing")]
-    public AnimationCurve easing;
-    public EasingFunction.Ease easeType;
     public EasingOption easeOption;
+    //public Easings.Ease function1Easing;
+    public EasingFunction.Ease functionEasing;
+    public AnimationCurve curveEasing;
 
     [Header("Properties")]
     public bool waitToFinish = true;
@@ -72,6 +85,7 @@ public class MoveObject : MonoBehaviour
     public int triggerLimit = -1;
 
     [Header("Settings")]
+    public bool resetOnDeathPerCheckpoint = false;
     public bool playOnAwake;
     public bool paused = false;
     public bool stopped = false;
@@ -90,12 +104,14 @@ public class MoveObject : MonoBehaviour
     private float initialRotateMoveDirection;
     private float initialMultiplyMoveAmount;
 
+    private PlayerControllerV2 player;
     private GroupIDManager groupIDManager;
     private GameManager gamemanager;
 
     private void Awake()
     {
         gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerV2>();
         texture = transform.GetChild(0).gameObject;
         texture.SetActive(!hideIcon);
     }
@@ -185,6 +201,7 @@ public class MoveObject : MonoBehaviour
         multiplyMoveAmount = initialMultiplyMoveAmount;
 
         paused = false;
+        inUse = false;
     }
 
     public void StopTrigger()
@@ -291,7 +308,7 @@ public class MoveObject : MonoBehaviour
             moveAmountToDestination = targets.ConvertAll(x => (Vector2)(destinationObject.position - x.position)).ToArray();
         }
 
-        while (elapsedTime < duration)
+        while /*(!Mathf.Approximately(elapsedTime, duration) && elapsedTime < duration)*/(elapsedTime < duration)
         {
             if(stopped)
             {
@@ -331,13 +348,19 @@ public class MoveObject : MonoBehaviour
 
             inUse = true;
 
-            float t0 = Mathf.Clamp01(elapsedTime / duration);
+            float t0 = elapsedTime / duration;
+
+            if (hasRigidBody) { yield return new WaitForFixedUpdate(); }
+            else { yield return null; }
+
             elapsedTime += (hasRigidBody) ? Time.fixedDeltaTime : Time.deltaTime;
-            float t1 = Mathf.Clamp01(elapsedTime / duration);
+            float t1 = elapsedTime / duration;
             float easeT0, easeT1;
+            //float tx = 0;
 
             easeT0 = GetEaseValue(t0);
             easeT1 = GetEaseValue(t1);
+            //Debug.Log("t0: " + t0 + "   t1: " + t1 + "   easeT0: " + easeT0 + "   easeT1: " + easeT1 + "   elapsedTime: " + elapsedTime);
 
             for (int i = 0; i < targets.Count; i++)
             {
@@ -353,12 +376,14 @@ public class MoveObject : MonoBehaviour
                 Vector2 delta = totalMoveAmount[i] * (easeT1 - easeT0);
                 if (hasRigidBody)
                 {
+                    //tx = (elapsedTime / duration) > 2 ? ((elapsedTime / duration) - 1) : 0;
                     if (hasParent[i])
                     {
                         delta = new Vector2(delta.x * targets[i].parent.lossyScale.x, delta.y * targets[i].parent.lossyScale.y);
                     }
 
                     velocity0[i] = velocity1[i];
+                    //velocity1[i] = (easeOption == EasingOption.AnimationCurve) ? delta / Time.fixedDeltaTime : GetEaseValueD(t1) * delta.normalized;
                     velocity1[i] = delta / Time.fixedDeltaTime;
                     Vector2 velocityDelta = velocity1[i] - velocity0[i];
                     totalDisplacement[i] += velocity1[i] * Time.fixedDeltaTime;
@@ -385,6 +410,7 @@ public class MoveObject : MonoBehaviour
 
                     velocityDeltaTotal[i] += velocityDelta;
                     rb[i].velocity += velocityDelta;
+                    //Debug.Log("velocity0: " + velocity0[i] + "   velocity1: " + velocity1[i] + "   velocityDelta: " + velocityDelta + "   VELOCITY: " + rb[i].velocity);
                 }
                 else
                 {
@@ -409,9 +435,20 @@ public class MoveObject : MonoBehaviour
                 }
             }
 
-            if (hasRigidBody) { yield return new WaitForFixedUpdate(); }
-            else { yield return null; }
+            /*if (hasRigidBody) { yield return new WaitForFixedUpdate(); }
+            else { yield return null; }*/
         }
+
+        /*if (hasRigidBody)
+        {
+            /*for (int i = 0; i < targets.Count; i++)
+            {
+                totalDisplacement[i] += velocity1[i] * Time.fixedDeltaTime;
+            }
+            yield return new WaitForFixedUpdate();
+        }*/
+        if (hasRigidBody) { yield return new WaitForFixedUpdate(); }
+        else { yield return null; }
 
         for (int i = 0; i < targets.Count; i++)
         {
@@ -424,6 +461,7 @@ public class MoveObject : MonoBehaviour
 
             totalMoveAmount[i] = thisMoveAmount[i] + moveAmountToDestination[i] * moveScale;
             Vector2 difference = totalMoveAmount[i] - totalDisplacement[i];
+            //Debug.Log(totalMoveAmount[i] + " - " + totalDisplacement[i] + " = " + difference);
             if (hasParent[i])
             {
                 if (hasRigidBody)
@@ -460,11 +498,14 @@ public class MoveObject : MonoBehaviour
         switch (easeOption)
         {
             case EasingOption.AnimationCurve:
-                ease = easing.Evaluate(t);
+                ease = curveEasing.Evaluate(t);
                 break;
             case EasingOption.EasingFunction:
-                ease = EasingFunction.GetEasingFunction(easeType)(0, 1, t);
+                ease = EasingFunction.GetEasingFunction(functionEasing)(0, 1, t);
                 break;
+            /*case EasingOption.Easings:
+                ease = Easings.GetEasingValue(function1Easing)(t);
+                break;*/
             default:
                 ease = 0;
                 break;
@@ -475,13 +516,13 @@ public class MoveObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !stayToMove)
         {
+            player.AddMoveTriggers(this);
             Move();
         }
     }
 
-    // NEED TO ADD LOCAL
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.tag == "Player" && stayToMove)
@@ -498,7 +539,14 @@ public class MoveObject : MonoBehaviour
                 }
                 else
                 {
-                    targets[i].position += (Vector3)Vector2.right.Rotate(-moveAngle) * moveSpeed * Time.deltaTime;
+                    if(hasParent[i])
+                    {
+                        targets[i].localPosition += (Vector3)Vector2.right.Rotate(-moveAngle) * moveSpeed * Time.deltaTime;
+                    }
+                    else
+                    {
+                        targets[i].position += (Vector3)Vector2.right.Rotate(-moveAngle) * moveSpeed * Time.deltaTime;
+                    }
                 }
             }
         }
@@ -555,6 +603,7 @@ public class MoveObject : MonoBehaviour
 
         foreach(Transform tf in targets)
         {
+            if (tf == null) { continue; }
             Vector3 triggerPos = transform.position;
             Vector3 objPos = tf.position;
             float halfHeight = (triggerPos.y - objPos.y) / 2f;
