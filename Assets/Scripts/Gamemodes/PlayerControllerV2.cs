@@ -248,6 +248,11 @@ public class PlayerControllerV2 : MonoBehaviour
     public void ResetRotateTriggers() { foreach (RotateObject ro in rotatetriggers) { ro.ResetTrigger(); } }
     public void ClearRotateTriggers() { rotatetriggers.Clear(); }
 
+    private List<ScaleObject> scaletriggers;
+    public void AddScaleTriggers(ScaleObject so) { if (!scaletriggers.Contains(so) && so.resetOnDeathPerCheckpoint) { scaletriggers.Add(so); } }
+    public void ResetScaleTriggers() { foreach (ScaleObject so in scaletriggers) { so.ResetTrigger(); } }
+    public void ClearScaleTriggers() { scaletriggers.Clear(); }
+
     private void Awake()
     {
         // INPUT
@@ -400,6 +405,7 @@ public class PlayerControllerV2 : MonoBehaviour
         // TRIGGER LISTS
         movetriggers = new List<MoveObject>();
         rotatetriggers = new List<RotateObject>();
+        scaletriggers = new List<ScaleObject>();
     }
     private void Start()
     {
@@ -3472,12 +3478,14 @@ public class PlayerControllerV2 : MonoBehaviour
     {
         ClearMoveTriggers();
         ClearRotateTriggers();
+        ClearScaleTriggers();
     }
 
     void ResetTriggers()
     {
         ResetMoveTriggers();
         ResetRotateTriggers();
+        ResetScaleTriggers();
     }
 
     public Quaternion getIconRotation()

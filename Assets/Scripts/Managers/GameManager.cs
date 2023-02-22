@@ -349,8 +349,8 @@ public class GameManager : MonoBehaviour
         setButtonOn(Effects_Button, postfxon);
         Effects_Button.GetComponentInChildren<Text>().text = "POST PROCESSING: " + (postfxon ? "ON" : "OFF");
 
-        MusicSlider.value = music_volume;
-        SfxSlider.value = sfx_volume;
+        MusicSlider.value = Mathf.Pow(music_volume, 2f / 3f);
+        SfxSlider.value = Mathf.Pow(sfx_volume, 2f / 3f);
 
         Saving.text = "";
 
@@ -835,10 +835,10 @@ public class GameManager : MonoBehaviour
         }
 
         // SOUND
-        music_volume = MusicSlider.value;
-        sfx_volume = SfxSlider.value;
-        MusicText.text = "Music: " + (int)(music_volume * 100);
-        SfxText.text = "Sfx: " + (int)(sfx_volume * 100);
+        music_volume = Mathf.Pow(MusicSlider.value, 1.5f);
+        sfx_volume = Mathf.Pow(SfxSlider.value, 1.5f);
+        MusicText.text = "Music: " + (int)(MusicSlider.value * 100);
+        SfxText.text = "Sfx: " + (int)(SfxSlider.value * 100);
         bgmusic.audio.volume = bgmusic.realVolume * music_volume;
 
         if (!game)

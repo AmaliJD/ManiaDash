@@ -405,7 +405,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3772919300723326920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -105, y: -29, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3772919300322792181}
@@ -431,7 +431,7 @@ MonoBehaviour:
   updateDestinationDistance: 0
   delay: 0
   requiredManaCount: 0
-  moveAmount: {x: 1, y: 0}
+  moveAmount: {x: 0, y: 0}
   moveScale: 1
   duration: 1
   stayToMove: 0
@@ -445,8 +445,8 @@ MonoBehaviour:
   invertModMultiply: 0
   reverseModMultiply: 0
   easeOption: 0
-  easeType: 21
-  easing:
+  functionEasing: 21
+  curveEasing:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -506,7 +506,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.01, y: 24}
   m_EdgeRadius: 0
 --- !u!1 &3772919301753067351
 GameObject:

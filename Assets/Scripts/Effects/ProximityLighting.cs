@@ -23,13 +23,13 @@ public class ProximityLighting : MonoBehaviour
     /*public enum distanceSign { both, positive, negative };
     public distanceSign signType;*/
 
-    Light2D light;
+    Light2D objectLight;
     GameObject player;
     SpriteRenderer sprite;
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        light = gameObject.GetComponent<Light2D>();
+        objectLight = gameObject.GetComponent<Light2D>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
 
         if(scaledRange)
@@ -84,9 +84,9 @@ public class ProximityLighting : MonoBehaviour
         else if (intensity > max_light_value) { intensity = max_light_value; alpha = max_alpha_value; }
         //if (alpha < 0) {  }
 
-        if (intensity > light.intensity)
+        if (intensity > objectLight.intensity)
         {
-            light.intensity = Mathf.Lerp(light.intensity, intensity, fadein);
+            objectLight.intensity = Mathf.Lerp(objectLight.intensity, intensity, fadein);
             if (affect_sprite)
             {
                 sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b,
@@ -109,9 +109,9 @@ public class ProximityLighting : MonoBehaviour
             inTimer = Mathf.Clamp(inTimer, 0, fadein);
             outTimer = 0;*/
         }
-        else if (intensity < light.intensity)
+        else if (intensity < objectLight.intensity)
         {
-            light.intensity = Mathf.Lerp(light.intensity, intensity, fadeout);
+            objectLight.intensity = Mathf.Lerp(objectLight.intensity, intensity, fadeout);
             if (affect_sprite)
             {
                 sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b,
@@ -135,9 +135,9 @@ public class ProximityLighting : MonoBehaviour
             inTimer = 0;*/
         }
 
-        if (Mathf.Abs(intensity - light.intensity) < 0.001f)
+        if (Mathf.Abs(intensity - objectLight.intensity) < 0.001f)
         {
-            light.intensity = intensity;
+            objectLight.intensity = intensity;
         }
 
         //prevIncreasing = increasing;
@@ -161,9 +161,9 @@ public class ProximityLighting : MonoBehaviour
 
     void setMax()
     {
-        light = gameObject.GetComponent<Light2D>();
+        objectLight = gameObject.GetComponent<Light2D>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
-        light.intensity = max_light_value;
+        objectLight.intensity = max_light_value;
         if (affect_sprite) sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, max_alpha_value);
     }
 

@@ -428,10 +428,10 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        music_volume = musicSlider.value;
-        sfx_volume = sfxSlider.value;
-        musicText.text = "Music: " + (int)(music_volume * 100);
-        sfxText.text = "Sfx: " + (int)(sfx_volume * 100);
+        music_volume = Mathf.Pow(musicSlider.value, 1.5f);
+        sfx_volume = Mathf.Pow(sfxSlider.value, 1.5f);
+        musicText.text = "Music: " + (int)(musicSlider.value * 100);
+        sfxText.text = "Sfx: " + (int)(sfxSlider.value * 100);
 
         bgMusic.audio.volume = music_volume;
 
@@ -480,8 +480,8 @@ public class MainMenu : MonoBehaviour
     {
         music_volume = PlayerPrefs.GetFloat("music_volume", .8f);
         sfx_volume = PlayerPrefs.GetFloat("sfx_volume", 1);
-        musicSlider.value = music_volume;
-        sfxSlider.value = sfx_volume;
+        musicSlider.value = Mathf.Pow(music_volume, 2f / 3f);
+        sfxSlider.value = Mathf.Pow(sfx_volume, 2f / 3f);
     }
 
     public float[] getVolumes()

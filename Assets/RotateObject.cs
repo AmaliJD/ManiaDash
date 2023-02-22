@@ -83,11 +83,20 @@ public class RotateObject : MonoBehaviour
     {
         gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerV2>();
-        texture = transform.GetChild(0).gameObject;
-        texture.SetActive(!hideIcon);
+
+        if (transform.childCount > 1)
+        {
+            texture = transform.GetChild(0).gameObject;
+            texture.SetActive(!hideIcon);
+        }
     }
 
-    public void Start()
+    private void Start()
+    {
+        Init();
+    }
+
+    public void Init()
     {
         if (groupIDs.Count > 0)
         {
@@ -259,6 +268,7 @@ public class RotateObject : MonoBehaviour
             addRotateAmount = -addRotateAmount;
         }
 
+        if(centerObject == null) { centerObject = transform; }
         Vector3 centerPosition = centerObject.position;
 
         while (elapsedTime < duration)
@@ -397,8 +407,8 @@ public class RotateObject : MonoBehaviour
                 
                 if(useCenterObject)
                 {
-                    Quaternion q = Quaternion.AngleAxis(difference, Vector3.forward);
-                    rb[i].MovePosition(q * (targets[i].position - centerPosition) + centerPosition);
+                    //Quaternion q = Quaternion.AngleAxis(difference, Vector3.forward);
+                    //rb[i].MovePosition(q * (targets[i].position - centerPosition) + centerPosition);
 
                     rb[i].velocity -= velocityDeltaTotal[i];
                 }

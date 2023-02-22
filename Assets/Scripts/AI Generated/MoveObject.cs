@@ -112,11 +112,20 @@ public class MoveObject : MonoBehaviour
     {
         gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerV2>();
-        texture = transform.GetChild(0).gameObject;
-        texture.SetActive(!hideIcon);
+
+        if(transform.childCount > 1)
+        {
+            texture = transform.GetChild(0).gameObject;
+            texture.SetActive(!hideIcon);
+        }
     }
 
     public void Start()
+    {
+        Init();
+    }
+
+    public void Init()
     {
         if (groupIDs.Count > 0)
         {
@@ -229,7 +238,8 @@ public class MoveObject : MonoBehaviour
         Vector2[] velocity1 = new Vector2[targets.Count];
         Vector2[] velocityDeltaTotal = new Vector2[targets.Count];
         Vector2[] totalDisplacement = new Vector2[targets.Count];
-        Vector2[] lastDestinationPosition = destinationObject != null ? Enumerable.Repeat((Vector2)destinationObject.position, targets.Count).ToArray() : new Vector2[0];
+        //Vector2[] lastDestinationPosition = destinationObject != null ? Enumerable.Repeat((Vector2)destinationObject.position, targets.Count).ToArray() : new Vector2[0];
+        Vector2 lastDestinationPosition = destinationObject != null ? (Vector2)destinationObject.position : Vector2.zero;
         Vector2[] thisMoveAmount = Enumerable.Repeat(moveAmount, targets.Count).ToArray();
         Vector2[] totalMoveAmount = new Vector2[targets.Count];
 
@@ -366,8 +376,8 @@ public class MoveObject : MonoBehaviour
             {
                 if (useDestinationObject && updateDestinationDistance)
                 {
-                    Vector2 destinationDelta = (Vector2)destinationObject.position - lastDestinationPosition[i];
-                    lastDestinationPosition[i] = destinationObject.position;
+                    Vector2 destinationDelta = (Vector2)destinationObject.position - lastDestinationPosition;
+                    lastDestinationPosition = destinationObject.position;
                     moveAmountToDestination[i] += destinationDelta;
                 }
 
@@ -454,8 +464,8 @@ public class MoveObject : MonoBehaviour
         {
             if (useDestinationObject && updateDestinationDistance)
             {
-                Vector2 destinationDelta = (Vector2)destinationObject.position - lastDestinationPosition[i];
-                lastDestinationPosition[i] = destinationObject.position;
+                Vector2 destinationDelta = (Vector2)destinationObject.position - lastDestinationPosition;
+                lastDestinationPosition = destinationObject.position;
                 moveAmountToDestination[i] += destinationDelta;
             }
 
@@ -531,21 +541,35 @@ public class MoveObject : MonoBehaviour
             {
                 if(hasRigidBody)
                 {
-                    if(rb[i].velocity.magnitude < moveSpeed)
+                    if (!(useDestinationObject && destinationObject))
                     {
-                        Vector2 difference = Vector2.right.Rotate(-moveAngle) * moveSpeed - rb[i].velocity;
-                        rb[i].velocity += difference;
+                        if (rb[i].velocity.magnitude < moveSpeed)
+                        {
+                            Vector2 difference = Vector2.right.Rotate(-moveAngle) * moveSpeed - rb[i].velocity;
+                            rb[i].velocity += difference;
+                        }
+                    }
+                    else
+                    {
+                        rb[i].position += (((Vector2)(destinationObject.position - targets[i].position)).normalized.Rotate(-moveAngle) * moveSpeed * Time.fixedDeltaTime);
                     }
                 }
                 else
                 {
-                    if(hasParent[i])
+                    if (!(useDestinationObject && destinationObject))
                     {
-                        targets[i].localPosition += (Vector3)Vector2.right.Rotate(-moveAngle) * moveSpeed * Time.deltaTime;
+                        if (hasParent[i])
+                        {
+                            targets[i].localPosition += (Vector3)Vector2.right.Rotate(-moveAngle) * moveSpeed * Time.deltaTime;
+                        }
+                        else
+                        {
+                            targets[i].position += (Vector3)Vector2.right.Rotate(-moveAngle) * moveSpeed * Time.deltaTime;
+                        }
                     }
                     else
                     {
-                        targets[i].position += (Vector3)Vector2.right.Rotate(-moveAngle) * moveSpeed * Time.deltaTime;
+                        targets[i].position += (Vector3)((Vector2)destinationObject.position - (Vector2)targets[i].position).normalized.Rotate(-moveAngle) * moveSpeed * Time.deltaTime;
                     }
                 }
             }

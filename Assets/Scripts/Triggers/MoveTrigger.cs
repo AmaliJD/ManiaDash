@@ -92,7 +92,7 @@ public class MoveTrigger : MonoBehaviour
             towards /= 10;
         }
 
-        gamemanager = GameObject.FindObjectOfType<GameManager>();
+        gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     public void Initialize()

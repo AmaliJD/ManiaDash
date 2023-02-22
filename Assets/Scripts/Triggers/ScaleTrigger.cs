@@ -72,7 +72,7 @@ public class ScaleTrigger : MonoBehaviour
         y += full;
 
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
-        gamemanager = GameObject.FindObjectOfType<GameManager>();
+        gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         if (ignoreParticles)
             return;
