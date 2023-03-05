@@ -10,12 +10,13 @@ public class MoveSequencer : MonoBehaviour
     public float startDelay;
     private WaitForSeconds waitStartDelay;
 
-    public enum TriggerType { Move, Rotate}
+    public enum TriggerType { Move, Rotate, Scale}
 
     [System.Serializable]
     public struct MoveData
     {
         public TriggerType triggerType;
+        public ScaleObject.ScaleMode scaleType;
         public float startTime;
         public bool addPrevDurationToStartTime;
         public Vector2 value;
@@ -38,9 +39,11 @@ public class MoveSequencer : MonoBehaviour
 
     private MoveObject moveObjectInstance;
     private RotateObject rotateObjectInstance;
+    private ScaleObject scaleObjectInstance;
 
     GameObject moveObjectHolder;
     GameObject rotateObjectHolder;
+    GameObject scaleObjectHolder;
     bool started = false;
 
     private void Start()
@@ -115,6 +118,29 @@ public class MoveSequencer : MonoBehaviour
                     rotateObjectInstance.duration = moves[i].duration;
                     rotateObjectInstance.functionEasing = moves[i].easing;
                     rotateObjectInstance.Rotate();
+                    break;
+
+                case TriggerType.Scale:
+                    if (scaleObjectHolder == null)
+                    {
+                        scaleObjectHolder = new GameObject();
+                        scaleObjectHolder.name = "Scale Trigger Holder " + scaleObjectHolder.GetHashCode();
+                        scaleObjectHolder.transform.parent = transform;
+                        scaleObjectInstance = scaleObjectHolder.AddComponent<ScaleObject>();
+                        scaleObjectInstance.targets = new List<Transform>();
+                        scaleObjectInstance.groupIDs = new List<int>();
+                        scaleObjectInstance.targets.Add(transform);
+                        scaleObjectInstance.useRigidbody = useRigidBody;
+                        scaleObjectInstance.easeOption = EasingOption.EasingFunction;
+                        scaleObjectInstance.waitToFinish = false;
+                        scaleObjectInstance.Init();
+                    }
+
+                    scaleObjectInstance.scaleMode = moves[i].scaleType;
+                    scaleObjectInstance.scaleValue = moves[i].value;
+                    scaleObjectInstance.duration = moves[i].duration;
+                    scaleObjectInstance.functionEasing = moves[i].easing;
+                    scaleObjectInstance.Scale();
                     break;
             }
         }

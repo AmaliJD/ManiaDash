@@ -113,7 +113,7 @@ public class MoveObject : MonoBehaviour
         gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerV2>();
 
-        if(transform.childCount > 1)
+        if(transform.childCount > 0)
         {
             texture = transform.GetChild(0).gameObject;
             texture.SetActive(!hideIcon);
@@ -226,6 +226,11 @@ public class MoveObject : MonoBehaviour
     public void ResumeTrigger()
     {
         paused = false;
+    }
+
+    public void TogglePauseTrigger()
+    {
+        paused = !paused;
     }
 
     private IEnumerator MoveCoroutine()

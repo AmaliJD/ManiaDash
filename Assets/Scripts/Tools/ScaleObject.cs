@@ -34,15 +34,22 @@ public class ScaleObject : MonoBehaviour
 
     [Header("Stay Rotate Properites")]
     public bool stayToScale = false;
-    [Min(0)]
-    public float scaleSpeed;
+    public Vector2 scaleSpeed;
 
     [Header("Mods")]
-    public float addScaleAmount = 0;
-    public bool reverseRotateDirection = false;
-    public bool reverseModAdd = false;
+    public ModInvertMode invertScaleMode = ModInvertMode.none;
+    public ModScaleMode modScaleMode = ModScaleMode.add;
+    public Vector2 modScaleAmount = Vector2.zero;
     public bool applyModPerTarget;
     public bool reverseOrderPerTarget;
+    public enum ModScaleMode
+    {
+        multiply, add
+    }
+    public enum ModInvertMode
+    {
+        none, reverse, invert
+    }
 
     [Header("Easing")]
     public EasingOption easeOption;
@@ -74,7 +81,7 @@ public class ScaleObject : MonoBehaviour
     private List<Vector3> startScale;
     private bool inUse = false;
 
-    //private float initialAddRotateAmount;
+    private Vector2 initialModScaleAmount;
 
     private PlayerControllerV2 player;
     private GroupIDManager groupIDManager;
@@ -86,7 +93,7 @@ public class ScaleObject : MonoBehaviour
         gamemanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerV2>();
 
-        if (transform.childCount > 1)
+        if (transform.childCount > 0)
         {
             texture = transform.GetChild(0).gameObject;
             texture.SetActive(!hideIcon);
@@ -122,7 +129,7 @@ public class ScaleObject : MonoBehaviour
             useCenterObject = false;
         }
 
-        //initialAddRotateAmount = addRotateAmount;
+        initialModScaleAmount = modScaleAmount;
 
         if (playOnAwake && !stayToScale)
         {
@@ -153,7 +160,7 @@ public class ScaleObject : MonoBehaviour
         StopAllCoroutines();
         triggerCount = 0;
 
-        //addRotateAmount = initialAddRotateAmount;
+        modScaleAmount = initialModScaleAmount;
 
         paused = false;
         inUse = false;
@@ -174,6 +181,11 @@ public class ScaleObject : MonoBehaviour
         paused = false;
     }
 
+    public void TogglePauseTrigger()
+    {
+        paused = !paused;
+    }
+
     private IEnumerator ScaleCoroutine()
     {
         inUse = true;
@@ -181,90 +193,134 @@ public class ScaleObject : MonoBehaviour
 
         float elapsedTime = 0;
         Vector2[] totalDisplacement = new Vector2[targets.Count];
+        Vector2[] targetBase = new Vector2[targets.Count];
         Vector2 lastCenterPosition = centerObject != null ? (Vector2)centerObject.position : Vector2.zero;
         Vector2[] thisScaleAmount = Enumerable.Repeat(scaleValue, targets.Count).ToArray();
+        Vector2[] deltaMultiplier = Enumerable.Repeat(Vector2.one, targets.Count).ToArray();
+
+        if (applyModPerTarget && targets.Count > 1)
+        {
+            if (!reverseOrderPerTarget)
+            {
+                Vector2 tempModScaleAmount = modScaleAmount;
+                for (int i = 1; i < targets.Count; i++)
+                {
+                    switch (invertScaleMode)
+                    {
+                        case ModInvertMode.invert:
+                            thisScaleAmount[i] = thisScaleAmount[i - 1].Invert();
+                            break;
+
+                        case ModInvertMode.reverse:
+                            thisScaleAmount[i] = -thisScaleAmount[i - 1];
+                            break;
+                    }
+
+                    float rev1 = Mathf.Sign(modScaleAmount.x) * Mathf.Sign(thisScaleAmount[i - 1].x);
+                    float rev2 = Mathf.Sign(modScaleAmount.y) * Mathf.Sign(thisScaleAmount[i - 1].y);
+
+                    switch (modScaleMode)
+                    {
+                        case ModScaleMode.multiply:
+                            thisScaleAmount[i] = Vector2.Scale(thisScaleAmount[i - 1], modScaleAmount);
+                            break;
+
+                        case ModScaleMode.add:
+                            //thisScaleAmount[i] = thisScaleAmount[i - 1] + modScaleAmount;
+                            thisScaleAmount[i] = thisScaleAmount[i - 1] + new Vector2(rev1 * Mathf.Abs(modScaleAmount.x), rev2 * Mathf.Abs(modScaleAmount.y));
+                            break;
+                    }
+                }
+                modScaleAmount = tempModScaleAmount;
+            }
+            else
+            {
+                Vector2 tempModScaleAmount = modScaleAmount;
+                for (int i = targets.Count - 1; i > 0; i--)
+                {
+                    switch (invertScaleMode)
+                    {
+                        case ModInvertMode.invert:
+                            thisScaleAmount[i] = thisScaleAmount[(i + 1) % targets.Count].Invert();
+                            break;
+
+                        case ModInvertMode.reverse:
+                            thisScaleAmount[i] = -thisScaleAmount[(i + 1) % targets.Count];
+                            break;
+                    }
+
+                    float rev1 = Mathf.Sign(modScaleAmount.x) * Mathf.Sign(thisScaleAmount[(i + 1) % targets.Count].x);
+                    float rev2 = Mathf.Sign(modScaleAmount.y) * Mathf.Sign(thisScaleAmount[(i + 1) % targets.Count].y);
+
+                    switch (modScaleMode)
+                    {
+                        case ModScaleMode.multiply:
+                            thisScaleAmount[i] = Vector2.Scale(thisScaleAmount[(i + 1) % targets.Count], modScaleAmount);
+                            break;
+
+                        case ModScaleMode.add:
+                            //thisScaleAmount[i] = thisScaleAmount[(i + 1) % targets.Count] + modScaleAmount;
+                            thisScaleAmount[i] = thisScaleAmount[(i + 1) % targets.Count] + new Vector2(rev1 * Mathf.Abs(modScaleAmount.x), rev2 * Mathf.Abs(modScaleAmount.y));
+                            break;
+                    }
+                }
+                modScaleAmount = tempModScaleAmount;
+            }
+        }
 
         for (int i = 0; i < targets.Count; i++)
         {
             Vector2 baseScale = tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale);
-            Vector2 addAmount = scaleValue;
+            Vector2 addAmount = thisScaleAmount[i];
             switch (scaleMode)
             {
                 case ScaleMode.add:
-                    addAmount = scaleValue;
+                    addAmount = thisScaleAmount[i];
                     break;
 
                 case ScaleMode.multiply:
-                    Vector2 newScale = new Vector2(scaleValue.x * baseScale.x, scaleValue.y * baseScale.y);
+                    Vector2 newScale = new Vector2(thisScaleAmount[i].x * baseScale.x, thisScaleAmount[i].y * baseScale.y);
                     addAmount = newScale - baseScale;
                     break;
 
                 case ScaleMode.set:
-                    addAmount = scaleValue - baseScale;
+                    addAmount = thisScaleAmount[i] - baseScale;
                     break;
             }
-            Debug.Log("Old: " + baseScale + "   New: " + (baseScale + addAmount) + "   Add: " + addAmount);
+            //Debug.Log("From: " + baseScale + "   To: " + (baseScale + addAmount) + "   Add: " + addAmount);
             thisScaleAmount[i] = addAmount;
             tracker.setNewScale(targets[i].GetHashCode(), new Vector3(baseScale.x + addAmount.x, baseScale.y + addAmount.y, targets[i].localScale.z));
+            targetBase[i] = baseScale + addAmount;
         }
-
-
-        //Vector2[] totalRotateAmount = new float[targets.Count];
 
 
         Vector2[] radius = new Vector2[targets.Count];
 
-        /*if (applyModPerTarget && targets.Count > 1)
+        switch (invertScaleMode)
         {
-            if (!reverseOrderPerTarget)
-            {
-                float tempAddRotateAmount = addRotateAmount;
-                for (int i = 1; i < targets.Count; i++)
-                {
-                    float rev = Mathf.Sign(addRotateAmount) == Mathf.Sign(thisRotateAmount[i - 1]) ? 1 : -1;
-                    //thisRotateAmount[i] = thisRotateAmount[i - 1] + rev * addRotateAmount;
-                    if (reverseRotateDirection)
-                    {
-                        thisRotateAmount[i] = -thisRotateAmount[i];
-                    }
-                    if (reverseModAdd)
-                    {
-                        addRotateAmount = -addRotateAmount;
-                    }
-                }
-                addRotateAmount = tempAddRotateAmount;
-            }
-            else
-            {
-                float tempAddRotateAmount = addRotateAmount;
-                for (int i = targets.Count - 1; i > 0; i--)
-                {
-                    float rev = Mathf.Sign(addRotateAmount) == Mathf.Sign(thisRotateAmount[(i + 1) % targets.Count]) ? 1 : -1;
-                    //thisRotateAmount[i] = thisRotateAmount[(i + 1) % targets.Count] + rev * addRotateAmount;
-                    if (reverseRotateDirection)
-                    {
-                        thisRotateAmount[i] = -thisRotateAmount[i];
-                    }
-                    if (reverseModAdd)
-                    {
-                        addRotateAmount = -addRotateAmount;
-                    }
-                }
-                addRotateAmount = tempAddRotateAmount;
-            }
+            case ModInvertMode.invert:
+                scaleValue = scaleValue.Invert();
+                break;
+
+            case ModInvertMode.reverse:
+                scaleValue = -scaleValue;
+                break;
         }
 
+        float revX = Mathf.Sign(scaleValue.x) * Mathf.Sign(modScaleAmount.x);
+        float revY = Mathf.Sign(scaleValue.y) * Mathf.Sign(modScaleAmount.y);
 
-        float sign = Mathf.Sign(addRotateAmount) == Mathf.Sign(rotateAmount) ? 1 : -1;
-        rotateAmount = rotateAmount + sign * addRotateAmount;
-        if (reverseRotateDirection)
+        switch (modScaleMode)
         {
-            rotateAmount = -rotateAmount;
+            case ModScaleMode.multiply:
+                scaleValue = Vector2.Scale(scaleValue, modScaleAmount);
+                break;
+
+            case ModScaleMode.add:
+                scaleValue += new Vector2(revX * Mathf.Abs(modScaleAmount.x), revY * Mathf.Abs(modScaleAmount.y));
+                break;
         }
-        if (reverseModAdd)
-        {
-            addRotateAmount = -addRotateAmount;
-        }*/
+
 
         if (centerObject == null) { centerObject = transform; }
         Vector3 centerPosition = centerObject.position;
@@ -273,7 +329,7 @@ public class ScaleObject : MonoBehaviour
         {
             if (stopped)
             {
-                //addRotateAmount = initialAddRotateAmount;
+                modScaleAmount = initialModScaleAmount;
                 for (int i = 0; i < targets.Count; i++)
                 {
                     Vector3 amountLeft = (Vector3)(thisScaleAmount[i] - totalDisplacement[i]);
@@ -286,16 +342,23 @@ public class ScaleObject : MonoBehaviour
 
             if (paused)
             {
-                Vector2[] lastBase = new Vector2[targets.Count];
-                Vector2[] currentScale = new Vector2[targets.Count];
+                Vector2[] setBase = new Vector2[targets.Count];
+                Vector2[] lastScale = new Vector2[targets.Count];
                 Vector2[] amountLeft = new Vector2[targets.Count];
+                Vector2[] totalLinearDisplacement = new Vector2[targets.Count];
+                float displacementLeftPercentage = 1 - (elapsedTime / duration);
+
                 for (int i = 0; i < targets.Count; i++)
                 {
-                    currentScale[i] = targets[i].localScale;
-                    lastBase[i] = tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale);
+                    totalLinearDisplacement[i] = (1 - displacementLeftPercentage) * thisScaleAmount[i];
+                    lastScale[i] = targets[i].localScale;
+                    setBase[i] = tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale);
                     amountLeft[i] = thisScaleAmount[i] - totalDisplacement[i];
                     thisScaleAmount[i] -= amountLeft[i];
                     tracker.setNewScale(targets[i].GetHashCode(), tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale) - (Vector3)amountLeft[i]);
+
+                    //Debug.Log("Set Base: " + setBase[0]);
+                    //Debug.Log("Total Disp: " + totalDisplacement[i] + "   Total Linear Disp: " + totalLinearDisplacement[i]);
                 }
 
                 yield return new WaitUntil(() => !paused);
@@ -304,11 +367,24 @@ public class ScaleObject : MonoBehaviour
                 for (int i = 0; i < targets.Count; i++)
                 {
                     newBase[i] = tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale);
-                    Vector2 multDifference = new Vector2(newBase[i].x / currentScale[i].x, newBase[i].y / currentScale[i].y);
-                    amountLeft[i] = new Vector2(amountLeft[i].x * multDifference.x, amountLeft[i].y * multDifference.y);
+
+                    if (newBase[i] != setBase[i] - amountLeft[i] && scaleMode != ScaleMode.add)
+                    {
+                        Vector2 multDifference = new Vector2(newBase[i].x / lastScale[i].x, newBase[i].y / lastScale[i].y);
+                        //amountLeft[i] = new Vector2(amountLeft[i].x * multDifference.x, amountLeft[i].y * multDifference.y);
+                        amountLeft[i] = Vector2.Scale(amountLeft[i], multDifference);
+
+                        Vector2 totalDisplacementScaled = VectorExtension.Divide(totalLinearDisplacement[i], VectorExtension.Divide(totalDisplacement[i], totalLinearDisplacement[i]));
+                        Vector2 newScale = thisScaleAmount[i] + amountLeft[i];
+                        deltaMultiplier[i] = VectorExtension.Divide((newScale - totalDisplacementScaled) / displacementLeftPercentage, newScale).SetNaNToOne();
+                        //Debug.Log("Delta Multiplier: " + deltaMultiplier[i]);
+                    }
 
                     thisScaleAmount[i] += amountLeft[i];
                     tracker.setNewScale(targets[i].GetHashCode(), tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale) + (Vector3)amountLeft[i]);
+
+                    //Debug.Log("New Base: " + newBase[0]);
+                    //Debug.Log("From: " + newBase[0] + "   To: " + (newBase[0] + amountLeft[i]) + "   Add: " + amountLeft[i]);
                 }
             }
 
@@ -329,7 +405,7 @@ public class ScaleObject : MonoBehaviour
 
             for (int i = 0; i < targets.Count; i++)
             {
-                Vector2 delta = thisScaleAmount[i] * (easeT1 - easeT0);
+                Vector2 delta = Vector2.Scale(thisScaleAmount[i] * (easeT1 - easeT0) , deltaMultiplier[i]);
 
                 totalDisplacement[i] += delta;
 
@@ -339,6 +415,7 @@ public class ScaleObject : MonoBehaviour
 
         for (int i = 0; i < targets.Count; i++)
         {
+            //Debug.Log("Scale Amt: " + thisScaleAmount[i] + "   Displacement: " + totalDisplacement[i]);
             Vector2 difference = thisScaleAmount[i] - totalDisplacement[i];
             targets[i].localScale += (Vector3)difference;
         }
@@ -387,7 +464,28 @@ public class ScaleObject : MonoBehaviour
         {
             for (int i = 0; i < targets.Count; i++)
             {
-                targets[i].localScale += (Vector3)Vector2.one * scaleSpeed * Time.deltaTime;
+                switch(scaleMode)
+                {
+                    case ScaleMode.add:
+                        tracker.setNewScale(targets[i].GetHashCode(), tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale) + (Vector3)scaleSpeed * Time.deltaTime);
+                        targets[i].localScale += (Vector3)scaleSpeed * Time.deltaTime;
+                        break;
+
+                    case ScaleMode.multiply:
+                        Vector2 newScale = new Vector2(targets[i].localScale.x * Mathf.Pow(scaleSpeed.x, Time.deltaTime), targets[i].localScale.y * Mathf.Pow(scaleSpeed.y, Time.deltaTime));
+                        Vector2 diff = newScale - (Vector2)targets[i].localScale;
+                        tracker.setNewScale(targets[i].GetHashCode(), tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale) + (Vector3)diff);
+                        targets[i].localScale += (Vector3)diff;
+                        break;
+
+                    case ScaleMode.set:
+                        Vector2 amountToValue = scaleValue - (Vector2)targets[i].localScale;
+                        //Vector2 speed = new Vector2(amountToValue.normalized.x * scaleSpeed.x, amountToValue.normalized.y * scaleSpeed.y);
+                        Vector2 speed = Vector2.Scale(amountToValue.normalized, scaleSpeed);
+                        tracker.setNewScale(targets[i].GetHashCode(), tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale) + (Vector3)speed * Time.deltaTime);
+                        targets[i].localScale += (Vector3)speed * Time.deltaTime;
+                        break;
+                }
             }
         }
     }

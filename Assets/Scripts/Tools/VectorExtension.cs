@@ -128,6 +128,31 @@ public static class VectorExtension
         return vec;
     }
 
+    public static Vector2 Invert(this Vector2 vector)
+    {
+        return new Vector2(1 / vector.x, 1 / vector.y);
+    }
+
+    public static Vector3 Invert(this Vector3 vector)
+    {
+        return new Vector3(1 / vector.x, 1 / vector.y, 1 / vector.z);
+    }
+
+    public static Vector2 Divide(Vector2 vector1, Vector2 vector2)
+    {
+        return Vector2.Scale(vector1, vector2.Invert());
+    }
+
+    public static Vector3 Divide(Vector3 vector1, Vector3 vector2)
+    {
+        return Vector3.Scale(vector1, vector2.Invert());
+    }
+
+    public static Vector2 SetNaNToOne(this Vector2 vector)
+    {
+        return new Vector2(float.IsNaN(vector.x) ? 1 : vector.x, float.IsNaN(vector.y) ? 1 : vector.y);
+    }
+
     // COLOR
     public static Color GetHueColor(this Color color)
     {

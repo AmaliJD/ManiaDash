@@ -73,6 +73,9 @@ TagManager:
   - Canvas
   - CameraTrigger
   - MoveObject
+  - RotateObject
+  - ScaleObject
+  - PlaybackTrigger
   layers:
   - Default
   - TransparentFX
