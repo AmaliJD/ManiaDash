@@ -197,6 +197,8 @@ public class ScaleObject : MonoBehaviour
         Vector2 lastCenterPosition = centerObject != null ? (Vector2)centerObject.position : Vector2.zero;
         Vector2[] thisScaleAmount = Enumerable.Repeat(scaleValue, targets.Count).ToArray();
         Vector2[] deltaMultiplier = Enumerable.Repeat(Vector2.one, targets.Count).ToArray();
+        //Vector2[] deltaAdder = Enumerable.Repeat(Vector2.zero, targets.Count).ToArray();
+        //float pausedElapsedTime = 0;
 
         if (applyModPerTarget && targets.Count > 1)
         {
@@ -342,14 +344,18 @@ public class ScaleObject : MonoBehaviour
 
             if (paused)
             {
+                //pausedElapsedTime = elapsedTime;
                 Vector2[] setBase = new Vector2[targets.Count];
                 Vector2[] lastScale = new Vector2[targets.Count];
                 Vector2[] amountLeft = new Vector2[targets.Count];
                 Vector2[] totalLinearDisplacement = new Vector2[targets.Count];
-                float displacementLeftPercentage = 1 - (elapsedTime / duration);
+                Vector2[] adjustedScaleAmount = new Vector2[targets.Count];
+                //float displacementLeftPercentage = 1 - (elapsedTime / duration);
+                float displacementLeftPercentage = 1 - GetEaseValue(Mathf.Clamp01(elapsedTime / duration));
 
                 for (int i = 0; i < targets.Count; i++)
                 {
+                    adjustedScaleAmount[i] = thisScaleAmount[i];
                     totalLinearDisplacement[i] = (1 - displacementLeftPercentage) * thisScaleAmount[i];
                     lastScale[i] = targets[i].localScale;
                     setBase[i] = tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale);
@@ -371,31 +377,37 @@ public class ScaleObject : MonoBehaviour
                     if (newBase[i] != setBase[i] - amountLeft[i] && scaleMode != ScaleMode.add)
                     {
                         Vector2 multDifference = new Vector2(newBase[i].x / lastScale[i].x, newBase[i].y / lastScale[i].y);
-                        //amountLeft[i] = new Vector2(amountLeft[i].x * multDifference.x, amountLeft[i].y * multDifference.y);
                         amountLeft[i] = Vector2.Scale(amountLeft[i], multDifference);
 
-                        Vector2 totalDisplacementScaled = VectorExtension.Divide(totalLinearDisplacement[i], VectorExtension.Divide(totalDisplacement[i], totalLinearDisplacement[i]));
+                        
                         Vector2 newScale = thisScaleAmount[i] + amountLeft[i];
-                        deltaMultiplier[i] = VectorExtension.Divide((newScale - totalDisplacementScaled) / displacementLeftPercentage, newScale).SetNaNToOne();
-                        //Debug.Log("Delta Multiplier: " + deltaMultiplier[i]);
+
+                        //Vector2 totalDisplacementScaled = VectorExtension.Divide(totalLinearDisplacement[i], VectorExtension.Divide(totalDisplacement[i], totalLinearDisplacement[i]));
+                        //deltaMultiplier[i] = VectorExtension.Divide((newScale - totalDisplacementScaled) / displacementLeftPercentage, newScale).SetNaNToOne();
+                        deltaMultiplier[i] = VectorExtension.Divide((newScale - totalDisplacement[i]) / displacementLeftPercentage, newScale).SetNaNToOne();
+                        //adjustedScaleAmount[i] = ((newScale - totalDisplacement[i]) / displacementLeftPercentage).SetNaNToZero();
+                        //deltaAdder[i] = adjustedScaleAmount[i] - (thisScaleAmount[i] + amountLeft[i]);
                     }
 
                     thisScaleAmount[i] += amountLeft[i];
                     tracker.setNewScale(targets[i].GetHashCode(), tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale) + (Vector3)amountLeft[i]);
 
                     //Debug.Log("New Base: " + newBase[0]);
-                    //Debug.Log("From: " + newBase[0] + "   To: " + (newBase[0] + amountLeft[i]) + "   Add: " + amountLeft[i]);
+                    //Debug.Log("From: " + newBase[0] + "   To: " + (newBase[0] + amountLeft[i]) + "   Add: " + amountLeft[i] + "   This Scale Amount: " + thisScaleAmount[i] + "   Scaled Scale Amount: " + adjustedScaleAmount[i] + "   Delta Adder: " + deltaAdder[i]);
+                    //Debug.Log("From: " + newBase[0] + "   To: " + (newBase[0] + amountLeft[i]) + "   Add: " + amountLeft[i] + "   This Scale Amount: " + thisScaleAmount[i] + "   Delta Multiplier: " + deltaMultiplier[i]);
                 }
             }
 
             inUse = true;
 
             float t0 = Mathf.Clamp01(elapsedTime / duration);
+            //float adjusted_t0 = Mathf.Clamp01((elapsedTime - pausedElapsedTime) / (duration - pausedElapsedTime));
 
             yield return null;
 
             elapsedTime += Time.deltaTime;
             float t1 = Mathf.Clamp01(elapsedTime / duration);
+            //float adjusted_t1 = Mathf.Clamp01((elapsedTime - pausedElapsedTime) / (duration - pausedElapsedTime));
             float easeT0, easeT1;
 
             easeT0 = GetEaseValue(t0);
@@ -406,6 +418,8 @@ public class ScaleObject : MonoBehaviour
             for (int i = 0; i < targets.Count; i++)
             {
                 Vector2 delta = Vector2.Scale(thisScaleAmount[i] * (easeT1 - easeT0) , deltaMultiplier[i]);
+                //Vector2 adjustedDelta = deltaAdder[i] * (GetEaseValue(adjusted_t1) - GetEaseValue(adjusted_t0));
+                //Vector2 delta = thisScaleAmount[i] * (easeT1 - easeT0) + adjustedDelta;
 
                 totalDisplacement[i] += delta;
 

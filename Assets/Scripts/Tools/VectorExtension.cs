@@ -153,6 +153,11 @@ public static class VectorExtension
         return new Vector2(float.IsNaN(vector.x) ? 1 : vector.x, float.IsNaN(vector.y) ? 1 : vector.y);
     }
 
+    public static Vector2 SetNaNToZero(this Vector2 vector)
+    {
+        return new Vector2(float.IsNaN(vector.x) ? 0 : vector.x, float.IsNaN(vector.y) ? 0 : vector.y);
+    }
+
     // COLOR
     public static Color GetHueColor(this Color color)
     {
