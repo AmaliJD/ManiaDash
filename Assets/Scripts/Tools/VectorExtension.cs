@@ -158,6 +158,14 @@ public static class VectorExtension
         return new Vector2(float.IsNaN(vector.x) ? 0 : vector.x, float.IsNaN(vector.y) ? 0 : vector.y);
     }
 
+    public static Vector2 SignedAdd(this Vector2 vector, float i)
+    {
+        float revX = Mathf.Sign(vector.x);
+        float revY = Mathf.Sign(vector.y);
+
+        return new Vector2(vector.x + revX * i, vector.y + revY * i);
+    }
+
     // COLOR
     public static Color GetHueColor(this Color color)
     {
