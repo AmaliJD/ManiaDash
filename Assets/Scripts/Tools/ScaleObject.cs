@@ -77,6 +77,8 @@ public class ScaleObject : MonoBehaviour
 
     private GameObject texture;
 
+    private bool hasRigidBody = false;
+    private List<Rigidbody2D> rb;
     private int triggerCount = 0;
     private List<Vector3> startScale;
     private bool inUse = false;
@@ -121,8 +123,19 @@ public class ScaleObject : MonoBehaviour
 
         tracker = GameObject.FindGameObjectWithTag("Master").GetComponent<ScaleTracker>();
 
+
+        bool nullRB = false;
+        rb = new List<Rigidbody2D>();
         startScale = new List<Vector3>();
-        foreach (Transform tr in targets) { startScale.Add(tr.localScale); }
+        foreach (Transform tr in targets)
+        {
+            rb.Add(tr.GetComponent<Rigidbody2D>());
+            if (tr.GetComponent<Rigidbody2D>() == null) { nullRB = true; }
+            startScale.Add(tr.localScale);
+        }
+
+        hasRigidBody = useRigidbody && !nullRB;
+
 
         if (useCenterObject && centerObject == null)
         {
@@ -156,6 +169,10 @@ public class ScaleObject : MonoBehaviour
         {
             targets[i].localScale = startScale[i];
             tracker.setOriginalScale(targets[i].GetHashCode());
+            if (hasRigidBody)
+            {
+                rb[i].velocity = Vector2.zero;
+            }
         }
         StopAllCoroutines();
         triggerCount = 0;
@@ -197,6 +214,10 @@ public class ScaleObject : MonoBehaviour
         Vector2 lastCenterPosition = centerObject != null ? (Vector2)centerObject.position : Vector2.zero;
         Vector2[] thisScaleAmount = Enumerable.Repeat(scaleValue, targets.Count).ToArray();
         Vector2[] deltaMultiplier = Enumerable.Repeat(Vector2.one, targets.Count).ToArray();
+
+        Vector2[] velocity0 = new Vector2[targets.Count];
+        Vector2[] velocity1 = new Vector2[targets.Count];
+        Vector2[] velocityDeltaTotal = new Vector2[targets.Count];
 
         if (applyModPerTarget && targets.Count > 1)
         {
@@ -272,7 +293,7 @@ public class ScaleObject : MonoBehaviour
         Vector2[] thisMoveAmount = Enumerable.Repeat(Vector2.zero, targets.Count).ToArray();
         Vector2[] totalMoveDisplacement = new Vector2[targets.Count];
 
-        Vector2 centerBaseScale = centerObject.localScale;
+        Vector2 centerBaseScale = centerObject != null ? centerObject.localScale : Vector3.zero;
         if (useCenterObject)
         {
             centerBaseScale = tracker.getBaseScale(centerObject.GetHashCode(), centerObject.localScale);
@@ -369,6 +390,14 @@ public class ScaleObject : MonoBehaviour
                     tracker.setNewScale(targets[i].GetHashCode(), tracker.getBaseScale(targets[i].GetHashCode(), targets[i].localScale) - amountLeft);
                 }
 
+                if (hasRigidBody)
+                {
+                    for (int i = 0; i < targets.Count; i++)
+                    {
+                        rb[i].velocity -= velocityDeltaTotal[i];
+                    }
+                }
+
                 inUse = false;
                 yield break;
             }
@@ -397,6 +426,14 @@ public class ScaleObject : MonoBehaviour
                     //Debug.Log("Total Disp: " + totalDisplacement[i] + "   Total Linear Disp: " + totalLinearDisplacement[i]);
                 }
 
+                if (hasRigidBody)
+                {
+                    for (int i = 0; i < targets.Count; i++)
+                    {
+                        rb[i].velocity -= velocityDeltaTotal[i];
+                    }
+                }
+
                 yield return new WaitUntil(() => !paused);
 
                 Vector2[] newBase = new Vector2[targets.Count];
@@ -423,15 +460,26 @@ public class ScaleObject : MonoBehaviour
                     //Debug.Log("From: " + newBase[0] + "   To: " + (newBase[0] + amountLeft[i]) + "   Add: " + amountLeft[i] + "   This Scale Amount: " + thisScaleAmount[i] + "   Scaled Scale Amount: " + adjustedScaleAmount[i] + "   Delta Adder: " + deltaAdder[i]);
                     //Debug.Log("From: " + newBase[0] + "   To: " + (newBase[0] + amountLeft[i]) + "   Add: " + amountLeft[i] + "   This Scale Amount: " + thisScaleAmount[i] + "   Delta Multiplier: " + deltaMultiplier[i]);
                 }
+
+                if (hasRigidBody)
+                {
+                    for (int i = 0; i < targets.Count; i++)
+                    {
+                        rb[i].velocity += velocityDeltaTotal[i];
+                    }
+                }
             }
 
             inUse = true;
 
             float t0 = Mathf.Clamp01(elapsedTime / duration);
 
-            yield return null;
+            //yield return null;
+            if (hasRigidBody) { yield return new WaitForFixedUpdate(); }
+            else { yield return null; }
 
-            elapsedTime += Time.deltaTime;
+            //elapsedTime += Time.deltaTime;
+            elapsedTime += (hasRigidBody) ? Time.fixedDeltaTime : Time.deltaTime;
             float t1 = Mathf.Clamp01(elapsedTime / duration);
             float easeT0, easeT1;
 
@@ -448,12 +496,25 @@ public class ScaleObject : MonoBehaviour
 
                 targets[i].localScale += (Vector3)delta;
 
-                if(useCenterObject)
+                if (useCenterObject)
                 {
                     Vector2 moveDelta = thisMoveAmount[i] * (easeT1 - easeT0);
-                    targets[i].transform.position += (Vector3)moveDelta;
-                    totalMoveDisplacement[i] += moveDelta;
-                    //targets[i].transform.position += (Vector3)(moveDelta.magnitude * distanceToCenter[i].normalized);
+                    if (hasRigidBody)
+                    {
+                        velocity0[i] = velocity1[i];
+                        velocity1[i] = moveDelta / Time.fixedDeltaTime;
+                        Vector2 velocityDelta = velocity1[i] - velocity0[i];
+                        totalMoveDisplacement[i] += velocity1[i] * Time.fixedDeltaTime;
+
+                        velocityDeltaTotal[i] += velocityDelta;
+                        rb[i].velocity += velocityDelta;
+                    }
+                    else
+                    {
+                        targets[i].transform.position += (Vector3)moveDelta;
+                        totalMoveDisplacement[i] += moveDelta;
+                        //targets[i].transform.position += (Vector3)(moveDelta.magnitude * distanceToCenter[i].normalized);
+                    }
                 }
             }
         }
@@ -468,6 +529,11 @@ public class ScaleObject : MonoBehaviour
             {
                 Vector2 moveDifference = thisMoveAmount[i] - totalMoveDisplacement[i];
                 targets[i].transform.position += (Vector3)moveDifference;
+            }
+
+            if (hasRigidBody)
+            {
+                rb[i].velocity -= velocityDeltaTotal[i];
             }
         }
 
