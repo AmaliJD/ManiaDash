@@ -14,7 +14,7 @@ public class ScaleObject : MonoBehaviour
     public List<Transform> targets;
     public Transform centerObject;
     public bool useCenterObject = false;
-    public bool updateCenterPosition = false;
+    private bool updateCenterPosition = false;
 
     [Header("Pre-Scale Conditions")]
     [Min(0)]
@@ -81,6 +81,7 @@ public class ScaleObject : MonoBehaviour
     private List<Rigidbody2D> rb;
     private int triggerCount = 0;
     private List<Vector3> startScale;
+    private List<Vector3> startPosition;
     private bool inUse = false;
 
     private Vector2 initialModScaleAmount;
@@ -127,11 +128,13 @@ public class ScaleObject : MonoBehaviour
         bool nullRB = false;
         rb = new List<Rigidbody2D>();
         startScale = new List<Vector3>();
+        startPosition = new List<Vector3>();
         foreach (Transform tr in targets)
         {
             rb.Add(tr.GetComponent<Rigidbody2D>());
             if (tr.GetComponent<Rigidbody2D>() == null) { nullRB = true; }
             startScale.Add(tr.localScale);
+            startPosition.Add(tr.position);
         }
 
         hasRigidBody = useRigidbody && !nullRB;
@@ -172,6 +175,11 @@ public class ScaleObject : MonoBehaviour
             if (hasRigidBody)
             {
                 rb[i].velocity = Vector2.zero;
+            }
+
+            if(useCenterObject)
+            {
+                targets[i].transform.position = startPosition[i];
             }
         }
         StopAllCoroutines();

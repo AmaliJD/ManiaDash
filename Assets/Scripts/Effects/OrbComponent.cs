@@ -253,6 +253,8 @@ public class OrbComponent : MonoBehaviour
         pulseScaleTween = pulse.transform.DOScale(Vector3.zero, .5f).SetEase(Ease.Linear);
         pulseAlphaTween = pulseSprite.DOColor(new Color(red, green, blue, 0), .3f).SetEase(Ease.Linear);
 
+        if (sfx != null) { sfx.PlayOneShot(sfx.clip, gamemanager.sfx_volume); }
+
         if (rebound)
         {
             transitionSpeed = 0;

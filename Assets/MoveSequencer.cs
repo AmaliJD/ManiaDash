@@ -17,6 +17,7 @@ public class MoveSequencer : MonoBehaviour
     {
         public TriggerType triggerType;
         public ScaleObject.ScaleMode scaleType;
+        //public Transform centerObject;
         public float startTime;
         public bool addPrevDurationToStartTime;
         public Vector2 value;
@@ -62,98 +63,111 @@ public class MoveSequencer : MonoBehaviour
 
     IEnumerator Sequence()
     {
-        if(startDelay > 0 && !started)
+        /*if(startDelay > 0 && !started)
         {
             started = true;
             yield return waitStartDelay;
+        }*/
+
+        if (startDelay > 0)
+        {
+            yield return waitStartDelay;
         }
 
-        
-        float beginTime = Time.time;
-        for (int i = 0; i < moves.Count(); i++)
+        do
         {
-            yield return new WaitWhile(() => Time.time - beginTime < moves[i].startTime + (i > 0 ? moves[i].addPrevDurationToStartTime ? moves[i-1].duration : 0 : 0));
-
-            switch(moves[i].triggerType)
+            float accumulatedTime = 0;
+            float beginTime = Time.time;
+            for (int i = 0; i < moves.Count(); i++)
             {
-                case TriggerType.Move:
-                    if(moveObjectHolder == null)
-                    {
-                        moveObjectHolder = new GameObject();
-                        moveObjectHolder.name = "Move Trigger Holder " + moveObjectHolder.GetHashCode();
-                        moveObjectHolder.transform.parent = transform;
-                        moveObjectInstance = moveObjectHolder.AddComponent<MoveObject>();
-                        moveObjectInstance.targets = new List<Transform>();
-                        moveObjectInstance.groupIDs = new List<int>();
-                        moveObjectInstance.targets.Add(transform);
-                        moveObjectInstance.useRigidbody = useRigidBody;
-                        moveObjectInstance.easeOption = EasingOption.EasingFunction;
-                        moveObjectInstance.waitToFinish = false;
-                        moveObjectInstance.Init();
-                    }
+                yield return new WaitWhile(() => Time.time - beginTime <= moves[i].startTime/* + (i > 0 ? moves[i].addPrevDurationToStartTime ? moves[i - 1].duration : 0 : 0)*/);
+                accumulatedTime += (Time.time - beginTime) - moves[i].startTime;
 
-                    moveObjectInstance.moveAmount = moves[i].value;
-                    moveObjectInstance.duration = moves[i].duration;
-                    moveObjectInstance.functionEasing = moves[i].easing;
-                    moveObjectInstance.Move();
-                    break;
+                switch (moves[i].triggerType)
+                {
+                    case TriggerType.Move:
+                        if (moveObjectHolder == null)
+                        {
+                            moveObjectHolder = new GameObject();
+                            moveObjectHolder.name = "Move Trigger Holder " + moveObjectHolder.GetHashCode();
+                            moveObjectHolder.transform.parent = transform;
+                            moveObjectInstance = moveObjectHolder.AddComponent<MoveObject>();
+                            moveObjectInstance.targets = new List<Transform>();
+                            moveObjectInstance.groupIDs = new List<int>();
+                            moveObjectInstance.targets.Add(transform);
+                            moveObjectInstance.useRigidbody = useRigidBody;
+                            moveObjectInstance.easeOption = EasingOption.EasingFunction;
+                            moveObjectInstance.waitToFinish = false;
+                            moveObjectInstance.Init();
+                        }
 
-                case TriggerType.Rotate:
-                    if (rotateObjectHolder == null)
-                    {
-                        rotateObjectHolder = new GameObject();
-                        rotateObjectHolder.name = "Rotate Trigger Holder " + rotateObjectHolder.GetHashCode();
-                        rotateObjectHolder.transform.parent = transform;
-                        rotateObjectInstance = rotateObjectHolder.AddComponent<RotateObject>();
-                        rotateObjectInstance.targets = new List<Transform>();
-                        rotateObjectInstance.groupIDs = new List<int>();
-                        rotateObjectInstance.targets.Add(transform);
-                        rotateObjectInstance.useRigidbody = useRigidBody;
-                        rotateObjectInstance.easeOption = EasingOption.EasingFunction;
-                        rotateObjectInstance.waitToFinish = false;
-                        rotateObjectInstance.Init();
-                    }
+                        moveObjectInstance.moveAmount = moves[i].value;
+                        moveObjectInstance.duration = moves[i].duration;
+                        moveObjectInstance.functionEasing = moves[i].easing;
+                        moveObjectInstance.Move();
+                        break;
 
-                    rotateObjectInstance.rotateAmount = moves[i].value.x;
-                    rotateObjectInstance.duration = moves[i].duration;
-                    rotateObjectInstance.functionEasing = moves[i].easing;
-                    rotateObjectInstance.Rotate();
-                    break;
+                    case TriggerType.Rotate:
+                        if (rotateObjectHolder == null)
+                        {
+                            rotateObjectHolder = new GameObject();
+                            rotateObjectHolder.name = "Rotate Trigger Holder " + rotateObjectHolder.GetHashCode();
+                            rotateObjectHolder.transform.parent = transform;
+                            rotateObjectInstance = rotateObjectHolder.AddComponent<RotateObject>();
+                            rotateObjectInstance.targets = new List<Transform>();
+                            rotateObjectInstance.groupIDs = new List<int>();
+                            rotateObjectInstance.targets.Add(transform);
+                            rotateObjectInstance.useRigidbody = useRigidBody;
+                            rotateObjectInstance.easeOption = EasingOption.EasingFunction;
+                            rotateObjectInstance.waitToFinish = false;
+                            rotateObjectInstance.Init();
+                        }
 
-                case TriggerType.Scale:
-                    if (scaleObjectHolder == null)
-                    {
-                        scaleObjectHolder = new GameObject();
-                        scaleObjectHolder.name = "Scale Trigger Holder " + scaleObjectHolder.GetHashCode();
-                        scaleObjectHolder.transform.parent = transform;
-                        scaleObjectInstance = scaleObjectHolder.AddComponent<ScaleObject>();
-                        scaleObjectInstance.targets = new List<Transform>();
-                        scaleObjectInstance.groupIDs = new List<int>();
-                        scaleObjectInstance.targets.Add(transform);
-                        scaleObjectInstance.useRigidbody = useRigidBody;
-                        scaleObjectInstance.easeOption = EasingOption.EasingFunction;
-                        scaleObjectInstance.waitToFinish = false;
-                        scaleObjectInstance.Init();
-                    }
+                        rotateObjectInstance.rotateAmount = moves[i].value.x;
+                        rotateObjectInstance.duration = moves[i].duration;
+                        rotateObjectInstance.functionEasing = moves[i].easing;
+                        rotateObjectInstance.Rotate();
+                        break;
 
-                    scaleObjectInstance.scaleMode = moves[i].scaleType;
-                    scaleObjectInstance.scaleValue = moves[i].value;
-                    scaleObjectInstance.duration = moves[i].duration;
-                    scaleObjectInstance.functionEasing = moves[i].easing;
-                    scaleObjectInstance.Scale();
-                    break;
+                    case TriggerType.Scale:
+                        if (scaleObjectHolder == null)
+                        {
+                            scaleObjectHolder = new GameObject();
+                            scaleObjectHolder.name = "Scale Trigger Holder " + scaleObjectHolder.GetHashCode();
+                            scaleObjectHolder.transform.parent = transform;
+                            scaleObjectInstance = scaleObjectHolder.AddComponent<ScaleObject>();
+                            scaleObjectInstance.targets = new List<Transform>();
+                            scaleObjectInstance.groupIDs = new List<int>();
+                            scaleObjectInstance.targets.Add(transform);
+                            scaleObjectInstance.useRigidbody = useRigidBody;
+                            scaleObjectInstance.easeOption = EasingOption.EasingFunction;
+                            scaleObjectInstance.waitToFinish = false;
+                            scaleObjectInstance.Init();
+                        }
+
+                        scaleObjectInstance.scaleMode = moves[i].scaleType;
+                        scaleObjectInstance.scaleValue = moves[i].value;
+                        scaleObjectInstance.duration = moves[i].duration;
+                        scaleObjectInstance.functionEasing = moves[i].easing;
+                        scaleObjectInstance.Scale();
+                        break;
+                }
             }
-        }
 
+            if (endDelay > accumulatedTime)
+            {
+                //yield return waitEndDelay;
+                yield return new WaitForSeconds(endDelay - accumulatedTime);
+            }
 
-        if (endDelay > 0)
-        {
-            yield return waitEndDelay;
-        }
+            //float endTime = Time.time;
+            //Debug.Log("Time Taken: " + (endTime - beginTime) + "    Accumulated Time: " + accumulatedTime);
 
-        if(loop)
+        } while (loop);
+
+        /*if(loop)
         {
             StartSequence();
-        }
+        }*/
     }
 }
