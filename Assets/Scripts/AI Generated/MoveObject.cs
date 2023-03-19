@@ -718,6 +718,12 @@ public class MoveObject : MonoBehaviour
                 EditorGUIUtility.whiteTexture,
                 1f
             );
+
+            if (destinationObject != null && useDestinationObject)
+            {
+                Gizmos.color = new Color(1f, 1f, .6f);
+                Gizmos.DrawLine(tf.position, destinationObject.position);
+            }
         }
     }
     #endif

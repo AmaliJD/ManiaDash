@@ -660,6 +660,12 @@ public class RotateObject : MonoBehaviour
                 EditorGUIUtility.whiteTexture,
                 1f
             );
+
+            if (centerObject != null && useCenterObject)
+            {
+                Gizmos.color = new Color(1f, 1f, .6f);
+                Gizmos.DrawLine(tf.position, centerObject.position);
+            }
         }
     }
 #endif
