@@ -44,7 +44,7 @@ public class ScaleObject : MonoBehaviour
     public bool reverseOrderPerTarget;
     public enum ModScaleMode
     {
-        multiply, add
+        none, multiply, add
     }
     public enum ModInvertMode
     {
@@ -68,9 +68,11 @@ public class ScaleObject : MonoBehaviour
     public int triggerLimit = -1;
 
     [Header("Settings")]
+    public TriggerOffScreenDisable offScreenDisable;
     public bool resetOnDeathPerCheckpoint = false;
     public bool playOnAwake;
     public bool paused = false;
+    private bool offScreenPaused;
     public bool stopped = false;
     public bool hideIcon;
     public SpeedGizmo speedGizmo = SpeedGizmo.x1;
@@ -90,6 +92,8 @@ public class ScaleObject : MonoBehaviour
     private GroupIDManager groupIDManager;
     private GameManager gamemanager;
     private ScaleTracker tracker;
+    private Coroutine disableOffScreenCoroutine;
+    private List<Renderer> targetsWithRenderers;
 
     private void Awake()
     {
@@ -122,8 +126,11 @@ public class ScaleObject : MonoBehaviour
 
         if (targets.Count == 0) { enabled = false; return; }
 
-        tracker = GameObject.FindGameObjectWithTag("Master").GetComponent<ScaleTracker>();
+        targetsWithRenderers = targets.Where(t => t.GetComponent<Renderer>() != null).ToList().ConvertAll(r => r.GetComponent<Renderer>());
+        if (targetsWithRenderers.Count() == 0) { offScreenDisable = TriggerOffScreenDisable.None; }
+        if (centerObject != null && centerObject.GetComponent<Renderer>() != null) { targetsWithRenderers.Add(centerObject.GetComponent<Renderer>()); }
 
+        tracker = GameObject.FindGameObjectWithTag("Master").GetComponent<ScaleTracker>();
 
         bool nullRB = false;
         rb = new List<Rigidbody2D>();
@@ -163,6 +170,11 @@ public class ScaleObject : MonoBehaviour
             triggerCount++;
 
             StartCoroutine(ScaleCoroutine());
+
+            if (offScreenDisable != TriggerOffScreenDisable.None && disableOffScreenCoroutine == null)
+            {
+                disableOffScreenCoroutine = StartCoroutine(OffScreenCheck());
+            }
         }
     }
 
@@ -182,11 +194,14 @@ public class ScaleObject : MonoBehaviour
                 targets[i].transform.position = startPosition[i];
             }
         }
+
+        disableOffScreenCoroutine = null;
         StopAllCoroutines();
         triggerCount = 0;
 
         modScaleAmount = initialModScaleAmount;
 
+        offScreenPaused = false;
         paused = false;
         inUse = false;
     }
@@ -209,6 +224,53 @@ public class ScaleObject : MonoBehaviour
     public void TogglePauseTrigger()
     {
         paused = !paused;
+    }
+
+    private IEnumerator OffScreenCheck()
+    {
+        yield return new WaitUntil(() => isVisible());
+
+        while (true)
+        {
+            switch (offScreenDisable)
+            {
+                case TriggerOffScreenDisable.Pause:
+                    if (!isVisible() && !offScreenPaused && !paused)
+                    {
+                        paused = true;
+                        offScreenPaused = true;
+                    }
+                    else if (isVisible() && offScreenPaused)
+                    {
+                        paused = false;
+                        offScreenPaused = false;
+                    }
+                    break;
+
+                case TriggerOffScreenDisable.Disable:
+                    if (!isVisible())
+                    {
+                        paused = false;
+                        offScreenPaused = false;
+                        StopAllCoroutines();
+                        yield break;
+                    }
+                    break;
+            }
+
+            yield return null;
+        }
+    }
+
+    private bool isVisible()
+    {
+        bool visible = false;
+        foreach (Renderer r in targetsWithRenderers)
+        {
+            if (r.isVisible) { visible = true; break; }
+        }
+
+        return visible;
     }
 
     private IEnumerator ScaleCoroutine()

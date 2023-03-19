@@ -38,7 +38,7 @@ public class OrbComponent : MonoBehaviour
     public Transform innerSection;
     private SpriteRenderer innerSolid, innerShader;
     private PlayerControllerV2 player;
-    private float transitionSpeed = 1f;
+    private float transitionSpeed = 2.5f;
 
     [Header("Audio")]
     public AudioSource sfx;
@@ -70,49 +70,39 @@ public class OrbComponent : MonoBehaviour
         }
 
         if (parent == null) parent = transform;
+
+        StartCoroutine(OrbUpdate());
     }
 
-    void FixedUpdate()
+    public IEnumerator OrbUpdate()
+    {
+        while(true)
+        {
+            if (!visible && !disableVisibleCheck)
+            {
+                yield return new WaitWhile(() => !visible && !disableVisibleCheck);
+            }
+            else
+            {
+                yield return new WaitForFixedUpdate();
+            }
+
+            transform.Rotate(Vector3.forward, speed * Time.deltaTime);
+            if (rebound) { SetRebound(); }
+        }
+    }
+
+
+    /*void FixedUpdate()
     {
         if (!visible && !disableVisibleCheck) return;
         transform.Rotate(Vector3.forward, speed * Time.deltaTime);
 
-        /*if(entered)
-        {
-            ring_speed = .07f / ring.transform.localScale.x;
-            ring.transform.localScale = new Vector2(ring.transform.localScale.x + ring_speed, ring.transform.localScale.y + ring_speed);
-            ringSprite.color = new Color(ringSprite.color.r, ringSprite.color.g, ringSprite.color.b, ringSprite.color.a * .85f);
-            if(ringSprite.color.a <= 0.02f)
-            {
-                entered = false;
-                ring.SetActive(false);
-                ring.transform.localScale = new Vector2(.6f, .6f);
-                ringSprite.color = new Color(ringSprite.color.r, ringSprite.color.g, ringSprite.color.b, 1);
-                ringSprite.color = new Color(ringSprite.color.r, ringSprite.color.g, ringSprite.color.b, 1);
-            }
-        }
-        
-        if (jumped)
-        {
-            if (pulse.transform.localScale.x == scale && sfx != null) { sfx.PlayOneShot(sfx.clip, gamemanager.sfx_volume); }
-            pulse.transform.localScale = new Vector2(pulse.transform.localScale.x * .95f, pulse.transform.localScale.y * .95f); //.92
-            pulseSprite.color = new Color(red, green, blue, pulseSprite.color.a * (pulseSprite.color.a > .7f ? .85f : .92f)); //.92
-            pulse_light.intensity = pulse_light.intensity * .9f;
-
-            if (pulseSprite.color.a <= 0.02f)
-            {
-                jumped = false;
-                pulse.SetActive(false);
-                pulse.transform.localScale = new Vector2(scale, scale);
-                pulseSprite.color = new Color(red, green, blue, 1f);
-            }
-        }*/
-
-        if(rebound)
+        if (rebound)
         {
             SetRebound();
         }
-    }
+    }*/
 
     public void SetRebound()
     {
@@ -122,7 +112,7 @@ public class OrbComponent : MonoBehaviour
         {
             transitionSpeed += .004f;
         }*/
-        if (currPlayerVelocityY <= .00001f) { transitionSpeed = 1f; }
+        if (currPlayerVelocityY <= .00001f) { transitionSpeed = 2.5f; }
         float height = Vector2.Dot(player.transform.position, -player.getGravityOrientation()) - Vector2.Dot(transform.position, -player.getGravityOrientation());
         float playerVelocityY = height >= 0 ? Mathf.Sqrt(2*9.81f*9.81f*height) : currPlayerVelocityY;
         if (currPlayerVelocityY >= 0)
@@ -178,69 +168,11 @@ public class OrbComponent : MonoBehaviour
         return c;
     }
 
-    public IEnumerator RingStart()
-    {
-        while(ring.GetComponent<SpriteRenderer>().color.a >= 0.02f)
-        {
-            ring_speed = .07f / ring.transform.localScale.x;
-            ring.transform.localScale = new Vector2(ring.transform.localScale.x + ring_speed, ring.transform.localScale.y + ring_speed);
-            ring.GetComponent<SpriteRenderer>().color = new Color(ring.GetComponent<SpriteRenderer>().color.r, ring.GetComponent<SpriteRenderer>().color.g, ring.GetComponent<SpriteRenderer>().color.b, ring.GetComponent<SpriteRenderer>().color.a * .85f);
-            yield return null;
-        }
-
-        ring.SetActive(false);
-        ring.transform.localScale = new Vector2(.6f, .6f);
-        ring.GetComponent<SpriteRenderer>().color = new Color(ring.GetComponent<SpriteRenderer>().color.r, ring.GetComponent<SpriteRenderer>().color.g, ring.GetComponent<SpriteRenderer>().color.b, 1);
-        ring.GetComponent<SpriteRenderer>().color = new Color(ring.GetComponent<SpriteRenderer>().color.r, ring.GetComponent<SpriteRenderer>().color.g, ring.GetComponent<SpriteRenderer>().color.b, 1);
-    }
-
-    public IEnumerator PulseStart()
-    {
-        pulse.SetActive(true);
-        pulse.transform.localScale = new Vector2(scale, scale);
-        pulse.GetComponent<SpriteRenderer>().color = new Color(red, green, blue, 1);
-        pulse_light.intensity = 1;
-
-        if (sfx != null) { sfx.PlayOneShot(sfx.clip, gamemanager.sfx_volume); }
-
-        SpriteRenderer pulseSR = pulse.GetComponent<SpriteRenderer>();
-        float time = 1;
-        while (time >= 0f)
-        {
-            pulse.transform.localScale = new Vector2(scale * time, scale * time);
-            pulseSR.color = new Color(red, green, blue, time); //.92
-            pulse_light.intensity = time;
-
-            time -= Time.deltaTime;
-            yield return null;
-        }
-
-        pulse.SetActive(false);
-        pulse.transform.localScale = new Vector2(scale, scale);
-        pulse.GetComponent<SpriteRenderer>().color = new Color(red, green, blue, 1f);
-
-
-        /*while (pulse.GetComponent<SpriteRenderer>().color.a >= 0.02f)
-        {
-            pulse.transform.localScale = new Vector2(pulse.transform.localScale.x * .95f, pulse.transform.localScale.y * .95f); //.92
-            pulse.GetComponent<SpriteRenderer>().color = new Color(red, green, blue, pulse.GetComponent<SpriteRenderer>().color.a * (pulse.GetComponent<SpriteRenderer>().color.a > .7f ? .85f : .92f)); //.92
-            pulse_light.intensity = pulse_light.intensity * .9f;
-            yield return null;
-        }
-
-        pulse.SetActive(false);
-        pulse.transform.localScale = new Vector2(scale, scale);
-        pulse.GetComponent<SpriteRenderer>().color = new Color(red, green, blue, 1f);*/
-    }
-
     //Sequence pulseSequence;// = DOTween.Sequence();
     Tweener pulseScaleTween;
     Tweener pulseAlphaTween;
     public void Pulse()
     {
-        /*PulseSetup();
-        pulse.SetActive(true);
-        jumped = true;*/
         pulse.SetActive(true);
 
         pulseScaleTween.Kill();
@@ -286,21 +218,6 @@ public class OrbComponent : MonoBehaviour
         return parent.eulerAngles.z;
     }
 
-    void RingSetup()
-    {
-        ring.SetActive(false);
-        ring.transform.localScale = new Vector2(.6f, .6f);
-        ringSprite.color = new Color(ringSprite.color.r, ringSprite.color.g, ringSprite.color.b, 1);
-    }
-
-    void PulseSetup()
-    {
-        pulse.SetActive(false);
-        pulse.transform.localScale = new Vector2(scale, scale);
-        pulseSprite.color = new Color(red, green, blue, 1);
-        pulse_light.intensity = 1;
-    }
-
     public Transform getTeleport()
     {
         return TeleportTo;
@@ -310,16 +227,6 @@ public class OrbComponent : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            //RingSetup();
-            //ring.SetActive(true);
-            //entered = true;
-            //StopCoroutine("RingStart");
-            //StartCoroutine(RingStart());
-            /*ring.SetActive(false);
-            ring.transform.localScale = new Vector2(.6f, .6f);
-            ringSprite.color = new Color(ringSprite.color.r, ringSprite.color.g, ringSprite.color.b, 1);
-
-            pulse.transform.DOScale(Vector3.zero, 2).SetEase(Ease.InBack);*/
             RingPulse();
         }
     }

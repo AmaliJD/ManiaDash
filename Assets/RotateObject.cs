@@ -58,9 +58,11 @@ public class RotateObject : MonoBehaviour
     public int triggerLimit = -1;
 
     [Header("Settings")]
+    public TriggerOffScreenDisable offScreenDisable;
     public bool resetOnDeathPerCheckpoint = false;
     public bool playOnAwake;
     public bool paused = false;
+    private bool offScreenPaused;
     public bool stopped = false;
     public bool hideIcon;
     public SpeedGizmo speedGizmo = SpeedGizmo.x1;
@@ -71,6 +73,7 @@ public class RotateObject : MonoBehaviour
     private bool hasRigidBody;
     private int triggerCount = 0;
     private List<Quaternion> startRotation;
+    private List<Vector3> startPosition;
     private bool inUse = false;
 
     private float initialAddRotateAmount;
@@ -78,6 +81,8 @@ public class RotateObject : MonoBehaviour
     private PlayerControllerV2 player;
     private GroupIDManager groupIDManager;
     private GameManager gamemanager;
+    private Coroutine disableOffScreenCoroutine;
+    private List<Renderer> targetsWithRenderers; 
 
     private void Awake()
     {
@@ -110,15 +115,21 @@ public class RotateObject : MonoBehaviour
 
         if (targets.Count == 0) { enabled = false; return; }
 
+        targetsWithRenderers = targets.Where(t => t.GetComponent<Renderer>() != null).ToList().ConvertAll(r => r.GetComponent<Renderer>());
+        if(targetsWithRenderers.Count() == 0) { offScreenDisable = TriggerOffScreenDisable.None; }
+        if(centerObject != null && centerObject.GetComponent<Renderer>() != null) { targetsWithRenderers.Add(centerObject.GetComponent<Renderer>()); }
+
         bool nullRB = false;
         rb = new List<Rigidbody2D>();
         startRotation = new List<Quaternion>();
+        startPosition = new List<Vector3>();
         foreach (Transform tr in targets)
         {
             rb.Add(tr.GetComponent<Rigidbody2D>());
             if (tr.GetComponent<Rigidbody2D>() == null) { nullRB = true; }
 
             startRotation.Add(tr.localRotation);
+            startPosition.Add(tr.position);
         }
 
         hasRigidBody = useRigidbody && !nullRB;
@@ -146,7 +157,7 @@ public class RotateObject : MonoBehaviour
             stopped = false;
             triggerCount++;
 
-            if (useCenterObject)
+            /*if (useCenterObject)
             {
                 for (int i = 0; i < targets.Count; i++)
                 {
@@ -156,9 +167,14 @@ public class RotateObject : MonoBehaviour
                     }
                 }
                 StopAllCoroutines();
-            }
+            }*/
 
             StartCoroutine(RotateCoroutine());
+
+            if(offScreenDisable != TriggerOffScreenDisable.None && disableOffScreenCoroutine == null)
+            {
+                disableOffScreenCoroutine = StartCoroutine(OffScreenCheck());
+            }
         }
     }
 
@@ -171,12 +187,20 @@ public class RotateObject : MonoBehaviour
             {
                 rb[i].angularVelocity = 0;
             }
+
+            if (useCenterObject)
+            {
+                targets[i].transform.position = startPosition[i];
+            }
         }
+
+        disableOffScreenCoroutine = null;
         StopAllCoroutines();
         triggerCount = 0;
 
         addRotateAmount = initialAddRotateAmount;
 
+        offScreenPaused = false;
         paused = false;
         inUse = false;
     }
@@ -201,8 +225,63 @@ public class RotateObject : MonoBehaviour
         paused = !paused;
     }
 
+    private IEnumerator OffScreenCheck()
+    {
+        //Debug.Log("Waiting to be visible");
+        yield return new WaitUntil(() => isVisible());
+
+        //Debug.Log("Checking If Visible");
+        while (true)
+        {
+            switch (offScreenDisable)
+            {
+                case TriggerOffScreenDisable.Pause:
+                    if (!isVisible() && !offScreenPaused && !paused)
+                    {
+                        paused = true;
+                        offScreenPaused = true;
+                        //Debug.Log("Paused");
+                    }
+                    else if (isVisible() && offScreenPaused)
+                    {
+                        paused = false;
+                        offScreenPaused = false;
+                        //Debug.Log("Unpaused");
+                    }
+                    break;
+
+                case TriggerOffScreenDisable.Disable:
+                    if (!isVisible())
+                    {
+                        paused = false;
+                        offScreenPaused = false;
+                        StopAllCoroutines();
+                        yield break;
+                    }
+                    break;
+            }
+
+            yield return null;
+        }
+    }
+
+    private bool isVisible()
+    {
+        bool visible = false;
+        foreach(Renderer r in targetsWithRenderers)
+        {
+            if (r.isVisible) { visible = true; break; }
+        }
+
+        return visible;
+    }
+
     private IEnumerator RotateCoroutine()
     {
+        //float duration = duration;
+        //bool useCenterObject = useCenterObject;
+        //Transform centerObject = centerObject;
+
         inUse = true;
         if (delay > 0) { yield return new WaitForSeconds(delay); }
 
@@ -428,6 +507,11 @@ public class RotateObject : MonoBehaviour
         inUse = false;
 
         if (loop) { Rotate(); }
+    }
+
+    public bool IsFinished()
+    {
+        return !inUse;
     }
 
     private float GetEaseValue(float t)

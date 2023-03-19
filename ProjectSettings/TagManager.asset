@@ -76,6 +76,7 @@ TagManager:
   - RotateObject
   - ScaleObject
   - PlaybackTrigger
+  - FollowObject
   layers:
   - Default
   - TransparentFX

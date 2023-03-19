@@ -16,7 +16,7 @@ public class PadComponent : MonoBehaviour
     public AudioSource sfx;
     private GameManager gamemanager;
 
-    [Header("Rebound Orb")]
+    [Header("Rebound Pad")]
     public bool rebound;
     public Transform spriteSection;
     private SpriteRenderer inner, shader;

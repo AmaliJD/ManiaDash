@@ -23,6 +23,7 @@ public class MoveSequencer : MonoBehaviour
         public Vector2 value;
         public float duration;
         public EasingFunction.Ease easing;
+        //public bool loop;
     }
 
     [Header("Move Data")]
@@ -37,6 +38,7 @@ public class MoveSequencer : MonoBehaviour
     public bool reverseValue;
     public bool useRigidBody;
     public bool loop;
+    public bool dontAdjust;
 
     private MoveObject moveObjectInstance;
     private RotateObject rotateObjectInstance;
@@ -80,7 +82,7 @@ public class MoveSequencer : MonoBehaviour
             float beginTime = Time.time;
             for (int i = 0; i < moves.Count(); i++)
             {
-                yield return new WaitWhile(() => Time.time - beginTime <= moves[i].startTime/* + (i > 0 ? moves[i].addPrevDurationToStartTime ? moves[i - 1].duration : 0 : 0)*/);
+                yield return new WaitWhile(() => Time.time - beginTime <= moves[i].startTime);
                 accumulatedTime += (Time.time - beginTime) - moves[i].startTime;
 
                 switch (moves[i].triggerType)
@@ -100,6 +102,12 @@ public class MoveSequencer : MonoBehaviour
                             moveObjectInstance.waitToFinish = false;
                             moveObjectInstance.Init();
                         }
+
+                        /*if (moves[i].centerObject != null)
+                        {
+                            moveObjectInstance.destinationObject = moves[i].centerObject;
+                            moveObjectInstance.useDestinationObject = true;
+                        }*/
 
                         moveObjectInstance.moveAmount = moves[i].value;
                         moveObjectInstance.duration = moves[i].duration;
@@ -123,6 +131,14 @@ public class MoveSequencer : MonoBehaviour
                             rotateObjectInstance.Init();
                         }
 
+                        /*if(moves[i].centerObject != null)
+                        {
+                            rotateObjectInstance.centerObject = moves[i].centerObject;
+                            rotateObjectInstance.useCenterObject = true;
+                            rotateObjectInstance.updateCenterPosition = true;
+                            rotateObjectInstance.lockRotation = true;
+                        }*/
+
                         rotateObjectInstance.rotateAmount = moves[i].value.x;
                         rotateObjectInstance.duration = moves[i].duration;
                         rotateObjectInstance.functionEasing = moves[i].easing;
@@ -145,6 +161,12 @@ public class MoveSequencer : MonoBehaviour
                             scaleObjectInstance.Init();
                         }
 
+                        /*if (moves[i].centerObject != null)
+                        {
+                            scaleObjectInstance.centerObject = moves[i].centerObject;
+                            scaleObjectInstance.useCenterObject = true;
+                        }*/
+
                         scaleObjectInstance.scaleMode = moves[i].scaleType;
                         scaleObjectInstance.scaleValue = moves[i].value;
                         scaleObjectInstance.duration = moves[i].duration;
@@ -156,18 +178,25 @@ public class MoveSequencer : MonoBehaviour
 
             if (endDelay > accumulatedTime)
             {
-                //yield return waitEndDelay;
                 yield return new WaitForSeconds(endDelay - accumulatedTime);
             }
+
+            /*if(!dontAdjust)
+            {
+                if (endDelay > accumulatedTime)
+                {
+                    yield return new WaitForSeconds(endDelay - accumulatedTime);
+                }
+            }
+            else
+            {
+                yield return waitEndDelay;
+            }*/
+
 
             //float endTime = Time.time;
             //Debug.Log("Time Taken: " + (endTime - beginTime) + "    Accumulated Time: " + accumulatedTime);
 
         } while (loop);
-
-        /*if(loop)
-        {
-            StartSequence();
-        }*/
     }
 }

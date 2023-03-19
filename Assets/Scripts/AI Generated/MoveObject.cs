@@ -13,6 +13,13 @@ public enum EasingOption
     AnimationCurve
 }
 
+public enum TriggerOffScreenDisable
+{
+    None,
+    Pause,
+    Disable
+}
+
 /*public enum EaseFunction
 {
     Linear,
@@ -27,7 +34,7 @@ public enum EasingOption
 
 public enum SpeedGizmo
 {
-    x0, x1, x2, x3, x4
+    x0, x1, x2, x3, x4, NA
 }
 
 public class MoveObject : MonoBehaviour
@@ -85,9 +92,11 @@ public class MoveObject : MonoBehaviour
     public int triggerLimit = -1;
 
     [Header("Settings")]
+    public TriggerOffScreenDisable offScreenDisable;
     public bool resetOnDeathPerCheckpoint = false;
     public bool playOnAwake;
     public bool paused = false;
+    private bool offScreenPaused;
     public bool stopped = false;
     public bool hideIcon;
     public SpeedGizmo speedGizmo = SpeedGizmo.x1;
@@ -107,6 +116,8 @@ public class MoveObject : MonoBehaviour
     private PlayerControllerV2 player;
     private GroupIDManager groupIDManager;
     private GameManager gamemanager;
+    private Coroutine disableOffScreenCoroutine;
+    private List<Renderer> targetsWithRenderers;
 
     private void Awake()
     {
@@ -138,6 +149,10 @@ public class MoveObject : MonoBehaviour
         }
 
         if(targets.Count == 0) { enabled = false; return; }
+
+        targetsWithRenderers = targets.Where(t => t.GetComponent<Renderer>() != null).ToList().ConvertAll(r => r.GetComponent<Renderer>());
+        if (targetsWithRenderers.Count() == 0) { offScreenDisable = TriggerOffScreenDisable.None; }
+        if (destinationObject != null && destinationObject.GetComponent<Renderer>() != null) { targetsWithRenderers.Add(destinationObject.GetComponent<Renderer>()); }
 
         bool nullRB = false;
         rb = new List<Rigidbody2D>();
@@ -177,7 +192,7 @@ public class MoveObject : MonoBehaviour
             stopped = false;
             triggerCount++;
 
-            if (useDestinationObject)
+            /*if (useDestinationObject)
             {
                 for (int i = 0; i < targets.Count; i++)
                 {
@@ -187,9 +202,14 @@ public class MoveObject : MonoBehaviour
                     }
                 }
                 StopAllCoroutines();
-            }
+            }*/
 
             StartCoroutine(MoveCoroutine());
+
+            if (offScreenDisable != TriggerOffScreenDisable.None && disableOffScreenCoroutine == null)
+            {
+                disableOffScreenCoroutine = StartCoroutine(OffScreenCheck());
+            }
         }
     }
 
@@ -203,12 +223,15 @@ public class MoveObject : MonoBehaviour
                 rb[i].velocity = Vector2.zero;
             }
         }
+
+        disableOffScreenCoroutine = null;
         StopAllCoroutines();
         triggerCount = 0;
 
         rotateMoveDirection = initialRotateMoveDirection;
         multiplyMoveAmount = initialMultiplyMoveAmount;
 
+        offScreenPaused = false;
         paused = false;
         inUse = false;
     }
@@ -231,6 +254,53 @@ public class MoveObject : MonoBehaviour
     public void TogglePauseTrigger()
     {
         paused = !paused;
+    }
+
+    private IEnumerator OffScreenCheck()
+    {
+        yield return new WaitUntil(() => isVisible());
+
+        while (true)
+        {
+            switch (offScreenDisable)
+            {
+                case TriggerOffScreenDisable.Pause:
+                    if (!isVisible() && !offScreenPaused && !paused)
+                    {
+                        paused = true;
+                        offScreenPaused = true;
+                    }
+                    else if (isVisible() && offScreenPaused)
+                    {
+                        paused = false;
+                        offScreenPaused = false;
+                    }
+                    break;
+
+                case TriggerOffScreenDisable.Disable:
+                    if (!isVisible())
+                    {
+                        paused = false;
+                        offScreenPaused = false;
+                        StopAllCoroutines();
+                        yield break;
+                    }
+                    break;
+            }
+
+            yield return null;
+        }
+    }
+
+    private bool isVisible()
+    {
+        bool visible = false;
+        foreach (Renderer r in targetsWithRenderers)
+        {
+            if (r.isVisible) { visible = true; break; }
+        }
+
+        return visible;
     }
 
     private IEnumerator MoveCoroutine()
