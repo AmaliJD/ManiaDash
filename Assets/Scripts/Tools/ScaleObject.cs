@@ -24,6 +24,7 @@ public class ScaleObject : MonoBehaviour
 
     [Header("Scale Properites")]
     public Vector2 scaleValue;
+    [Min(0)]
     public float duration;
 
     public enum ScaleMode
