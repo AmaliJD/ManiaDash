@@ -6,6 +6,45 @@ using System.Linq;
 using UnityEditor;
 #endif
 
+public class TransformData
+{
+    public Vector3 position;
+    public Quaternion rotation;
+    public Vector3 scale, localScale;
+
+    public TransformData(Vector3 pos, Quaternion rot, Vector3 scl)
+    {
+        position = pos;
+        rotation = rot;
+        scale = scl;
+    }
+
+    public TransformData(Transform tr, bool local = false)
+    {
+        //if(tr.parent == null) { local = false; }
+
+        position = local ? tr.localPosition : tr.position;
+        rotation = local ? tr.localRotation : tr.rotation;
+        scale = local || (tr.parent == null) ? tr.localScale : tr.lossyScale;
+        localScale = tr.localScale;
+    }
+
+    public void SetData(Transform tr, bool local = false)
+    {
+        //if (tr.parent == null) { local = false; }
+
+        position = local ? tr.localPosition : tr.position;
+        rotation = local ? tr.localRotation : tr.rotation;
+        scale = local || (tr.parent == null) ? tr.localScale : tr.lossyScale;
+        localScale = tr.localScale;
+    }
+
+    public override string ToString()
+    {
+        return "Position: " + position + "    Rotation: " + rotation.eulerAngles + "    Scale: " + scale;
+    }
+}
+
 public class FollowObject : MonoBehaviour
 {
     [Header("Target Objects")]
@@ -15,12 +54,21 @@ public class FollowObject : MonoBehaviour
 
     [Header("Conditions")]
     [Min(0)]
-    public float delay;
-    [Min(0)]
     public float requiredManaCount;
+    [Min(0)]
+    public float delay;
+    private float delayTimer = 0;
+
     [Min(0)]
     public float duration;
     private float time = 0;
+
+    [Min(0)]
+    public float offsetTime;
+    private float offsetTimer = 0;
+
+    private LinkedList<TransformData> pastTransforms;
+    private TransformData transformData;
 
     [Header("Follow Type")]
     public FollowType followType = FollowType.Copy;
@@ -29,13 +77,27 @@ public class FollowObject : MonoBehaviour
     private Quaternion prevRotation;
     private Vector3 prevScale;
 
-    public bool followMove, followRotate, followScale, relativeScale;
+    [Header("Follow Transform")]
+    public bool followMove;
+    public bool followRotate;
+    public bool followScale;
+    public bool relativeScale;
 
-    [Header("Match Constrainsts")]
-    public bool ignoreX;
-    public bool ignoreY;
-    public bool ignoreSX;
-    public bool ignoreSY;
+    [Header("Multiplier")]
+    public float multiplier = 1;
+
+    [Header("Move Towards Speed")]
+    [Min(0)]
+    public float speed;
+
+    [Header("Ignore Axis")]
+    public AxisType ignorePositionAxis;
+    public AxisType ignoreScaleAxis;
+    private bool ignoreX;
+    private bool ignoreY;
+    private bool ignoreSX;
+    private bool ignoreSY;
+    public enum AxisType { None, X, Y }
     private float[] multSX, multSY;
 
     [Header("Min Max")]
@@ -56,16 +118,16 @@ public class FollowObject : MonoBehaviour
     [Header("Properties")]
     public bool stayToFollow;
     public bool local;
-    public bool useRigidbody = false;
+    //public bool useRigidbody = false;
     [Min(-1)]
     public int triggerLimit = -1;
 
     [Header("Settings")]
-    public TriggerOffScreenDisable offScreenDisable;
+    //public TriggerOffScreenDisable offScreenDisable;
     public bool resetOnDeathPerCheckpoint = false;
     public bool playOnAwake;
-    public bool paused = false;
-    private bool offScreenPaused;
+    //public bool paused = false;
+    //private bool offScreenPaused;
     public bool stopped = false;
     public bool hideIcon;
     public SpeedGizmo speedGizmo = SpeedGizmo.x1;
@@ -83,8 +145,10 @@ public class FollowObject : MonoBehaviour
     private PlayerControllerV2 player;
     private GroupIDManager groupIDManager;
     private GameManager gamemanager;
-    private Coroutine disableOffScreenCoroutine;
-    private List<Renderer> targetsWithRenderers;
+    //private Coroutine disableOffScreenCoroutine;
+    //private List<Renderer> targetsWithRenderers;
+
+    private bool start = false;
 
     private void Awake()
     {
@@ -104,6 +168,8 @@ public class FollowObject : MonoBehaviour
         multSX = new float[targets.Count];
         multSY = new float[targets.Count];
 
+        pastTransforms = new LinkedList<TransformData>();
+
         enabled = false;
 
         if (playOnAwake && !stayToFollow)
@@ -112,72 +178,118 @@ public class FollowObject : MonoBehaviour
         }
     }
 
+    public void Start()
+    {
+        if (groupIDs.Count > 0)
+        {
+            groupIDManager = GameObject.FindGameObjectWithTag("Master").GetComponent<GroupIDManager>();
+
+            foreach (int i in groupIDs)
+            {
+                targets.AddRange(groupIDManager.groupIDList[i].ConvertAll(x => x.transform));
+            }
+            targets = targets.Distinct().ToList();
+        }
+    }
+
     public void StopTrigger()
     {
         stopped = true;
-    }
-
-    public void PauseTrigger()
-    {
-        paused = true;
-    }
-
-    public void ResumeTrigger()
-    {
-        paused = false;
+        enabled = false;
     }
 
     public void TogglePauseTrigger()
     {
-        paused = !paused;
+        stopped = !stopped;
+        enabled = !stopped;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(delayTimer < delay)
+        {
+            delayTimer += Time.deltaTime;
+            return;
+        }
+
         if (time >= duration && duration != 0)
         {
             enabled = false;
         }
 
-        Follow();
-        MinMax();
-        After();
+        pastTransforms.AddLast(new TransformData(followObject, local));
+        if (offsetTimer >= offsetTime)
+        {
+            if (pastTransforms.Count() == 0)
+            { 
+                if(transformData == null) { transformData = new TransformData(followObject, local); }
+                else { transformData.SetData(followObject, local); }
+            }
+            else
+            {
+                transformData = pastTransforms.First();
+                pastTransforms.RemoveFirst();
+            }
+
+            //Debug.Log(transformData + "    Count: " + pastTransforms.Count());
+
+            if (!start) { Init(); }
+            start = true;
+
+            SetAxes();
+            Follow();
+            MinMax();
+            After();
+        }
 
         time += Time.deltaTime;
+        offsetTimer += Time.deltaTime;
     }
 
-    void Activate()
+    void SetAxes()
     {
-        prevPosition = local ? followObject.localPosition : followObject.position;
-        prevRotation = local ? followObject.localRotation : followObject.rotation;
-        prevScale = local ? followObject.localScale : followObject.lossyScale;
+        ignoreX = ignorePositionAxis == AxisType.X;
+        ignoreY = ignorePositionAxis == AxisType.Y;
+        ignoreSX = ignoreScaleAxis == AxisType.X;
+        ignoreSY = ignoreScaleAxis == AxisType.Y;
+    }
+
+    private void Init()
+    {
+        prevPosition = transformData.position;
+        prevRotation = transformData.rotation;
+        prevScale = transformData.scale;
 
         for (int i = 0; i < targets.Count; i++)
         {
-            if (triggerCount == 0)
+            if (triggerCount == 1)
             {
                 startPosition.Add(targets[i].position);
                 startRotation.Add(targets[i].rotation);
                 startScale.Add(targets[i].localScale);
             }
 
-            multSX[i] = targets[i].localScale.x / followObject.localScale.x;
-            multSY[i] = targets[i].localScale.y / followObject.localScale.y;
+            multSX[i] = targets[i].localScale.x / transformData.localScale.x;
+            multSY[i] = targets[i].localScale.y / transformData.localScale.y;
         }
-        /*if (tr.parent == null)
-            {
-                min_max_posX += Vector2.one * tr.position.x;
-                min_max_posY += Vector2.one * tr.position.y;
-                min_max_rotZ += Vector2.one * tr.rotation.eulerAngles.z;
-                min_max_sclX += Vector2.one * tr.localScale.x;
-                min_max_sclY += Vector2.one * tr.localScale.y;
-            }*/
+    }
 
-        triggerCount++;
+    void Activate()
+    {
+        if (requiredManaCount > gamemanager.getManaCount()) { return; }
+        if (triggerLimit == -1 || triggerCount < triggerLimit)
+        {
+            triggerCount++;
 
-        time = 0;
-        enabled = true;
+            time = 0;
+            offsetTimer = 0;
+            delayTimer = 0;
+
+            pastTransforms.Clear();
+            start = false;
+            enabled = true;
+        }
     }
 
     void Follow()
@@ -192,41 +304,47 @@ public class FollowObject : MonoBehaviour
 
     void After()
     {
-        prevPosition = local ? followObject.localPosition : followObject.position;
-        prevRotation = local ? followObject.localRotation : followObject.rotation;
-        prevScale = local ? followObject.localScale : followObject.lossyScale;
+        prevPosition = transformData.position;
+        prevRotation = transformData.rotation;
+        prevScale = transformData.scale;
     }
 
     void Copy()
     {
-        Vector3 currPosition = local ? followObject.localPosition : followObject.position;
+        Vector3 currPosition = transformData.position;
         Vector3 diffPosition = currPosition - prevPosition;
 
-        Quaternion currRotation = local ? followObject.localRotation : followObject.rotation;
+        Quaternion currRotation = transformData.rotation;
         Vector3 diffRotation = currRotation.eulerAngles - prevRotation.eulerAngles;
 
-        Vector3 currScale = local ? followObject.localScale : followObject.lossyScale;
+        Vector3 currScale = transformData.scale;
         Vector3 diffScale = relativeScale ? VectorExtension.Divide(currScale, prevScale).SetNaNToZero() : currScale - prevScale;
 
         foreach (Transform tr in targets)
         {
             if(followMove && currPosition != prevPosition)
             {
-                tr.Translate(diffPosition);
-                
+                diffPosition = new Vector3(ignoreX ? 0 : diffPosition.x, ignoreY ? 0 : diffPosition.y, diffPosition.z);
+                diffPosition *= multiplier;
+                tr.Translate(diffPosition, local ? Space.Self : Space.World);
             }
             if (followRotate && currRotation != prevRotation)
             {
-                tr.Rotate(diffRotation);
+                diffRotation *= multiplier;
+                tr.Rotate(diffRotation, local ? Space.Self : Space.World);
             }
             if (followScale && currScale != prevScale)
             {
                 if(relativeScale)
                 {
+                    diffScale = new Vector3(ignoreSX ? 1 : diffScale.x, ignoreSY ? 1 : diffScale.y, diffScale.z);
+                    diffScale *= multiplier;
                     tr.localScale =  Vector3.Scale(tr.localScale, diffScale);
                 }
                 else
                 {
+                    diffScale = new Vector3(ignoreSX ? 0 : diffScale.x, ignoreSY ? 0 : diffScale.y, diffScale.z);
+                    diffScale *= multiplier;
                     tr.localScale += diffScale;
                 }
             }
@@ -235,7 +353,35 @@ public class FollowObject : MonoBehaviour
 
     void MoveTowards()
     {
+        Vector3 moveTo = transformData.position.ZeroElements(ignoreX, ignoreY, false);
+        Quaternion rotateTo = transformData.rotation;
+        Vector3 scaleTo = transformData.scale.ZeroElements(ignoreSX, ignoreSY, false);
 
+        foreach (Transform tr in targets)
+        {
+            if(local)
+            {
+                if(followMove)
+                    tr.localPosition = Vector3.MoveTowards(tr.localPosition, moveTo, speed * Time.deltaTime);
+
+                if (followRotate)
+                    tr.localRotation = Quaternion.RotateTowards(tr.localRotation, rotateTo, speed * Time.deltaTime);
+
+                if (followScale)
+                    tr.localScale = Vector3.MoveTowards(tr.localScale, scaleTo, speed * Time.deltaTime);
+            }
+            else
+            {
+                if (followMove)
+                    tr.position = Vector3.MoveTowards(tr.position, moveTo, speed * Time.deltaTime);
+
+                if (followRotate)
+                    tr.rotation = Quaternion.RotateTowards(tr.rotation, rotateTo, speed);
+
+                if (followScale)
+                    tr.localScale = Vector3.MoveTowards(tr.localScale, scaleTo, speed * Time.deltaTime);
+            }
+        }
     }
 
     void Match()
@@ -245,22 +391,38 @@ public class FollowObject : MonoBehaviour
         {
             if (followMove)
             {
-                if(ignoreY && !ignoreX) { tr.position = tr.position.SetX(followObject.position.x); }
-                else if (!ignoreY && ignoreX) { tr.position = tr.position.SetY(followObject.position.y); }
-                else if (!ignoreX && !ignoreY) { tr.position = tr.position.SetXY(new Vector2(followObject.position.x, followObject.position.y)); }
+                if (!local)
+                {
+                    if (ignoreY && !ignoreX) { tr.position = tr.position.SetX(transformData.position.x); }
+                    else if (!ignoreY && ignoreX) { tr.position = tr.position.SetY(transformData.position.y); }
+                    else if (!ignoreX && !ignoreY) { tr.position = tr.position.SetXY(new Vector2(transformData.position.x, transformData.position.y)); }
+                }
+                else
+                {
+                    if (ignoreY && !ignoreX) { tr.localPosition = tr.localPosition.SetX(transformData.position.x); }
+                    else if (!ignoreY && ignoreX) { tr.localPosition = tr.localPosition.SetY(transformData.position.y); }
+                    else if (!ignoreX && !ignoreY) { tr.localPosition = tr.localPosition.SetXY(new Vector2(transformData.position.x, transformData.position.y)); }
+                }
             }
             if (followRotate)
             {
-                tr.rotation = followObject.rotation;
+                if (!local)
+                {
+                    tr.rotation = transformData.rotation;
+                }
+                else
+                {
+                    tr.localRotation = transformData.rotation;
+                }
             }
             if (followScale)
             {
                 float multX = relativeScale ? multSX[i] : 1;
                 float multY = relativeScale ? multSY[i] : 1;
 
-                if (ignoreSY && !ignoreSX) { tr.localScale = tr.localScale.SetX(followObject.localScale.x * multX); }
-                else if (!ignoreSY && ignoreSX) { tr.localScale = tr.localScale.SetY(followObject.localScale.y * multY); }
-                else if (!ignoreSX && !ignoreSY) { tr.localScale = tr.localScale.SetXY(new Vector2(followObject.localScale.x * multX, followObject.localScale.y * multY)); }
+                if (ignoreSY && !ignoreSX) { tr.localScale = tr.localScale.SetX(transformData.localScale.x * multX); }
+                else if (!ignoreSY && ignoreSX) { tr.localScale = tr.localScale.SetY(transformData.localScale.y * multY); }
+                else if (!ignoreSX && !ignoreSY) { tr.localScale = tr.localScale.SetXY(new Vector2(transformData.localScale.x * multX, transformData.localScale.y * multY)); }
             }
 
             i++;
@@ -365,12 +527,39 @@ public class FollowObject : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "Player" && stayToFollow)
+        {
+            transformData = new TransformData(followObject);
+
+            triggerCount++;
+            if (!start) { Init(); }
+            start = true;
+
+            SetAxes();
+            Follow();
+            MinMax();
+            After();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Player" && stayToFollow)
+        {
+            start = false;
+        }
+    }
+
     private void OnValidate()
     {
         if (texture != null && Application.isPlaying)
         {
             texture.SetActive(!hideIcon);
         }
+
+        enabled = !stopped;
     }
 
 #if UNITY_EDITOR

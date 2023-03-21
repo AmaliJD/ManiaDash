@@ -678,14 +678,6 @@ public class ScaleObject : MonoBehaviour
         }
     }
 
-    /*private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Player" && stayToScale)
-        {
-            
-        }
-    }*/
-
     private void OnValidate()
     {
         if (texture != null && Application.isPlaying)

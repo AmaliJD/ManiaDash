@@ -170,6 +170,16 @@ public static class VectorExtension
                             (float.IsNaN(vector.z) || float.IsInfinity(vector.z)) ? 0 : vector.z);
     }
 
+    public static Vector3 ZeroElements(this Vector3 vector, bool zeroX, bool zeroY, bool zeroZ)
+    {
+        return new Vector3(zeroX ? 0 : vector.x, zeroY ? 0 : vector.y, zeroZ ? 0 : vector.z);
+    }
+
+    public static Quaternion QuaternionMoveTowards(Quaternion a, Quaternion b, float moveSpeed)
+    {
+        return Quaternion.Euler(Vector3.MoveTowards(a.eulerAngles, b.eulerAngles, moveSpeed));
+    }
+
     public static Vector2 SignedAdd(this Vector2 vector, float i)
     {
         float revX = Mathf.Sign(vector.x);
