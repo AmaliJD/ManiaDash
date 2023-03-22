@@ -165,9 +165,6 @@ public class FollowObject : MonoBehaviour
         startRotation = new List<Quaternion>();
         startScale = new List<Vector3>();
 
-        multSX = new float[targets.Count];
-        multSY = new float[targets.Count];
-
         pastTransforms = new LinkedList<TransformData>();
 
         enabled = false;
@@ -190,6 +187,9 @@ public class FollowObject : MonoBehaviour
             }
             targets = targets.Distinct().ToList();
         }
+
+        multSX = new float[targets.Count];
+        multSY = new float[targets.Count];
     }
 
     public void StopTrigger()
@@ -353,13 +353,17 @@ public class FollowObject : MonoBehaviour
 
     void MoveTowards()
     {
-        Vector3 moveTo = transformData.position.ZeroElements(ignoreX, ignoreY, false);
-        Quaternion rotateTo = transformData.rotation;
-        Vector3 scaleTo = transformData.scale.ZeroElements(ignoreSX, ignoreSY, false);
-
         foreach (Transform tr in targets)
         {
-            if(local)
+            Vector3 moveTo = transformData.position.ReplaceElements(ignoreX, local ? tr.localPosition.x : tr.position.x,
+                                                                    ignoreY, local ? tr.localPosition.y : tr.position.y,
+                                                                    false, local ? tr.localPosition.z : tr.position.z);
+            Quaternion rotateTo = transformData.rotation;
+            Vector3 scaleTo = transformData.scale.ReplaceElements(ignoreSX, tr.localScale.x,
+                                                                   ignoreSY, tr.localScale.y,
+                                                                   false, tr.localScale.z);
+
+            if (local)
             {
                 if(followMove)
                     tr.localPosition = Vector3.MoveTowards(tr.localPosition, moveTo, speed * Time.deltaTime);
@@ -420,9 +424,22 @@ public class FollowObject : MonoBehaviour
                 float multX = relativeScale ? multSX[i] : 1;
                 float multY = relativeScale ? multSY[i] : 1;
 
-                if (ignoreSY && !ignoreSX) { tr.localScale = tr.localScale.SetX(transformData.localScale.x * multX); }
-                else if (!ignoreSY && ignoreSX) { tr.localScale = tr.localScale.SetY(transformData.localScale.y * multY); }
-                else if (!ignoreSX && !ignoreSY) { tr.localScale = tr.localScale.SetXY(new Vector2(transformData.localScale.x * multX, transformData.localScale.y * multY)); }
+                if (!local)
+                {
+                    if (ignoreSY && !ignoreSX) { tr.localScale = tr.localScale.SetX(transformData.scale.x * multX); }
+                    else if (!ignoreSY && ignoreSX) { tr.localScale = tr.localScale.SetY(transformData.scale.y * multY); }
+                    else if (!ignoreSX && !ignoreSY) { tr.localScale = tr.localScale.SetXY(new Vector2(transformData.scale.x * multX, transformData.scale.y * multY)); }
+                }
+                else
+                {
+                    float lossyMultiX = tr.parent != null ? tr.parent.lossyScale.x : 1;
+                    float lossyMultiY = tr.parent != null ? tr.parent.lossyScale.y : 1;
+                    Vector3 lossyMulti = new Vector3(lossyMultiX, lossyMultiY, 1);
+
+                    if (ignoreSY && !ignoreSX) { tr.localScale = Vector3.Scale(tr.lossyScale.SetX(transformData.scale.x * multX), lossyMulti); }
+                    else if (!ignoreSY && ignoreSX) { tr.localScale = Vector3.Scale(tr.lossyScale.SetY(transformData.scale.y * multY), lossyMulti); }
+                    else if (!ignoreSX && !ignoreSY) { tr.localScale = Vector3.Scale(tr.lossyScale.SetXY(new Vector2(transformData.scale.x * multX, transformData.scale.y * multY)), lossyMulti); }
+                }
             }
 
             i++;
@@ -440,19 +457,21 @@ public class FollowObject : MonoBehaviour
             {
                 if (!localMinMax)
                 {
-                    tr.position = tr.position.SetX(Mathf.Clamp(tr.position.x, min_max_posX.x, min_max_posX.y));
+                    float addition = startPosition[i].x;
+                    tr.position = tr.position.SetX(Mathf.Clamp(tr.position.x, min_max_posX.x + addition, min_max_posX.y + addition));
                 }
                 else
                 {
                     float addition = hasParent ? 0 : startPosition[i].x;
-                    tr.localPosition = tr.localPosition.SetX(Mathf.Clamp(tr.localPosition.x, min_max_posX.x + addition, min_max_posX.y  + addition));
+                    tr.localPosition = tr.localPosition.SetX(Mathf.Clamp(tr.localPosition.x, min_max_posX.x + addition, min_max_posX.y + addition));
                 }
             }
             if (useMinMaxPosY)
             {
                 if (!localMinMax)
                 {
-                    tr.position = tr.position.SetY(Mathf.Clamp(tr.position.y, min_max_posY.x, min_max_posY.y));
+                    float addition = startPosition[i].y;
+                    tr.position = tr.position.SetY(Mathf.Clamp(tr.position.y, min_max_posY.x + addition, min_max_posY.y + addition));
                 }
                 else
                 {
@@ -465,12 +484,13 @@ public class FollowObject : MonoBehaviour
             {
                 if (!localMinMax)
                 {
-                    tr.rotation = Quaternion.Euler(tr.rotation.eulerAngles.SetZ(Mathf.Clamp(tr.rotation.eulerAngles.z, min_max_rotZ.x, min_max_rotZ.y)));
+                    float addition = startRotation[i].eulerAngles.z;
+                    tr.rotation = Quaternion.Euler(tr.rotation.eulerAngles.SetZ(Mathf.Clamp(tr.rotation.eulerAngles.z, min_max_rotZ.x + addition, min_max_rotZ.y + addition)));
                 }
                 else
                 {
                     float addition = hasParent ? 0 : startRotation[i].eulerAngles.z;
-                    tr.localRotation = Quaternion.Euler(tr.localRotation.eulerAngles.SetZ(Mathf.Clamp(tr.localRotation.eulerAngles.z, min_max_rotZ.x  + addition, min_max_rotZ.y + addition)));
+                    tr.localRotation = Quaternion.Euler(tr.localRotation.eulerAngles.SetZ(Mathf.Clamp(tr.localRotation.eulerAngles.z, min_max_rotZ.x + addition, min_max_rotZ.y + addition)));
                 }
             }
 
@@ -478,8 +498,9 @@ public class FollowObject : MonoBehaviour
             {
                 if (!localMinMax)
                 {
+                    float addition = startScale[i].x;
                     //tr.localScale = Vec tr.lossyScale.SetX(Mathf.Clamp(tr.lossyScale.x, min_max_sclX.x, min_max_sclX.y));
-                    tr.localScale = Vector3.Scale(tr.localScale.SetX(Mathf.Clamp(tr.localScale.x, min_max_sclX.x, min_max_sclX.y)),
+                    tr.localScale = Vector3.Scale(tr.localScale.SetX(Mathf.Clamp(tr.localScale.x, min_max_sclX.x + addition, min_max_sclX.y + addition)),
                                                     tr.parent != null ? tr.parent.localScale : Vector3.one);
                 }
                 else
@@ -493,8 +514,9 @@ public class FollowObject : MonoBehaviour
             {
                 if (!localMinMax)
                 {
+                    float addition = startScale[i].y;
                     //tr.localScale = tr.lossyScale.SetY(Mathf.Clamp(tr.lossyScale.y, min_max_sclY.x, min_max_sclY.y));
-                    tr.localScale = Vector3.Scale(tr.localScale.SetY(Mathf.Clamp(tr.localScale.y, min_max_sclY.x, min_max_sclY.y)),
+                    tr.localScale = Vector3.Scale(tr.localScale.SetY(Mathf.Clamp(tr.localScale.y, min_max_sclY.x + addition, min_max_sclY.y + addition)),
                                                     tr.parent != null ? tr.parent.localScale : Vector3.one);
                 }
                 else
@@ -531,7 +553,7 @@ public class FollowObject : MonoBehaviour
     {
         if (other.tag == "Player" && stayToFollow)
         {
-            transformData = new TransformData(followObject);
+            transformData = new TransformData(followObject, local);
 
             triggerCount++;
             if (!start) { Init(); }

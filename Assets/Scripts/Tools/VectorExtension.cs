@@ -175,6 +175,11 @@ public static class VectorExtension
         return new Vector3(zeroX ? 0 : vector.x, zeroY ? 0 : vector.y, zeroZ ? 0 : vector.z);
     }
 
+    public static Vector3 ReplaceElements(this Vector3 vector, bool zeroX, float x, bool zeroY, float y, bool zeroZ, float z)
+    {
+        return new Vector3(zeroX ? x : vector.x, zeroY ? y : vector.y, zeroZ ? z : vector.z);
+    }
+
     public static Quaternion QuaternionMoveTowards(Quaternion a, Quaternion b, float moveSpeed)
     {
         return Quaternion.Euler(Vector3.MoveTowards(a.eulerAngles, b.eulerAngles, moveSpeed));
