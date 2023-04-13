@@ -634,6 +634,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3407214586750856330, guid: ab12c019cf777ff459a952f98dfff18f,
+        type: 3}
+      propertyPath: m_InstanceId
+      value: -64462
+      objectReference: {fileID: 0}
     - target: {fileID: 3610938416994493820, guid: ab12c019cf777ff459a952f98dfff18f,
         type: 3}
       propertyPath: m_Name
@@ -653,6 +658,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4363173115629531538, guid: ab12c019cf777ff459a952f98dfff18f,
+        type: 3}
+      propertyPath: m_InstanceId
+      value: -64440
       objectReference: {fileID: 0}
     - target: {fileID: 4390592062689435394, guid: ab12c019cf777ff459a952f98dfff18f,
         type: 3}
@@ -889,7 +899,7 @@ PrefabInstance:
     - target: {fileID: 2535391124821506419, guid: e4d074b90c2b1b94a8fd0982dafe435b,
         type: 3}
       propertyPath: m_InstanceId
-      value: -199108
+      value: -64554
       objectReference: {fileID: 0}
     - target: {fileID: 2543436651230189539, guid: e4d074b90c2b1b94a8fd0982dafe435b,
         type: 3}
@@ -964,7 +974,7 @@ PrefabInstance:
     - target: {fileID: 3524706083821610091, guid: e4d074b90c2b1b94a8fd0982dafe435b,
         type: 3}
       propertyPath: m_InstanceId
-      value: -199118
+      value: -64568
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4d074b90c2b1b94a8fd0982dafe435b, type: 3}
@@ -1277,7 +1287,7 @@ PrefabInstance:
     - target: {fileID: 1130443004743064705, guid: 89389c06dd1eed3498a18105868b140b,
         type: 3}
       propertyPath: m_InstanceId
-      value: -16568
+      value: -64668
       objectReference: {fileID: 0}
     - target: {fileID: 7807574133971411111, guid: 89389c06dd1eed3498a18105868b140b,
         type: 3}
@@ -1354,6 +1364,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 9041834868396520613, guid: 89389c06dd1eed3498a18105868b140b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9041834868619481504, guid: 89389c06dd1eed3498a18105868b140b,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1367,7 +1382,7 @@ PrefabInstance:
     - target: {fileID: 9041834868619481506, guid: 89389c06dd1eed3498a18105868b140b,
         type: 3}
       propertyPath: m_InstanceId
-      value: -16572
+      value: -64672
       objectReference: {fileID: 0}
     - target: {fileID: 9041834868685475546, guid: 89389c06dd1eed3498a18105868b140b,
         type: 3}
