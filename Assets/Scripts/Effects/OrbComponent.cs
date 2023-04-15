@@ -55,6 +55,12 @@ public class OrbComponent : MonoBehaviour
 
     [Range(-1, 3)]
     public int G0 = -1, G1 = -1, G2 = -1, G3 = -1;
+    [Min(0)]
+    public float strengthChangeSpeed;
+
+    [Range(minStrength, maxStrength)]
+    public float changedMin, changedMax;
+    public bool increasing = true;
     private const float minStrength = 0, maxStrength = 50;
     public Transform sprites;
     private SpriteRenderer centerSprite, bgSprite;
@@ -118,7 +124,11 @@ public class OrbComponent : MonoBehaviour
 
             transform.Rotate(Vector3.forward, speed * Time.deltaTime);
             if (rebound) { SetRebound(); }
-            if (superOrb) { SuperOrbUpdate(); }
+            if (superOrb)
+            {
+                if (strengthChangeSpeed != 0) { UpdateSuperOrbStrength(); }
+                else { SuperOrbUpdate(); }
+            }
         }
     }
 
@@ -135,6 +145,16 @@ public class OrbComponent : MonoBehaviour
             //sprites.GetChild(0).GetComponent<SpriteRenderer>().color = strengthGradient.Evaluate(Mathfs.Remap(minStrength, maxStrength, 0, 1, multiplier));
             //sprites.GetChild(2).GetChild(0).GetComponent<SpriteRenderer>().color = strengthGradient.Evaluate(Mathfs.Remap(minStrength, maxStrength, 0, 1, multiplier)).SetAlpha(.4f);
         }
+    }
+
+    void UpdateSuperOrbStrength()
+    {
+        multiplier = Mathf.MoveTowards(multiplier, increasing ? changedMax : changedMin, strengthChangeSpeed * Time.fixedDeltaTime);
+
+        if(increasing && multiplier >= changedMax) { increasing = false; }
+        else if (!increasing && multiplier <= changedMin) { increasing = true; }
+
+        setSuperOrbSprite();
     }
 
     void initSuperOrbSprites()

@@ -13284,6 +13284,10 @@ MonoBehaviour:
   G1: 1
   G2: 2
   G3: 3
+  strengthChangeSpeed: 0
+  changedMin: 0
+  changedMax: 50
+  increasing: 1
   sprites: {fileID: 1010925640789310842}
   sfx: {fileID: 0}
   disableVisibleCheck: 0
