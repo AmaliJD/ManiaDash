@@ -77,6 +77,7 @@ TagManager:
   - ScaleObject
   - PlaybackTrigger
   - FollowObject
+  - SuperOrb
   layers:
   - Default
   - TransparentFX

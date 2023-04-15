@@ -507,7 +507,7 @@ public class RotateObject : MonoBehaviour
 
         inUse = false;
 
-        if (loop) { Rotate(); }
+        if (loop) { delay = 0; Rotate(); }
     }
 
     public bool IsFinished()

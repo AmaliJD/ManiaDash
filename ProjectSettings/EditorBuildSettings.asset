@@ -83,6 +83,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Testroom.unity
     guid: 215ac0fc05609cd4dab27b61a24c7910
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: dd6537eb7e459124b855d6bbdbb74927,
       type: 2}

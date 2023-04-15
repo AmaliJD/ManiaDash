@@ -193,7 +193,7 @@ public class PlayerControllerV2 : MonoBehaviour
     private float respawnOrientation, respawnGamemode;
 
     // Orbs Pads Portals Effectors
-    private bool yellow_orb, blue_orb, red_orb, pink_orb, green_orb, black_orb, purple_orb, purple_dash, dash_orb, black_dash, inDash, cw_orb, ccw_orb, tele_orb, trigger_orb, rebound_orb;
+    private bool yellow_orb, blue_orb, red_orb, pink_orb, green_orb, black_orb, purple_orb, purple_dash, dash_orb, black_dash, inDash, cw_orb, ccw_orb, tele_orb, trigger_orb, rebound_orb, super_orb;
     private bool yellow_pad, blue_pad, red_pad, pink_pad, green_pad, black_pad, purple_pad, rebound_pad, pad;
     private Vector2 tele_orb_translate, teleBDelta, teleBChargedDelta, chargedTeleportVelocity, dashDirection;
     private bool gravportal_down, gravportal_up, gravportal_flip, teleportalA, teleportal_charged, dashDisable;
@@ -221,6 +221,7 @@ public class PlayerControllerV2 : MonoBehaviour
     private List<Rigidbody2D> MovingObjectVelocities;
     private Vector2 movingObjectVelocity;
     private bool goingUp;
+    private bool springDown;
 
     // GROUND
     private bool grounded = false, prev_grounded = false, touchingGround = false, checkGrounded = true, ceiling;
@@ -382,6 +383,31 @@ public class PlayerControllerV2 : MonoBehaviour
                                                         10f, 13f, 15f, 15f, 0, 0, 0, 0, 0f,
                                                         1.85f, 1.5f, 1f, .7f, 1.5f, 2.4f,
                                                         2f, 1.7f, 1.2f, 1.2f, 1.7f, 2.4f));
+
+        gamemodeConstants.Add(Gamemode.spring, new GamemodeConstants(
+                                                        false, false, true, true,
+                                                        0.85f, 0.85f, 0.06f, 0.2f, 0.2f, 0.385f,
+                                                        20f, 22f, 110, 1000, 6.5f, .035f, .035f, .055f, .25f,
+                                                        1.45f, 1.1f, .95f, .4f, 1f, 1.1f,
+                                                        1.6f, 1.4f, .9f, .4f, 1.5f, 1.1f));
+        gamemodeConstants.Add(Gamemode.auto_spring, new GamemodeConstants(
+                                                        true, true, true, true,
+                                                        0.85f, 0.85f, 0.06f, 0.2f, 0.2f, 0.385f,
+                                                        21f, 16.5f, 110, 1000, 9.81f, .035f, .035f, .055f, .25f,
+                                                        1.45f, 1.1f, .95f, .4f, 1f, 1.1f,
+                                                        1.6f, 1.4f, .9f, .4f, 1.5f, 1.1f));
+        gamemodeConstants.Add(Gamemode.robot, new GamemodeConstants(
+                                                        false, true, true, true,
+                                                        0.85f, 0.85f, 0.06f, 0.2f, 0.2f, 0.385f,
+                                                        21f, 16.5f, 110, 1000, 9.81f, .035f, .035f, .055f, .25f,
+                                                        1.45f, 1.1f, .95f, .4f, 1f, 1.1f,
+                                                        1.6f, 1.4f, .9f, .4f, 1.5f, 1.1f));
+        gamemodeConstants.Add(Gamemode.auto_robot, new GamemodeConstants(
+                                                        true, true, true, true,
+                                                        0.85f, 0.85f, 0.06f, 0.2f, 0.2f, 0.385f,
+                                                        21f, 16.5f, 110, 1000, 9.81f, .035f, .035f, .055f, .25f,
+                                                        1.45f, 1.1f, .95f, .4f, 1f, 1.1f,
+                                                        1.6f, 1.4f, .9f, .4f, 1.5f, 1.1f));
         /* GAMEMODE CONSTANTS HELP
          * auto         dash spin           orb buffer  cancel jump
          * box x        box y               box r       jumpBox x       jumpBox y   jumpBox r
@@ -845,7 +871,7 @@ public class PlayerControllerV2 : MonoBehaviour
         {
             jump = true;
             jump_air = !grounded;
-            jump_orb = yellow_orb || pink_orb || red_orb || purple_orb || blue_orb || green_orb || ccw_orb || cw_orb || blue_orb || dash_orb || black_dash || rebound_orb || purple_dash || trigger_orb || tele_orb;
+            jump_orb = yellow_orb || pink_orb || red_orb || purple_orb || blue_orb || green_orb || ccw_orb || cw_orb || blue_orb || dash_orb || black_dash || rebound_orb || purple_dash || trigger_orb || tele_orb || super_orb;
             jump_released = false;
 
             if(gamemode == Gamemode.ship)
@@ -1232,6 +1258,7 @@ public class PlayerControllerV2 : MonoBehaviour
             Portal();
             Jump();
             Pad();
+            Extra();
             Animate();
             Forces();
         }
@@ -1580,6 +1607,47 @@ public class PlayerControllerV2 : MonoBehaviour
                 {
                     gamemanager.getActiveCamera().GetCinemachineComponent<CinemachineFramingTransposer>().OnTargetObjectWarped(transform, positionDelta);
                 }
+            }
+            else if (super_orb)
+            {
+                velocityVectorY = multiplier * Vector2.up.Rotate(orbscript.forceDirection + (orbscript.superGravityDirection * -90) + 180);
+                //posMaxSpeed = Mathf.Max(gamemodeConstants[gamemode].posMaxSpeed, jumpForce * gamemodeConstants[gamemode].yellowOrbMultiplier * multiplier);
+                //posMaxSpeedTimer = 1;
+                bool oppositeGravity = false;
+                bool changedGravity = false;
+                oppositeGravity = orbscript.superGravityDirection == (gravityDirection + 2) % 4;
+                changedGravity = orbscript.superGravityDirection != gravityDirection;
+
+                posMaxSpeed = Mathf.Max(gamemodeConstants[gamemode].posMaxSpeed, multiplier);
+                posMaxSpeedTimer = 1;
+
+                gravityDirection = orbscript.superGravityDirection;
+                if(changedGravity)
+                {
+                    if (oppositeGravity) { normalBaseOrientation = !normalBaseOrientation; }
+                    changeGravityDirection();
+                    playGravityParticles(gravityDirection);
+                }
+
+                super_orb = false;
+                jump_orb = false;
+                jump_air = false;
+                launched = true;
+                groundBuffer = 0;
+                grounded = false;
+                dashDisable = false;
+                main_trail.emitting = true;
+                if (OrbTouched != null)
+                {
+                    orbscript.Pulse();
+                }
+
+                eyeType = 1;
+                spiderAnimType = 1;
+                spiderAnimSpeed = 2;
+
+                chargeTeleportTimer = 0;
+                usedOrb = true;
             }
             else if (rebound_orb)
             {
@@ -2312,6 +2380,20 @@ public class PlayerControllerV2 : MonoBehaviour
                         main_trail.emitting = false;
                     }
                     break;
+
+                case Gamemode.spring:
+                case Gamemode.auto_spring:
+                    if (jump && !grounded && !springDown)
+                    {
+                        velocityVectorY = (jumpForce) * gravityOrientation * (mini ? 16f : 1);
+                        //posMaxSpeed = Mathf.Max(gamemodeConstants[gamemode].posMaxSpeed, jumpForce);
+                        //posMaxSpeedTimer = 1;
+
+                        jump = false;
+                        springDown = true;
+                        main_trail.emitting = true;
+                    }
+                    break;
             }
         }
         else if(jump_released || !jump_hold || (gamemode == Gamemode.auto_wave ? launched : false))
@@ -2644,7 +2726,21 @@ public class PlayerControllerV2 : MonoBehaviour
 
             pad = false;
         }
-    }    
+    }
+
+    private void Extra()
+    {
+        if ((gamemode == Gamemode.spring || gamemode == Gamemode.auto_spring) && grounded)
+        {
+            velocityVectorY = (gamemodeConstants[gamemode].jumpForce * (springDown ? 1.25f : 1)) * -gravityOrientation;
+            posMaxSpeed = Mathf.Max(gamemodeConstants[gamemode].posMaxSpeed, gamemodeConstants[gamemode].jumpForce);
+            posMaxSpeedTimer = 1;
+            springDown = false;
+            jump_orb = false;
+            jump_air = false;
+        }
+    }
+
     private void Animate()
     {
         //if (touchingGround) eyeType = 0;
@@ -2890,6 +2986,7 @@ public class PlayerControllerV2 : MonoBehaviour
         tele_orb = false;
         trigger_orb = false;
         dashDisable = false;
+        super_orb = false;
 
         yellow_pad = false;
         blue_pad = false;
@@ -2931,6 +3028,10 @@ public class PlayerControllerV2 : MonoBehaviour
                 tele_orb = true;
                 OrbTouched = collision.gameObject;
                 tele_orb_translate = collision.gameObject.GetComponent<OrbComponent>().getTeleport().position - collision.gameObject.GetComponent<OrbComponent>().transform.position;
+                break;
+            case "SuperOrb":
+                super_orb = true;
+                OrbTouched = collision.gameObject;
                 break;
             case "RedOrb":
                 red_orb = true;
@@ -3281,6 +3382,9 @@ public class PlayerControllerV2 : MonoBehaviour
                 break;
             case "TeleOrb":
                 tele_orb = false;
+                break;
+            case "SuperOrb":
+                super_orb = false;
                 break;
             case "YellowOrb":
                 yellow_orb = false;

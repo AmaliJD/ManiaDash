@@ -35,6 +35,8 @@ public class ControllerTrigger : MonoBehaviour
         ball_portal.SetActive(show_portal && (mode.ToString().Equals("ball") || mode.ToString().Equals("auto_ball")));
         spider_portal.SetActive(show_portal && (mode.ToString().Equals("spider") || mode.ToString().Equals("auto_spider")));
         copter_portal.SetActive(show_portal && (mode.ToString().Equals("copter") || mode.ToString().Equals("auto_copter")));
+        springboard_portal.SetActive(show_portal && (mode == Mode.spring) || (mode == Mode.auto_spring));
+        robot_portal.SetActive(show_portal && (mode == Mode.robot) || (mode == Mode.auto_robot));
     }
 
     private void changeGamemode()
@@ -73,6 +75,8 @@ public class ControllerTrigger : MonoBehaviour
         ball_portal.SetActive(show_portal && (mode.ToString().Equals("ball") || mode.ToString().Equals("auto_ball")));
         spider_portal.SetActive(show_portal && (mode.ToString().Equals("spider") || mode.ToString().Equals("auto_spider")));
         copter_portal.SetActive(show_portal && (mode.ToString().Equals("copter") || mode.ToString().Equals("auto_copter")));
+        springboard_portal.SetActive(show_portal && (mode == Mode.spring) || (mode == Mode.auto_spring));
+        robot_portal.SetActive(show_portal && (mode == Mode.robot) || (mode == Mode.auto_robot));
     }
 #endif
 }
