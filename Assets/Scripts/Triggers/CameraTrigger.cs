@@ -100,7 +100,9 @@ public class CameraTrigger : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private bool hideIcon;
     [SerializeField] private bool getCurrentValues;
+    [SerializeField] private bool getCurrentOnEnter;
     [SerializeField] [Min(0)] private float duration;
+    [SerializeField] [Min(0)] private int preUses;
     [SerializeField] [Min(0)] private int maxUses;
     private int uses;
 
@@ -144,6 +146,11 @@ public class CameraTrigger : MonoBehaviour
             lockBottomDuration += duration;
         }
 
+        GetCurrentValues();
+    }
+
+    void GetCurrentValues()
+    {
         CinemachineVirtualCamera virtualCamera = cameraControl.GetComponent<CinemachineVirtualCamera>();
 
         if (getCurrentZoom) { zoomValue = virtualCamera.m_Lens.OrthographicSize; }
@@ -152,7 +159,7 @@ public class CameraTrigger : MonoBehaviour
         if (virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>() != null)
         {
             CinemachineFramingTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-            if (getCurrentOffset) { offsetValue = new Vector2((transposer.m_ScreenX-.5f) * -2, (transposer.m_ScreenY-.5f) * -2); }
+            if (getCurrentOffset) { offsetValue = new Vector2((transposer.m_ScreenX - .5f) * -2, (transposer.m_ScreenY - .5f) * -2); }
             if (getCurrentLookAhead)
             {
                 lookaheadTimeValue = transposer.m_LookaheadTime;
@@ -217,6 +224,7 @@ public class CameraTrigger : MonoBehaviour
     LockCameraXY validate_lockCam;*/
     private void OnValidate()
     {
+        if (getCurrentOnEnter) { return; }
         if (getCurrentValues)
         {
             getCurrentZoom = getCurrentRotation = getCurrentOffset = getCurrentLookAhead = getCurrentDeadZone = getCurrentDamping
@@ -295,15 +303,32 @@ public class CameraTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //if(maxPreUses > 0 && preuses < maxPreUses) { preuses++; return; }
+        /*if(preUses > 0) { preUses--; return; }
+
         if (maxUses > 0 && uses >= maxUses)
         {
             GetComponent<Collider2D>().enabled = false;
             return;
-        }
+        }*/
 
         if (collision.gameObject.tag == "Player")
         {
+            if (preUses > 0)
+            {
+                if (getCurrentOnEnter) { GetCurrentValues(); getCurrentOnEnter = false; }
+                preUses--;
+                return;
+            }
+
+            if (maxUses > 0 && uses >= maxUses)
+            {
+                GetComponent<Collider2D>().enabled = false;
+                return;
+            }
+
             uses++;
+            if (getCurrentOnEnter) { GetCurrentValues(); getCurrentOnEnter = false; }
 
             if(useZoom)
             {

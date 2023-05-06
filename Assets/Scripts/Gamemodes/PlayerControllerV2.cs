@@ -3027,7 +3027,13 @@ public class PlayerControllerV2 : MonoBehaviour
             case "TeleOrb":
                 tele_orb = true;
                 OrbTouched = collision.gameObject;
-                tele_orb_translate = collision.gameObject.GetComponent<OrbComponent>().getTeleport().position - collision.gameObject.GetComponent<OrbComponent>().transform.position;
+                //tele_orb_translate = collision.gameObject.GetComponent<OrbComponent>().getTeleport().position - collision.gameObject.GetComponent<OrbComponent>().transform.position;
+                tele_orb_translate = collision.gameObject.GetComponent<OrbComponent>().GetTeleportDisplacement();
+
+                Vector2 playerToOrb = (Vector2)(transform.position - collision.gameObject.GetComponent<OrbComponent>().transform.position);
+                tele_orb_translate -= playerToOrb.SetXY(
+                        collision.gameObject.GetComponent<OrbComponent>().centerY ? 0 : playerToOrb.x,
+                        collision.gameObject.GetComponent<OrbComponent>().centerX ? 0 : playerToOrb.y);
                 break;
             case "SuperOrb":
                 super_orb = true;

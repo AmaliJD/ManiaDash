@@ -57,6 +57,14 @@ public static class VectorExtension
         return new Color(vector.x, vector.y, vector.z, vector.w);
     }
 
+    public static Vector2 SetXY(this Vector2 vector, float X, float Y)
+    {
+        vector.x = X;
+        vector.y = Y;
+
+        return vector;
+    }
+
     public static Vector3 SetXY(this Vector3 vector, Vector2 XY)
     {
         vector.x = XY.x;

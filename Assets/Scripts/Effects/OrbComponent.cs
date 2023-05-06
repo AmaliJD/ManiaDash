@@ -28,6 +28,7 @@ public class OrbComponent : MonoBehaviour
 
     [Header("Teleport Orb")]
     public Transform TeleportTo;
+    public bool centerX, centerY;
     public bool smoothTeleport;
 
     [Header("DashOrb")]
@@ -434,6 +435,13 @@ public class OrbComponent : MonoBehaviour
     public float GetAngle()
     {
         return parent.eulerAngles.z;
+    }
+
+    public Vector3 GetTeleportDisplacement()
+    {
+        //Vector3 to = TeleportTo.position;
+        //Vector3 from = transform.position;
+        return TeleportTo.position - transform.position;
     }
 
     public Transform getTeleport()
