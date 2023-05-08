@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.UI;
+using System.Linq;
 
 public class ColorMaster : MonoBehaviour
 {
@@ -48,6 +49,11 @@ public class ColorMaster : MonoBehaviour
                 deleteList.Add(cr);
             }
         }
+
+        ObjchannelList = ObjchannelList.Where(x => x.Key != null).ToDictionary(x => x.Key, x => x.Value);
+        ObjopacityList = ObjopacityList.Where(x => x.Key != null).ToDictionary(x => x.Key, x => x.Value);
+        ObjtriggerHashList = ObjtriggerHashList.Where(x => x.Key != null).ToDictionary(x => x.Key, x => x.Value);
+        ObjcolorChanging = ObjcolorChanging.Where(x => x.Key != null).ToDictionary(x => x.Key, x => x.Value);
 
         foreach (GameObject obj in ObjchannelList.Keys)
         {

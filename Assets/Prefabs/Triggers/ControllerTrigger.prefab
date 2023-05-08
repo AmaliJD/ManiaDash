@@ -573,6 +573,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 5988070839516757783, guid: 5863826a007a80640ba59d6082393f72,
+        type: 3}
+      propertyPath: m_Parameters.m_GravityCurve.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5988070840030920202, guid: 5863826a007a80640ba59d6082393f72,
         type: 3}
       propertyPath: m_Mesh

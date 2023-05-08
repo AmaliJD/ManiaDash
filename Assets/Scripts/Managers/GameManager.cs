@@ -12,6 +12,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using PlayFab;
 using PlayFab.ClientModels;
+using System.Linq;
 
 
 public class GameManager : MonoBehaviour
@@ -243,6 +244,51 @@ public class GameManager : MonoBehaviour
         //QualitySettings.vSyncCount = 1;
         //Application.targetFrameRate = 60;
         fps = Screen.currentResolution.refreshRate;
+
+        if(fps != 60)
+        {
+            float fpsRatio = getFPSRatio();
+            //var forceFields = Resources.FindObjectsOfTypeAll<ParticleSystemForceField>();
+            //var forceFields = GameObject.FindObjectsOfType<ParticleSystemForceField>();
+            var forceFields = FindAllObjectsInScene().Where(x => x.GetComponent<ParticleSystemForceField>() != null).ToList().ConvertAll(r => r.GetComponent<ParticleSystemForceField>());
+            foreach(ParticleSystemForceField ff in forceFields)
+            {
+                ff.gravity = ff.gravity.constant / fpsRatio;
+            }
+        }
+
+        List<GameObject> FindAllObjectsInScene()
+        {
+            Scene activeScene = SceneManager.GetActiveScene();
+
+            GameObject[] rootObjects = activeScene.GetRootGameObjects();
+
+            GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+            List<GameObject> objectsInScene = new List<GameObject>();
+
+            for (int j = 0; j < rootObjects.Length; j++)
+            {
+                objectsInScene.Add(rootObjects[j]);
+            }
+
+            for (int k = 0; k < allObjects.Length; k++)
+            {
+                if (allObjects[k].transform.root)
+                {
+                    for (int i2 = 0; i2 < rootObjects.Length; i2++)
+                    {
+                        if (allObjects[k].transform.root == rootObjects[i2].transform && allObjects[k] != rootObjects[i2])
+                        {
+                            objectsInScene.Add(allObjects[k]);
+                            break;
+                        }
+                    }
+                }
+            }
+            return objectsInScene;
+        }
+
 
         if (input == null)
         {

@@ -68,15 +68,15 @@ public class ControllerTrigger : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        cube_portal.SetActive(show_portal && (mode.ToString().Equals("cube") || mode.ToString().Equals("auto")));
-        ship_portal.SetActive(show_portal && (mode.ToString().Equals("ship") || mode.ToString().Equals("auto_ship")));
-        ufo_portal.SetActive(show_portal && (mode.ToString().Equals("ufo") || mode.ToString().Equals("auto_ufo")));
-        wave_portal.SetActive(show_portal && (mode.ToString().Equals("wave") || mode.ToString().Equals("auto_wave")));
-        ball_portal.SetActive(show_portal && (mode.ToString().Equals("ball") || mode.ToString().Equals("auto_ball")));
-        spider_portal.SetActive(show_portal && (mode.ToString().Equals("spider") || mode.ToString().Equals("auto_spider")));
-        copter_portal.SetActive(show_portal && (mode.ToString().Equals("copter") || mode.ToString().Equals("auto_copter")));
-        springboard_portal.SetActive(show_portal && (mode == Mode.spring) || (mode == Mode.auto_spring));
-        robot_portal.SetActive(show_portal && (mode == Mode.robot) || (mode == Mode.auto_robot));
+        cube_portal?.SetActive(show_portal && (mode.ToString().Equals("cube") || mode.ToString().Equals("auto")));
+        ship_portal?.SetActive(show_portal && (mode.ToString().Equals("ship") || mode.ToString().Equals("auto_ship")));
+        ufo_portal?.SetActive(show_portal && (mode.ToString().Equals("ufo") || mode.ToString().Equals("auto_ufo")));
+        wave_portal?.SetActive(show_portal && (mode.ToString().Equals("wave") || mode.ToString().Equals("auto_wave")));
+        ball_portal?.SetActive(show_portal && (mode.ToString().Equals("ball") || mode.ToString().Equals("auto_ball")));
+        spider_portal?.SetActive(show_portal && (mode.ToString().Equals("spider") || mode.ToString().Equals("auto_spider")));
+        copter_portal?.SetActive(show_portal && (mode.ToString().Equals("copter") || mode.ToString().Equals("auto_copter")));
+        springboard_portal?.SetActive(show_portal && (mode == Mode.spring) || (mode == Mode.auto_spring));
+        robot_portal?.SetActive(show_portal && (mode == Mode.robot) || (mode == Mode.auto_robot));
     }
 #endif
 }
