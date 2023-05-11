@@ -16,6 +16,13 @@ public class PlayerControllerV2 : MonoBehaviour
     private GameManager gamemanager;
     private TimeManager timeManager;
 
+    // EVENTS
+    public delegate void DeathAction();
+    public static event DeathAction OnDeath;
+
+    public delegate void RespawnAction();
+    public static event RespawnAction OnRespawn;
+
     // MODE
     public enum Gamemode
     {
@@ -2896,6 +2903,8 @@ public class PlayerControllerV2 : MonoBehaviour
 
         player_body.velocity = Vector2.zero;
 
+        if (OnDeath != null) { OnDeath(); }
+
         StartCoroutine(Respawn());
     }
 
@@ -2952,6 +2961,8 @@ public class PlayerControllerV2 : MonoBehaviour
             gamemanager.setToNewBGMusic();
             bgmusic.Play();
         }
+
+        if (OnRespawn != null) { OnRespawn(); }
 
         dead = false;
         able = true;

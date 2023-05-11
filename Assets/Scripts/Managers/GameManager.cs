@@ -125,10 +125,11 @@ public class GameManager : MonoBehaviour
 
     private bool drawOn, hideRenderers;
     private DrawColliders drawColliders;
+    public GameObject lineTrackerObj;
 
     private bool showStats;
     private LevelDevTools levelDevTools;
-    private GameObject statsObj;
+    private GameObject statsObj, trackerObj;
 
     private GameObject[] initialList;
     private List<CinemachineVirtualCamera> cameraList;
@@ -321,6 +322,7 @@ public class GameManager : MonoBehaviour
 
         // pause
         statsObj = canvas.GetChild(3).gameObject;
+        trackerObj = canvas.GetChild(4).gameObject;
         Pause_Menu = canvas.GetChild(5).gameObject;
         Menu1 = Pause_Menu.transform.GetChild(1).gameObject;
         Menu2 = Pause_Menu.transform.GetChild(2).gameObject;
@@ -832,8 +834,10 @@ public class GameManager : MonoBehaviour
             levelDevTools.enabled = showStats;
             statsObj.SetActive(showStats);
 
-            Cursor.visible = !paused ? showStats : true;
-            showCursorInGame = showStats;
+            trackerObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, showStats ? -360 : -455, 0);
+
+            Cursor.visible = !paused ? showStats || lineTrackerObj.activeSelf : true;
+            showCursorInGame = showStats || lineTrackerObj.activeSelf;
 
             //if (!showStats) { timeManager.setScale(4, 1); levelDevTools.setTimeSlider(1); }
         }
@@ -854,6 +858,17 @@ public class GameManager : MonoBehaviour
         {
             hideRenderers = !hideRenderers;
             drawColliders.HideRenderers(hideRenderers);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            lineTrackerObj.SetActive(!lineTrackerObj.activeSelf);
+            trackerObj.SetActive(lineTrackerObj.activeSelf);
+
+            trackerObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, showStats ? -360 : -455, 0);
+
+            Cursor.visible = !paused ? lineTrackerObj.activeSelf || showStats : true;
+            showCursorInGame = lineTrackerObj.activeSelf || showStats;
         }
 
         if (input.Menu.Restart.triggered/*Input.GetKeyDown("r")*/ && !halt)
@@ -1140,6 +1155,7 @@ public class GameManager : MonoBehaviour
         }
 
         endscreen = true;
+        Saving.gameObject.SetActive(true);
         Saving.text = "Saving...";
         for (int i = 0; i < coin_count.Length; i++)
         {

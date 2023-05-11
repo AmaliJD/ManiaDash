@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public static class VectorExtension
 {
     public static Vector2 Rotate(this Vector2 v, float degrees)
@@ -199,6 +198,19 @@ public static class VectorExtension
         float revY = Mathf.Sign(vector.y);
 
         return new Vector2(vector.x + revX * i, vector.y + revY * i);
+    }
+
+    public static bool Approximately(Vector2 v0, Vector2 v1, int decimals = -1)
+    {
+        if(decimals >= 0)
+        {
+            float power = Mathf.Pow(10, decimals);
+            v0.x = (float)Mathf.Round(v0.x * power) / power;
+            v0.y = (float)Mathf.Round(v0.y * power) / power;
+            v1.x = (float)Mathf.Round(v1.x * power) / power;
+            v1.y = (float)Mathf.Round(v1.y * power) / power;
+        }
+        return Mathf.Approximately(v0.x, v1.x) && Mathf.Approximately(v0.y, v1.y);
     }
 
     // COLOR

@@ -9,9 +9,10 @@ public class ControlsDisplay : MonoBehaviour
     public Image w, up, space, lmouse, dpadUp, controllerRight,
                  s, down, shift, rmouse, dpadDown, controllerDown, controllerLeft, controllerUp, controllerLT, controllerRT,
                  a, left, dpadLeft,
-                 d, right, dpadRight;
+                 d, right, dpadRight,
+                 delete;
 
-    bool jump, move_left, move_right, crouch;
+    bool jump, move_left, move_right, crouch, holding_delete;
     bool open;
 
     public InputActions input;
@@ -33,6 +34,7 @@ public class ControlsDisplay : MonoBehaviour
         crouch = input.Player.Crouch.ReadValue<float>() >= 0.7f;
         move_left = input.Player.MovementHorizontal.ReadValue<float>() < 0;
         move_right = input.Player.MovementHorizontal.ReadValue<float>() > 0;
+        holding_delete = Input.GetKey(KeyCode.Delete) && !jump && !crouch && !move_left && !move_right;
 
         w.color = jump ? Color.red : Color.white;
         up.color = jump ? Color.red : Color.white;
@@ -61,6 +63,8 @@ public class ControlsDisplay : MonoBehaviour
         d.color = move_right ? Color.red : Color.white;
         right.color = move_right ? Color.red : Color.white;
         dpadRight.color = move_right ? Color.red : Color.white;
+
+        delete.color = holding_delete ? Color.red : Color.white;
     }
 
     public void Open(bool o)

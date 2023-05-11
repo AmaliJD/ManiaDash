@@ -432,7 +432,7 @@ public class DrawColliders : MonoBehaviour
 		hideRenderers = hide;
 		if (hide)
 		{
-			mainCamera.cullingMask = 1 << LayerMask.NameToLayer("Camera");
+			mainCamera.cullingMask = (1 << LayerMask.NameToLayer("Camera")) | (1 << LayerMask.NameToLayer("Lines"));
 			foreach (ProximityEffector px in FindObjectsOfType<ProximityEffector>())
 			{
 				px.enabled = true;
