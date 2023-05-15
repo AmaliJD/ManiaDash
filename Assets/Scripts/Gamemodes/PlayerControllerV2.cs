@@ -2385,6 +2385,13 @@ public class PlayerControllerV2 : MonoBehaviour
                         jump = false;
                         goingUp = !goingUp;
                         main_trail.emitting = false;
+
+                        float speedLimit = !mini ? 45f : 20f;
+                        int rev = goingUp ? 1 : -1;
+                        if (Vector2.Dot(velocityVectorY, gravityOrientation * rev) >= speedLimit)
+                        {
+                            velocityVectorY = speedLimit * gravityOrientation * rev;
+                        }
                     }
                     break;
 
@@ -2469,7 +2476,7 @@ public class PlayerControllerV2 : MonoBehaviour
         if(!inDash && (gamemode == Gamemode.copter || gamemode == Gamemode.auto_copter))
         {
             addForce = true;
-            float strength = !mini ? (gamemode == Gamemode.copter ? 40 : 45) : 60;
+            float strength = !mini ? (gamemode == Gamemode.copter ? 40 : 45) : 55;
             int rev = goingUp ? 1 : -1;
 
             additionalForce = rev * strength * -gravityOrientation;
