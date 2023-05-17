@@ -16,6 +16,10 @@ public class PadComponent : MonoBehaviour
     public AudioSource sfx;
     private GameManager gamemanager;
 
+    [Header("Pad Properties")]
+    [Min(0)]
+    public float multiplier = 1;
+
     [Header("Rebound Pad")]
     public bool rebound;
     public Transform spriteSection;

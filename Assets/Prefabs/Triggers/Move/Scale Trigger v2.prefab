@@ -295,7 +295,7 @@ MonoBehaviour:
   stayToScale: 0
   scaleSpeed: {x: 0, y: 0}
   invertScaleMode: 0
-  modScaleMode: 1
+  modScaleMode: 0
   modScaleAmount: {x: 0, y: 0}
   applyModPerTarget: 0
   reverseOrderPerTarget: 0
@@ -330,6 +330,7 @@ MonoBehaviour:
   loop: 0
   loopDelay: 0
   triggerLimit: -1
+  offScreenDisable: 0
   resetOnDeathPerCheckpoint: 0
   playOnAwake: 0
   paused: 0

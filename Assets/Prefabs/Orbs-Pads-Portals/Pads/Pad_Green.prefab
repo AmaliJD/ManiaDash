@@ -497,6 +497,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pulse: {fileID: 3767312412343400584}
   sfx: {fileID: 0}
+  multiplier: 1
+  rebound: 0
+  spriteSection: {fileID: 0}
+  reverse: 0
 --- !u!1 &4674589838335508250
 GameObject:
   m_ObjectHideFlags: 0

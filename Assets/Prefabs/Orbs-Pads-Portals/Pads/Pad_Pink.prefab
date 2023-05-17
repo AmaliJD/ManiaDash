@@ -5029,7 +5029,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.15}
+    oldSize: {x: 1, y: 0.16}
     newSize: {x: 1, y: 0.15}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -5052,6 +5052,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pulse: {fileID: 7485275854373494075}
   sfx: {fileID: 0}
+  multiplier: 1
+  rebound: 0
+  spriteSection: {fileID: 0}
+  reverse: 0
 --- !u!1 &7973563656240716679
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ public static class BuildHelper
     const string UNDO_ACTIVATE = "Activate";
     const string UNDO_ENABLE = "Enable";
     const string UNDO_DISABLE = "Disable";
+    const string UNDO_LAYER_ORDER_UP = "Layer Order Up";
+    const string UNDO_LAYER_ORDER_DOWN = "Layer Order Down";
 
     [MenuItem("BuildHelper/Align X #X", isValidateFunction: true)]
     public static bool AlignXValidate()
@@ -52,6 +54,18 @@ public static class BuildHelper
 
     [MenuItem("BuildHelper/Disable All Children #2", isValidateFunction: true)]
     public static bool DisableAllChildrenValidate()
+    {
+        return Selection.gameObjects.Length > 0 && Selection.transforms.Length > 0;
+    }
+
+    [MenuItem("BuildHelper/Increase Order In Layer #=", isValidateFunction: true)]
+    public static bool IncreaseOrderInLayerValidate()
+    {
+        return Selection.gameObjects.Length > 0 && Selection.transforms.Length > 0;
+    }
+
+    [MenuItem("BuildHelper/Decrease Order In Layer #-", isValidateFunction: true)]
+    public static bool DecreaseOrderInLayerValidate()
     {
         return Selection.gameObjects.Length > 0 && Selection.transforms.Length > 0;
     }
@@ -275,6 +289,36 @@ public static class BuildHelper
             Undo.RecordObject(obj, UNDO_DISABLE);
             //ct.channel.Set(ct.new_color);
             obj.SetActive(false);
+        }
+    }
+
+    [MenuItem("BuildHelper/Increase Order In Layer #=")]
+    public static void IncreaseOrderInLayer()
+    {
+        List<SpriteRenderer> spriteList = Selection.gameObjects
+                                            .Where(x => x.GetComponent<SpriteRenderer>() != null)
+                                            .ToList()
+                                            .ConvertAll(x => x.GetComponent<SpriteRenderer>());
+
+        foreach (SpriteRenderer sprt in spriteList)
+        {
+            Undo.RecordObject(sprt, UNDO_LAYER_ORDER_UP);
+            sprt.sortingOrder++;
+        }
+    }
+
+    [MenuItem("BuildHelper/Decrease Order In Layer #-")]
+    public static void DecreaseOrderInLayer()
+    {
+        List<SpriteRenderer> spriteList = Selection.gameObjects
+                                            .Where(x => x.GetComponent<SpriteRenderer>() != null)
+                                            .ToList()
+                                            .ConvertAll(x => x.GetComponent<SpriteRenderer>());
+
+        foreach (SpriteRenderer sprt in spriteList)
+        {
+            Undo.RecordObject(sprt, UNDO_LAYER_ORDER_DOWN);
+            sprt.sortingOrder--;
         }
     }
 }

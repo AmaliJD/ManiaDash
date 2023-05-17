@@ -324,6 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pulse: {fileID: 2137126347972789269}
   sfx: {fileID: 0}
+  multiplier: 1
   rebound: 1
   spriteSection: {fileID: 7326065123364381140}
   reverse: 0

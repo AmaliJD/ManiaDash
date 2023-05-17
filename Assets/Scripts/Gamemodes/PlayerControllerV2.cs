@@ -572,6 +572,16 @@ public class PlayerControllerV2 : MonoBehaviour
             crouch = false;
         }
 
+        if((prevGamemode != Gamemode.wave || prevGamemode != Gamemode.auto_wave) && (gamemode == Gamemode.wave || gamemode == Gamemode.auto_wave))
+        {
+            launched = false;
+        }
+
+        if(gamemode != Gamemode.wave && gamemode != Gamemode.auto_wave)
+        {
+            wave_trail.GetComponent<TrailRenderer>().Clear();
+        }
+
         icon.SetActive(!(gamemode == Gamemode.ball || gamemode == Gamemode.auto_ball
                     || gamemode == Gamemode.spider || gamemode == Gamemode.auto_spider
                     || gamemode == Gamemode.wave || gamemode == Gamemode.auto_wave));
@@ -2094,7 +2104,7 @@ public class PlayerControllerV2 : MonoBehaviour
                 jump_air = false;
                 launched = false;
                 dashDisable = false;
-                //main_trail.emitting = true;
+                main_trail.emitting = false;
                 if (OrbTouched != null)
                 {
                     orbscript.Pulse();
@@ -2497,6 +2507,7 @@ public class PlayerControllerV2 : MonoBehaviour
             {
                 padscript = PadTouched.GetComponent<PadComponent>();
                 changeDirection = padscript.reverse;
+                jumpForce *= padscript.multiplier;
             }
 
             if(rebound_pad)
