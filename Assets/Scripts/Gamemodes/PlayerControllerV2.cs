@@ -79,6 +79,7 @@ public class PlayerControllerV2 : MonoBehaviour
     [SerializeField] private GameObject jepack_trails;
     [SerializeField] private GameObject wave_trail;
     [SerializeField] private GameObject auto_wave_trail;
+    [SerializeField] private TrailRenderer copter_trail;
 
     [Header("Effects")]
     [SerializeField] private GameObject dash_effect;
@@ -575,12 +576,17 @@ public class PlayerControllerV2 : MonoBehaviour
         if((prevGamemode != Gamemode.wave || prevGamemode != Gamemode.auto_wave) && (gamemode == Gamemode.wave || gamemode == Gamemode.auto_wave))
         {
             launched = false;
+            wave_trail.GetComponent<TrailRenderer>().Clear();
+            wave_trail.transform.GetChild(0).GetComponent<TrailRenderer>().Clear();
+            auto_wave_trail.GetComponent<TrailRenderer>().Clear();
+            auto_wave_trail.transform.GetChild(0).GetComponent<TrailRenderer>().Clear();
         }
 
-        if(gamemode != Gamemode.wave && gamemode != Gamemode.auto_wave)
+        /*if(gamemode != Gamemode.wave && gamemode != Gamemode.auto_wave)
         {
             wave_trail.GetComponent<TrailRenderer>().Clear();
-        }
+            auto_wave_trail.GetComponent<TrailRenderer>().Clear();
+        }*/
 
         icon.SetActive(!(gamemode == Gamemode.ball || gamemode == Gamemode.auto_ball
                     || gamemode == Gamemode.spider || gamemode == Gamemode.auto_spider
@@ -606,6 +612,7 @@ public class PlayerControllerV2 : MonoBehaviour
 
         windUp.gameObject.SetActive(gamemode == Gamemode.copter || gamemode == Gamemode.auto_copter);
         windDown.gameObject.SetActive(gamemode == Gamemode.copter || gamemode == Gamemode.auto_copter);
+        copter_trail.emitting = (gamemode == Gamemode.copter || gamemode == Gamemode.auto_copter);
 
         posMaxSpeed = gamemodeConstants[gamemode].posMaxSpeed;
         firstFramesBuffer = FRAMEBUFFERTIME;
