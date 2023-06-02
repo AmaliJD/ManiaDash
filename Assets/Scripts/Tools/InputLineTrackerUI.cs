@@ -12,6 +12,11 @@ public class InputLineTrackerUI : MonoBehaviour
     public Slider eraseSlider;
     public Text eraseText;
 
+    private void Awake()
+    {
+        LoadPlayerPrefs();
+    }
+
     public void SetTrackingPosition()
     {
         tracker.trackMove = trackingPositionToggle.isOn;
@@ -42,5 +47,32 @@ public class InputLineTrackerUI : MonoBehaviour
     public void Clear()
     {
         tracker.ClearAll();
+    }
+
+    void LoadPlayerPrefs()
+    {
+        trackingJumpToggle.isOn = PlayerPrefs.GetInt("trackJump", 0) == 1;
+        trackingCrouchToggle.isOn = PlayerPrefs.GetInt("trackCrouch", 0) == 1;
+        trackingPositionToggle.isOn = PlayerPrefs.GetInt("trackMove", 1) == 1;
+        eraseSlider.value = PlayerPrefs.GetInt("keepLastDeaths", 0);
+
+        SetTrackingPosition();
+        SetTrackingJump();
+        SetTrackingCrouch();
+        SetTrackingCrouch();
+    }
+
+    public void SavePlayerPrefs()
+    {
+        PlayerPrefs.SetInt("trackJump", trackingJumpToggle.isOn ? 1 : 0);
+        PlayerPrefs.SetInt("trackCrouch", trackingCrouchToggle.isOn ? 1 : 0);
+        PlayerPrefs.SetInt("trackMove", trackingPositionToggle.isOn ? 1 : 0);
+        PlayerPrefs.SetInt("keepLastDeaths", (int)eraseSlider.value);
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SavePlayerPrefs();
     }
 }

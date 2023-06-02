@@ -15,7 +15,7 @@ public class EditSaveData : MonoBehaviour
 
     private GlobalData savedata;
 
-    public GameObject icon_locks, color_locks, shader_locks;
+    public GameObject icon_locks, color_locks, shader_locks, transparency_lock;
     private bool locked = true;
 
     private void Start()
@@ -160,5 +160,6 @@ public class EditSaveData : MonoBehaviour
         icon_locks.SetActive(locked);
         color_locks.SetActive(locked);
         shader_locks.SetActive(locked);
+        //transparency_lock.SetActive(locked);
     }
 }

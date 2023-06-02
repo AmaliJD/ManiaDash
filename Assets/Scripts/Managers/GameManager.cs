@@ -1567,6 +1567,11 @@ public class GameManager : MonoBehaviour
         return time;
     }
 
+    public string getFormattedTime()
+    {
+        return min + ":" + (sec < 10 ? "0" : "") + sec + ":" + (milli < 100 ? "0" : "") + (milli < 10 ? "0" : "") + milli;
+    }
+
     public int getLevelNumber()
     {
         return levelNumber;
@@ -1603,6 +1608,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("hide_ui", hideUI ? 1 : 0);
         PlayerPrefs.SetInt("record_playback", record_playback);
         PlayerPrefs.SetInt("record_playback_100", record_playback_100);
+        trackerObj.GetComponent<InputLineTrackerUI>().SavePlayerPrefs();
         PlayerPrefs.Save();
     }
 

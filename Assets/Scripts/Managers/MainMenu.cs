@@ -21,6 +21,8 @@ public class MainMenu : MonoBehaviour
 
     public GameObject iconlocks, colorlocks;
     public GameObject sliderlock, shaderlocks;
+    public GameObject togglelock, toggleLockText;
+    public GameObject challengeLock;
     private float music_volume, sfx_volume;
 
     public GameObject new_unlocks_text;
@@ -58,6 +60,7 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
         Resources.UnloadUnusedAssets();
+        Time.timeScale = 1;
         Cursor.visible = true;
         Debug.Log("Refresh Rate: " + Screen.currentResolution.refreshRate);
         logolightblue = new Color(0, 0.4670315f, 1);
@@ -284,6 +287,61 @@ public class MainMenu : MonoBehaviour
         {
             sliderlock.SetActive(false);
         }
+
+        UnlockChallenge();
+        ToggleLocksCheck();
+    }
+
+    void UnlockChallenge()
+    {
+        for (int i = 1; i <= 6; i++)
+        {
+            if(savedata.levels_completed_and_coins[i,0] == 0)
+            {
+                return;
+            }
+        }
+
+        challengeLock.SetActive(false);
+    }
+
+    public void ToggleLocksCheck()
+    {
+        // TOGGLE LOCK
+        int[] unlockableIcons = new int[] { 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+        foreach (int i in unlockableIcons)
+        {
+            if (savedata.icon_availability[i] != 1)
+            {
+                return;
+            }
+        }
+
+        int[] unlockableColors = new int[] { 0, 2, 3, 5, 6, 8, 9, 11, 19, 20, 21, 27, 28, 29, 30 };
+        foreach (int i in unlockableColors)
+        {
+            if (savedata.color_availability[i] != 1)
+            {
+                return;
+            }
+        }
+
+        int[] unlockableShader = new int[] { 1, 2, 3, 4, 5 };
+        foreach (int i in unlockableShader)
+        {
+            if (savedata.shader_availability[i] != 1)
+            {
+                return;
+            }
+        }
+
+        if (savedata.total_coins < 9)
+        {
+            return;
+        }
+
+        togglelock.SetActive(false);
+        toggleLockText.SetActive(true);
     }
 
     private void LoadData()
@@ -335,7 +393,7 @@ public class MainMenu : MonoBehaviour
             Debug.LogError("No Save File Found");
         }
 
-        savedata.update = 2.16f;
+        savedata.update = 2.2f;
     }
 
     public void SaveData()

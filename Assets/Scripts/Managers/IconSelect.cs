@@ -306,6 +306,7 @@ public class IconSelect : MonoBehaviour
             buy.Play();
         }
         GetComponent<MainMenu>().SaveData();
+        GetComponent<MainMenu>().ToggleLocksCheck();
     }
 
     public void buyColor(float i)
@@ -321,6 +322,7 @@ public class IconSelect : MonoBehaviour
             savedata.total_diamonds -= price;
             buy.Play();
         }
+        GetComponent<MainMenu>().ToggleLocksCheck();
     }
 
     public void buyShader(float i)
@@ -337,5 +339,6 @@ public class IconSelect : MonoBehaviour
             savedata.total_diamonds -= price;
             buy.Play();
         }
+        GetComponent<MainMenu>().ToggleLocksCheck();
     }
 }

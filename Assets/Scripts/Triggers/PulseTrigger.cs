@@ -74,6 +74,8 @@ public class PulseTrigger : MonoBehaviour
     public Speed speed = Speed.x1;
     public bool durationline;
 
+    public bool previewMode;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -276,6 +278,15 @@ public class PulseTrigger : MonoBehaviour
         gr.SetKeys(gck, gak);
 
         return gr;
+    }
+
+    public void EditorPulse()
+    {
+        /*if(colormaster == null)
+            colormaster = GameObject.FindGameObjectWithTag("Master").GetComponent<ColorMaster>();
+
+        Enter();*/
+        Debug.Log("This button doesn't do anything right now. It's supposed to play the pulse in edit mode");
     }
 
     public void Enter()

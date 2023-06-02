@@ -116,6 +116,19 @@ public class PulseTriggerEditor : Editor
             EditorGUILayout.PropertyField(serializedObject.FindProperty("speed"), true);
         }
 
+        EditorGUILayout.Space();
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("previewMode"), true);
+
+        EditorGUILayout.Space();
+
+        PulseTrigger trigger = (PulseTrigger)target;
+
+        if (GUILayout.Button("Pulse"))
+        {
+            trigger.EditorPulse();
+        }
+
         serializedObject.ApplyModifiedProperties();
     }
 }

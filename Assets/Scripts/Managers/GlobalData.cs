@@ -65,7 +65,7 @@ public class GlobalData
 
         total_diamonds = 0;
         total_coins = 0;
-        update = 2.16f;
+        update = 2.2f;
         extra = 0;
 
         // initial setup
