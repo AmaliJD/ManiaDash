@@ -142,6 +142,8 @@ public class GameManager : MonoBehaviour
     private MusicTrigger activeMusicTrigger;
     private GlobalData data;
 
+    public bool disableAltCubeJumps;
+
     private void LevelStartedEvent()
     {
         if (IsLoggedIn)
@@ -515,8 +517,12 @@ public class GameManager : MonoBehaviour
             effects.SetActive(false);
         }*/
 
-        newPlayer.fixedJumpHeight = fixedJumpToggle.isOn;
-        newPlayer.cubeHoldJump = holdJumpToggle.isOn;
+        if (!disableAltCubeJumps)
+        {
+            newPlayer.fixedJumpHeight = fixedJumpToggle.isOn;
+            newPlayer.cubeHoldJump = holdJumpToggle.isOn;
+        }
+        
         setToggleOn(fixedJumpToggle, fixedJumpToggle.isOn);
         setToggleOn(holdJumpToggle, holdJumpToggle.isOn);
         setToggleOn(hideUIToggle, hideUI);
@@ -1097,6 +1103,7 @@ public class GameManager : MonoBehaviour
 
             data = formatter.Deserialize(stream) as GlobalData;
 
+            if (levelNumber == -1) { stream.Close(); return; }
             coin_count[0] = data.levels_completed_and_coins[levelNumber, 1];
             coin_count[1] = data.levels_completed_and_coins[levelNumber, 2];
             coin_count[2] = data.levels_completed_and_coins[levelNumber, 3];
@@ -1117,10 +1124,20 @@ public class GameManager : MonoBehaviour
 
         if (File.Exists(path))
         {
-            
             stream = new FileStream(path, FileMode.Open);
             data = formatter.Deserialize(stream) as GlobalData;
             stream.Close();
+        }
+
+        if (levelNumber == -1)
+        {
+            data.extra = 1;
+
+            stream = new FileStream(path, FileMode.Create);
+            formatter.Serialize(stream, data);
+            stream.Close();
+
+            return;
         }
 
         bool allcoins = true;

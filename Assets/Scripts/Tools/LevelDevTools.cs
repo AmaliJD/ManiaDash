@@ -31,6 +31,9 @@ public class LevelDevTools : MonoBehaviour
     private int changeTimeScale;
     private float prevtimeScaleValue;
 
+    public SpawnTrigger spawnTrigger;
+    private bool spawnTriggerActivated;
+
     private void Awake()
     {
         if (input == null)
@@ -197,5 +200,11 @@ public class LevelDevTools : MonoBehaviour
                 gameManager.setTime(gameManager.getTime() + s);
             }
         }
+    }
+
+    public void ActivateSpawn()
+    {
+        if (!spawnTriggerActivated) { spawnTrigger.Activate(); }
+        spawnTriggerActivated = true;
     }
 }

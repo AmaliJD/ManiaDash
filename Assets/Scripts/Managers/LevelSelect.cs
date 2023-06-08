@@ -38,6 +38,7 @@ public class LevelSelect : MonoBehaviour
 
     private void BeginLevel(int levelNumber)
     {
+        if(levelNumber == -1) { return; }
         if (IsLoggedIn)
         {
             PlayFabClientAPI.WritePlayerEvent(new WriteClientPlayerEventRequest()
@@ -127,6 +128,11 @@ public class LevelSelect : MonoBehaviour
         if (i == 0)
         {
             SceneManager.LoadScene("Testroom");
+            yield break;
+        }
+        else if (i == -1)
+        {
+            SceneManager.LoadScene("The Challenge");
             yield break;
         }
         SceneManager.LoadScene("Level " + i);

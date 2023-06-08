@@ -51,7 +51,7 @@ TextureImporter:
       213: 9120230537695575047
     second: GDL_Spike_Outline_3
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -105,6 +105,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -181,7 +182,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -92, y: -44}
+        - {x: -92, y: 46}
+        - {x: 47, y: 18}
+        - {x: 47, y: -17}
       tessellationDetail: 0
       bones: []
       spriteID: 70cb30d5a51919e70800000000000000
@@ -202,7 +207,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -43, y: -89}
+        - {x: -21, y: 44}
+        - {x: 21, y: 43}
+        - {x: 38, y: -89}
       tessellationDetail: 0
       bones: []
       spriteID: b10a8c118d659d090800000000000000
@@ -223,7 +232,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -44, y: -21}
+        - {x: -44, y: 19}
+        - {x: 91, y: 43}
+        - {x: 91, y: -40}
       tessellationDetail: 0
       bones: []
       spriteID: 888bb5c3ff83c4810800000000000000
@@ -244,7 +257,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -19, y: -47}
+        - {x: -36, y: 89}
+        - {x: 33, y: 89}
+        - {x: 19, y: -44}
       tessellationDetail: 0
       bones: []
       spriteID: 367dd678036f927a0800000000000000

@@ -120,4 +120,55 @@ public class LockCameraXY : CinemachineExtension
         float rel = Mathf.InverseLerp(origFrom, origTo, value);
         return Mathf.Lerp(targetFrom, targetTo, rel);
     }
+
+    public Vector3 GetCamPosition(string type)
+    {
+        float camRotation = -Camera.main.transform.eulerAngles.z;
+        float halfWidth = Camera.main.pixelWidth / 2;
+        float halfHeight = Camera.main.pixelHeight / 2;
+        Vector3 center = new Vector3(halfWidth, halfHeight, Camera.main.nearClipPlane);
+
+        float distX = halfWidth;
+        float distY = halfHeight;
+        float clampedRotation = (camRotation + 720) % 360;
+
+        if (clampedRotation <= 90)
+        {
+            distX = remap(0, 90, halfWidth, halfHeight, clampedRotation);
+            distY = remap(0, 90, halfHeight, halfWidth, clampedRotation);
+        }
+        else if (clampedRotation <= 180)
+        {
+            distX = remap(90, 180, halfHeight, halfWidth, clampedRotation);
+            distY = remap(90, 180, halfWidth, halfHeight, clampedRotation);
+        }
+        else if (clampedRotation <= 270)
+        {
+            distX = remap(180, 270, halfWidth, halfHeight, clampedRotation);
+            distY = remap(180, 270, halfHeight, halfWidth, clampedRotation);
+        }
+        else if (clampedRotation <= 360)
+        {
+            distX = remap(270, 360, halfHeight, halfWidth, clampedRotation);
+            distY = remap(270, 360, halfWidth, halfHeight, clampedRotation);
+        }
+
+        switch (type)
+        {
+            case "left":
+                return Camera.main.ScreenToWorldPoint(new Vector3(-distX, 0, Camera.main.nearClipPlane).Rotate(camRotation) + center);
+
+            case "right":
+                return Camera.main.ScreenToWorldPoint(new Vector3(distX, 0, Camera.main.nearClipPlane).Rotate(camRotation) + center);
+
+            case "top":
+                return Camera.main.ScreenToWorldPoint(new Vector3(0, distY, Camera.main.nearClipPlane).Rotate(camRotation) + center);
+
+            case "bottom":
+                return Camera.main.ScreenToWorldPoint(new Vector3(0, -distY, Camera.main.nearClipPlane).Rotate(camRotation) + center);
+
+            default:
+                return Camera.main.ScreenToWorldPoint(center);
+        }
+    }
 }

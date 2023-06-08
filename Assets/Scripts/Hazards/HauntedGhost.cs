@@ -218,6 +218,8 @@ public class HauntedGhost : MonoBehaviour
 
     public IEnumerator Shrink()
     {
+        float fpsRatio = gamemanager.getFPSRatio();
+
         hitbox_death.SetActive(false);
         foreach (ParticleSystem ps in particles)
         {
@@ -227,7 +229,7 @@ public class HauntedGhost : MonoBehaviour
         float time = 0;
         while(time <= 0.9f)
         {
-            body.Rotate(new Vector3(0, 0, -5f), Space.Self);
+            body.Rotate(new Vector3(0, 0, -5f / fpsRatio), Space.Self);
             body.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, time / 0.9f);
             light.intensity = 1 - (time / 0.9f);
             time += Time.deltaTime;

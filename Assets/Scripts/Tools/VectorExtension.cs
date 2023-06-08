@@ -16,6 +16,19 @@ public static class VectorExtension
         return newVector;
     }
 
+    public static Vector3 Rotate(this Vector3 v, float degrees)
+    {
+        Vector3 newVector = new Vector3(v.x, v.y, v.z);
+        float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
+        float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
+
+        float tx = newVector.x;
+        float ty = newVector.y;
+        newVector.x = (cos * tx) - (sin * ty);
+        newVector.y = (sin * tx) + (cos * ty);
+        return newVector;
+    }
+
     public static Vector2 RotateRange(this Vector2 v, float degrees)
     {
         float randDegrees = Random.Range(-degrees, degrees);
@@ -31,6 +44,11 @@ public static class VectorExtension
         Vector2 newVector = v.Rotate(randDegrees);
 
         return newVector;
+    }
+
+    public static Vector2 Round(this Vector2 v)
+    {
+        return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y));
     }
 
     public static float InverseLerp(Vector4 a, Vector4 b, Vector4 value)

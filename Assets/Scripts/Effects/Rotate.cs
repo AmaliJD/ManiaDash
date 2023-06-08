@@ -5,13 +5,23 @@ using UnityEngine;
 public class Rotate : MonoBehaviour
 {
     public float speedX, speedY, speedZ;
-    public bool fixedAngle;
+    public bool fixedAngle, random;
     List<Transform> children;
     List<Quaternion> initialRotations;
+
+    private float rev = 1;
 
     private void Awake()
     {
         visible = GetComponent<SpriteRenderer>() == null;
+
+        if(random)
+        {
+            rev = Random.Range(0, 2) == 0 ? 1 : -1;
+            speedX *= rev;
+            speedY *= rev;
+            speedZ *= rev;
+        }
     }
 
     private void Start()

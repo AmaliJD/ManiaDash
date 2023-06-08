@@ -1809,10 +1809,11 @@ public class PlayerControllerV2 : MonoBehaviour
                     spider_trail.emitting = true;
                     SpOrTr.Activate(spider_trail, gameObject);
 
+                    groundhit.normal = groundhit.normal.Round();
                     bool flipDirection = false;
                     if(groundhit.normal == new Vector2(0, 1))
                     {
-                        if(gravityDirection == 2) normalBaseOrientation = !normalBaseOrientation;
+                        if (gravityDirection == 2) normalBaseOrientation = !normalBaseOrientation;
                         gravityDirection = 0;
                     }
                     else if (groundhit.normal == new Vector2(1, 0))

@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour
     public GameObject iconlocks, colorlocks;
     public GameObject sliderlock, shaderlocks;
     public GameObject togglelock, toggleLockText;
-    public GameObject challengeLock;
+    public GameObject challengeLock, challengeStar;
     private float music_volume, sfx_volume;
 
     public GameObject new_unlocks_text;
@@ -109,7 +109,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         fullscreenToggle.isOn = Screen.fullScreen;        
-        savedata.extra = 0;        
+        //savedata.extra = 0;        
         Unlock();
 
         if (unlock && pagenumber == 2)
@@ -303,6 +303,8 @@ public class MainMenu : MonoBehaviour
         }
 
         challengeLock.SetActive(false);
+        challengeStar.SetActive(savedata.extra == 1);
+        Debug.Log("EXTRA: " + (savedata.extra == 1));
     }
 
     public void ToggleLocksCheck()

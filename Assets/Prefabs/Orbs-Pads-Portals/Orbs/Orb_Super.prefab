@@ -499,6 +499,7 @@ MonoBehaviour:
   speedY: 0
   speedZ: -300
   fixedAngle: 0
+  random: 0
 --- !u!1 &1010925640494879531
 GameObject:
   m_ObjectHideFlags: 0
@@ -2286,6 +2287,7 @@ MonoBehaviour:
   speedY: 0
   speedZ: 300
   fixedAngle: 0
+  random: 0
 --- !u!1 &1010925641532585634
 GameObject:
   m_ObjectHideFlags: 0
@@ -7912,6 +7914,7 @@ MonoBehaviour:
   speedY: 0
   speedZ: 300
   fixedAngle: 0
+  random: 0
 --- !u!1 &1010925642193472092
 GameObject:
   m_ObjectHideFlags: 0

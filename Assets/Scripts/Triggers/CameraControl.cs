@@ -362,7 +362,7 @@ public class CameraControl : MonoBehaviour
 
         lockCam.leftWall.parent = target;
 
-        Vector2 startTargetPos = lockCam.leftWall != null ? lockCam.leftWall.position : target.position;
+        Vector2 startTargetPos = lockCam.leftWall != null ? lockCam.GetCamPosition("left")/* lockCam.leftWall.position*/ : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.leftWall.position;
 
         float time = duration != 0 ? 0 : 1;
@@ -429,7 +429,7 @@ public class CameraControl : MonoBehaviour
 
         lockCam.rightWall.parent = target;
 
-        Vector2 startTargetPos = lockCam.rightWall != null ? lockCam.rightWall.position : target.position;
+        Vector2 startTargetPos = lockCam.rightWall != null ? lockCam.GetCamPosition("right")/*lockCam.rightWall.position*/ : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.rightWall.position;
 
         float time = duration != 0 ? 0 : 1;
@@ -496,7 +496,7 @@ public class CameraControl : MonoBehaviour
 
         lockCam.topWall.parent = target;
 
-        Vector2 startTargetPos = lockCam.topWall != null ? lockCam.topWall.position : target.position;
+        Vector2 startTargetPos = lockCam.topWall != null ? lockCam.GetCamPosition("top")/*lockCam.topWall.position*/ : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.topWall.position;
 
         float time = duration != 0 ? 0 : 1;
@@ -563,7 +563,7 @@ public class CameraControl : MonoBehaviour
 
         lockCam.bottomWall.parent = target;
 
-        Vector2 startTargetPos = lockCam.bottomWall != null ? lockCam.bottomWall.position : target.position;
+        Vector2 startTargetPos = lockCam.bottomWall != null ? lockCam.GetCamPosition("bottom")/*lockCam.bottomWall.position*/ : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.bottomWall.position;
 
         float time = duration != 0 ? 0 : 1;

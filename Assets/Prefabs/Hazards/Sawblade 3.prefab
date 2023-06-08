@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingOrder: -2
   m_Sprite: {fileID: 2067482799186717128, guid: d17614b2eac83934382251160eef07fb,
     type: 3}
-  m_Color: {r: 1, g: 0.23577261, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.37647063, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   speedY: 0
   speedZ: -50
   fixedAngle: 0
+  random: 0
 --- !u!114 &9144747472358299439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +250,7 @@ SpriteRenderer:
   m_SortingOrder: -2
   m_Sprite: {fileID: -3208188536959462072, guid: b82d3c58c1fdacd4daa2508bd37227b8,
     type: 3}
-  m_Color: {r: 0, g: 0.27753663, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.4627452, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -410,7 +411,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 2092316930144421921, guid: b82d3c58c1fdacd4daa2508bd37227b8,
     type: 3}
-  m_Color: {r: 0, g: 0.27753663, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.4627452, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -436,6 +437,7 @@ MonoBehaviour:
   speedY: 0
   speedZ: 100
   fixedAngle: 0
+  random: 0
 --- !u!58 &9144747472736276222
 CircleCollider2D:
   m_ObjectHideFlags: 0
