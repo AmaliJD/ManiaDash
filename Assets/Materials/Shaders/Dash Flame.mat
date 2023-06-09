@@ -167,7 +167,7 @@ Material:
     - _EnableHeightBlend: 0
     - _EnableInstancedPerPixelNormal: 1
     - _EnvironmentReflections: 1
-    - _FireBottom: -0.9604951
+    - _FireBottom: -0.9094575
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
     - _GlossMapScale: 1

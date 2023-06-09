@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
                 Body = new Dictionary<string, object>() {
                 { "LevelNumber", levelNumber },
                 { "100%", allcoins },
-                { "CurrentBest", allcoins ? data.level_times_allcoins[levelNumber] : data.level_times[levelNumber] },
+                { "CurrentBest", allcoins ? data.level_times_allcoins[levelNumber] : data.level_times[levelNumber]},
                 { "Time", time },
                 { "Diamonds", diamond_count },
                 { "FPS", fps },

@@ -38,15 +38,15 @@ public class LevelSelect : MonoBehaviour
 
     private void BeginLevel(int levelNumber)
     {
-        if(levelNumber == -1) { return; }
+        //if(levelNumber == -1) { return; }
         if (IsLoggedIn)
         {
             PlayFabClientAPI.WritePlayerEvent(new WriteClientPlayerEventRequest()
             {
                 Body = new Dictionary<string, object>() {
                 { "LevelNumber", levelNumber },
-                { "CurrentBest", savedata.level_times[levelNumber] },
-                { "CurrentBest 100%", savedata.level_times_allcoins[levelNumber] },
+                { "CurrentBest", levelNumber != -1 ? savedata.level_times[levelNumber] : savedata.extra},
+                { "CurrentBest 100%", levelNumber != -1 ? savedata.level_times_allcoins[levelNumber] : savedata.extra},
                 { "Icon", savedata.icon_index },
                 { "Player Color 1", savedata.player_color_1 },
                 { "Player Color 2", savedata.player_color_2 }
