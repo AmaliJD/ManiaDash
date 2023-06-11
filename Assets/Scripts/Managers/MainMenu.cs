@@ -395,7 +395,7 @@ public class MainMenu : MonoBehaviour
             Debug.LogError("No Save File Found");
         }
 
-        savedata.update = 2.21f;
+        savedata.update = 2.22f;
     }
 
     public void SaveData()
