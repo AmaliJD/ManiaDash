@@ -486,6 +486,7 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public bool escflag;
     private void Update()
     {
         music_volume = Mathf.Pow(musicSlider.value, 1.5f);
@@ -499,7 +500,7 @@ public class MainMenu : MonoBehaviour
         {
             //SaveData();
             //Application.Quit();
-            if (pagenumber == 0 && !optionsopen)
+            if (pagenumber == 0 && !optionsopen && escflag)
             {
                 Application.Quit();
             }

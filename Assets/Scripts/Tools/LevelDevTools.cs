@@ -84,6 +84,32 @@ public class LevelDevTools : MonoBehaviour
         maxYText.text = "Max Y: " + roundFloatToDecimals(maxY, 2);
         maxCPSText.text = "Max CPS: " + maxCPS;
 
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            FrameStep();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            setTimeSlider(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            setTimeSlider(.25f);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            setTimeSlider(.5f);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            setTimeSlider(.75f);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            setTimeSlider(1);
+        }
+
         if (xVelocity > 0)
         {
             foreach (Slider sl in XSliders)

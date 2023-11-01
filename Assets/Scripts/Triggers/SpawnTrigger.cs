@@ -78,7 +78,7 @@ public class SpawnTrigger : MonoBehaviour
         {
             while (i < triggers.Length)
             {
-                float d1 = delay[i], time = 0, d2 = 0;
+                float d1 = (delay.Length != 0 && i < delay.Length ? delay[i] : 0), time = 0, d2 = 0;
                 GameObject trigger = triggers[i];
 
                 //Debug.Log("Executing: " +  i + "    Pre Wait: " + delay[i]);
@@ -289,6 +289,24 @@ public class SpawnTrigger : MonoBehaviour
                             sfx.Play();
                             break;
 
+                        // CAMERA TRIGGER
+                        case "CameraSwitch":
+                            CameraSwitch camSwitch = trigger.GetComponent<CameraSwitch>();
+                            camSwitch.Activate();
+                            break;
+
+                        // CAMERA SWITCH
+                        case "CameraTrigger":
+                            CameraTrigger cam = trigger.GetComponent<CameraTrigger>();
+                            cam.Activate();
+                            break;
+
+                        // ASSIGNER TRIGGER
+                        case "AssignerTrigger":
+                            AssignerTrigger ass = trigger.GetComponent<AssignerTrigger>();
+                            ass.SpawnActivate();
+                            break;
+
                         default:
                             break;
                     }
@@ -423,7 +441,7 @@ public class SpawnTrigger : MonoBehaviour
                     i++;
                 }                
 
-                float delayParallel = ignorefinish ? delay[0] : longestDelay;
+                float delayParallel = ignorefinish ? (delay.Length != 0 && i < delay.Length ? delay[0] : 0) : longestDelay;
                 float delayTime = 0;
 
                 if (!(onDeathStop || onCheckpointStop))

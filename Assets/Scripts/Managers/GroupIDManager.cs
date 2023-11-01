@@ -10,6 +10,7 @@ public class GroupIDManager : MonoBehaviour
     private void Awake()
     {
         groupIDList = new Dictionary<int, List<GameObject>>();
+        
         foreach(GroupID obj in FindObjectsOfType<GroupID>())
         {
             foreach(int i in obj.ID)

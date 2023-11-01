@@ -46,6 +46,22 @@ public class AssignerTrigger : MonoBehaviour
         }
     }
 
+    public void SpawnActivate()
+    {
+        inuse = true;
+
+        if (disableAssigner != assigner.disabled)
+        {
+            assigner.disabled = disableAssigner;
+            return;
+        }
+
+        parent.Send(assigner.GetHashCode());
+        parent.setActiveTrigger(this, assigner.GetHashCode());
+
+        StartCoroutine(Activate());
+    }
+
     private IEnumerator Activate()
     {
         float time = 0;

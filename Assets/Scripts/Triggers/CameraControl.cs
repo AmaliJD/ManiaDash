@@ -270,7 +270,7 @@ public class CameraControl : MonoBehaviour
 
         lockCam.lockTarget.parent = target;
 
-        Vector2 startTargetPos = lockCam.lockTarget != null ? lockCam.GetCamPosition("center") : target.position;
+        Vector2 startTargetPos = lockCam.lockTarget != null ? /*lockCam.GetCamPosition("center")*/lockCam.lockTarget.position : target.position;
         Vector2 endTargetPos = target != null ? target.position : lockCam.lockTarget.position;
 
         Vector2 startOffset = lockCam.offset;

@@ -211,4 +211,9 @@ public class MusicTrigger : MonoBehaviour
             else if (mode.ToString() == "freqPass") { StartCoroutine(setFrequencyPass()); }*/
         }
     }
+
+    public void Activate()
+    {
+        StartCoroutine(Delay());
+    }
 }

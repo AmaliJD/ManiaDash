@@ -330,50 +330,55 @@ public class CameraTrigger : MonoBehaviour
             uses++;
             if (getCurrentOnEnter) { GetCurrentValues(); getCurrentOnEnter = false; }
 
-            if(useZoom)
-            {
-                cameraControl.StartZoom(zoomValue, zoomDuration, zoomEase);
-            }
-            if (useRotation)
-            {
-                cameraControl.StartRotation(rotationValue, rotationDuration, rotationEase);
-            }
-            if (useOffset)
-            {
-                cameraControl.StartOffset(offsetValue.x, offsetValue.y, offsetDuration, offsetEase);
-            }
-            if (useLookAhead)
-            {
-                cameraControl.StartLookAhead(lookaheadTimeValue, lookaheadSmoothingValue, lookaheadDuration, ignoreY, lookaheadEase);
-            }
-            if (useDeadZone)
-            {
-                cameraControl.StartDeadZone(deadzoneValue.x, deadzoneValue.y, deadzoneDuration, deadzoneEase);
-            }
-            if (useDamping)
-            {
-                cameraControl.StartDamping(dampingValue.x, dampingValue.y, dampingDuration, dampingEase);
-            }
-            if (useLockCenter)
-            {
-                cameraControl.StartLockCenter(lockCenterTarget, lockCenterOffset, lockCenterType, lockCenterLerp, lockCenterDuration, lockCenterEase);
-            }
-            if (useLockLeft)
-            {
-                cameraControl.StartLockLeft(lockLeftTarget, lockLeftLerp, lockLeftDuration, lockLeftEase);
-            }
-            if (useLockRight)
-            {
-                cameraControl.StartLockRight(lockRightTarget, lockRightLerp, lockRightDuration, lockRightEase);
-            }
-            if (useLockTop)
-            {
-                cameraControl.StartLockTop(lockTopTarget, lockTopLerp, lockTopDuration, lockTopEase);
-            }
-            if (useLockBottom)
-            {
-                cameraControl.StartLockBottom(lockBottomTarget, lockBottomLerp, lockBottomDuration, lockBottomEase);
-            }
+            Activate();
+        }
+    }
+
+    public void Activate()
+    {
+        if (useZoom)
+        {
+            cameraControl.StartZoom(zoomValue, zoomDuration, zoomEase);
+        }
+        if (useRotation)
+        {
+            cameraControl.StartRotation(rotationValue, rotationDuration, rotationEase);
+        }
+        if (useOffset)
+        {
+            cameraControl.StartOffset(offsetValue.x, offsetValue.y, offsetDuration, offsetEase);
+        }
+        if (useLookAhead)
+        {
+            cameraControl.StartLookAhead(lookaheadTimeValue, lookaheadSmoothingValue, lookaheadDuration, ignoreY, lookaheadEase);
+        }
+        if (useDeadZone)
+        {
+            cameraControl.StartDeadZone(deadzoneValue.x, deadzoneValue.y, deadzoneDuration, deadzoneEase);
+        }
+        if (useDamping)
+        {
+            cameraControl.StartDamping(dampingValue.x, dampingValue.y, dampingDuration, dampingEase);
+        }
+        if (useLockCenter)
+        {
+            cameraControl.StartLockCenter(lockCenterTarget, lockCenterOffset, lockCenterType, lockCenterLerp, lockCenterDuration, lockCenterEase);
+        }
+        if (useLockLeft)
+        {
+            cameraControl.StartLockLeft(lockLeftTarget, lockLeftLerp, lockLeftDuration, lockLeftEase);
+        }
+        if (useLockRight)
+        {
+            cameraControl.StartLockRight(lockRightTarget, lockRightLerp, lockRightDuration, lockRightEase);
+        }
+        if (useLockTop)
+        {
+            cameraControl.StartLockTop(lockTopTarget, lockTopLerp, lockTopDuration, lockTopEase);
+        }
+        if (useLockBottom)
+        {
+            cameraControl.StartLockBottom(lockBottomTarget, lockBottomLerp, lockBottomDuration, lockBottomEase);
         }
     }
 

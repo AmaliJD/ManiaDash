@@ -246,6 +246,9 @@ public class PlayerControllerV2 : MonoBehaviour
     public bool fixedJumpHeight;
     public bool cubeHoldJump;
 
+    [Header("Settings")]
+    public bool noclip;
+
     // TRIGGERS TO RESET
     private List<MoveObject> movetriggers;
     public void AddMoveTriggers(MoveObject mo) { if (!movetriggers.Contains(mo) && mo.resetOnDeathPerCheckpoint) { movetriggers.Add(mo); } }
@@ -856,6 +859,8 @@ public class PlayerControllerV2 : MonoBehaviour
         {
             dead = dead || (Mathf.Abs(Vector2.Dot(player_body.velocity, forwardOrientation)) <= .2f && touchingGround);            
         }
+
+        if (noclip && dead) { dead = false; }
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {

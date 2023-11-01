@@ -78,6 +78,8 @@ TagManager:
   - PlaybackTrigger
   - FollowObject
   - SuperOrb
+  - CameraSwitch
+  - AssignerTrigger
   layers:
   - Default
   - TransparentFX

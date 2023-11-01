@@ -34,35 +34,7 @@ public class CameraSwitch : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (gamemanager.getpostfx())
-            {
-                if (activeCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>() != null)
-                {
-                    activeCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>().enabled = true;
-                }
-            }
-            else
-            {
-                if (activeCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>() != null)
-                {
-                    activeCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>().enabled = false;
-                }
-            }
-
-            foreach (CinemachineVirtualCamera c in cameraList)
-            {
-                if (c.Priority == 10) { c.Priority = 8; }
-                else if (c.Priority == 8) { c.Priority = 7; }
-                else if (c.Priority == 7 && c == activeCamera)
-                {
-                    activeCamera.enabled = false;
-                    activeCamera.Follow = activeCamera.Follow;
-                    activeCamera.enabled = true;
-                }
-
-            }
-
-            activeCamera.Priority = 10;
+            Activate();
             /*if(resetLookAhead)
             {
                 activeCamera.enabled = false;
@@ -70,5 +42,38 @@ public class CameraSwitch : MonoBehaviour
                 activeCamera.enabled = true;
             }*/
         }
+    }
+
+    public void Activate()
+    {
+        if (gamemanager.getpostfx())
+        {
+            if (activeCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>() != null)
+            {
+                activeCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>().enabled = true;
+            }
+        }
+        else
+        {
+            if (activeCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>() != null)
+            {
+                activeCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>().enabled = false;
+            }
+        }
+
+        foreach (CinemachineVirtualCamera c in cameraList)
+        {
+            if (c.Priority == 10) { c.Priority = 8; }
+            else if (c.Priority == 8) { c.Priority = 7; }
+            else if (c.Priority == 7 && c == activeCamera)
+            {
+                activeCamera.enabled = false;
+                activeCamera.Follow = activeCamera.Follow;
+                activeCamera.enabled = true;
+            }
+
+        }
+
+        activeCamera.Priority = 10;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
@@ -44,7 +45,7 @@ public class PadComponent : MonoBehaviour
 
         gamemanager = FindObjectOfType<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerV2>();
-
+        
         if (rebound)
         {
             inner = spriteSection.GetChild(0).GetComponent<SpriteRenderer>();
@@ -85,7 +86,7 @@ public class PadComponent : MonoBehaviour
                 pulseSprite.color = new Color(red, green, blue, 1f);
             }
         }
-
+        
         if (rebound)
         {
             SetRebound();
