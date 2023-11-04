@@ -3416,6 +3416,10 @@ public class PlayerControllerV2 : MonoBehaviour
                     gamemanager.getActiveCamera().GetCinemachineComponent<CinemachineFramingTransposer>().OnTargetObjectWarped(transform, positionDelta);
                     firstFramesBuffer = FRAMEBUFFERTIME;
                 }
+                if (pst.cancelY)
+                {
+                    player_body.velocity = new Vector2(player_body.velocity.x, 0);
+                }
                 break;            
         }
     }

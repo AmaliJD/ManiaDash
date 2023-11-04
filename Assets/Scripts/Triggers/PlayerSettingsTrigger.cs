@@ -13,6 +13,7 @@ public class PlayerSettingsTrigger : MonoBehaviour
     public bool stopDash;
     public bool disableTrail;
     public bool cancelJump;
+    public bool cancelY;
     public bool disableSelfDestruct;
 
     public Transform setPosition;
