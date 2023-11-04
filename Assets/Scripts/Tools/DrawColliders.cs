@@ -26,6 +26,9 @@ public class DrawColliders : MonoBehaviour
 	[SerializeField]
 	private Color ignore;
 
+	[SerializeField]
+	private Color selected;
+
 	public string[] ignoreTags;
 
 	public string[] ignoreTypes;
@@ -134,6 +137,11 @@ public class DrawColliders : MonoBehaviour
 			{
 				color = Color.white;
 			}
+
+#if UNITY_EDITOR
+			if (UnityEditor.Selection.Contains(collider.gameObject))
+				color = selected;
+#endif
 
 			GL.PushMatrix();
 			GL.MultMatrix(collider.transform.localToWorldMatrix);

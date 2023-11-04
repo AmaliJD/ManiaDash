@@ -64,7 +64,7 @@ public class Leaderboard : MonoBehaviour
     private void Start()
     {
         savedata = GetComponent<MainMenu>().getSaveData();
-        savedata.update = 2.22f;
+        savedata.update = 2.23f;
         max_diamond_values = GetComponent<LevelSelect>().getMaxDiamondValues();
         inputusername.text = savedata.username;
         Cutoff.SetActive(false); Login();

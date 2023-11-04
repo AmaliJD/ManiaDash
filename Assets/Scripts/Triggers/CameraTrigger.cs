@@ -101,10 +101,14 @@ public class CameraTrigger : MonoBehaviour
     [SerializeField] private bool hideIcon;
     [SerializeField] private bool getCurrentValues;
     [SerializeField] private bool getCurrentOnEnter;
+    [SerializeField] private bool stopOnDeath;
     [SerializeField] [Min(0)] private float duration;
     [SerializeField] [Min(0)] private int preUses;
     [SerializeField] [Min(0)] private int maxUses;
     private int uses;
+
+    public delegate void ActivateAction(bool stop);
+    public static event ActivateAction OnActivate;
 
     private void Awake()
     {
@@ -336,6 +340,7 @@ public class CameraTrigger : MonoBehaviour
 
     public void Activate()
     {
+        if (OnActivate != null) { OnActivate(stopOnDeath); }
         if (useZoom)
         {
             cameraControl.StartZoom(zoomValue, zoomDuration, zoomEase);
@@ -381,6 +386,23 @@ public class CameraTrigger : MonoBehaviour
             cameraControl.StartLockBottom(lockBottomTarget, lockBottomLerp, lockBottomDuration, lockBottomEase);
         }
     }
+
+    /*void ActivateOnDeath()
+    {
+        if (stopOnDeath)
+            cameraControl.StopAllCoroutines();
+    }
+
+    void OnEnable()
+    {
+        PlayerControllerV2.OnDeath += ActivateOnDeath;
+    }
+
+
+    void OnDisable()
+    {
+        PlayerControllerV2.OnDeath -= ActivateOnDeath;
+    }*/
 
     // -----------------------------------
 

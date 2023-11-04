@@ -591,4 +591,33 @@ public class CameraControl : MonoBehaviour
 
         if (target == null || endLerpValue == 0) { lockCam.bottomWall = null; }
     }
+
+    private bool stopOnDeath;
+    void ActivateOnDeath()
+    {
+        if (!stopOnDeath)
+            return;
+
+        stopOnDeath = false;
+        StopAllCoroutines();
+        //StartLockCenter(Camera.main.transform, Vector2.zero, LockCameraXY.LockType.lock_Y, 0, 1, EasingFunction.Ease.EaseInQuad);
+    }
+
+    void SetStopOnDeath(bool stop)
+    {
+        stopOnDeath = stop;
+    }
+
+    void OnEnable()
+    {
+        PlayerControllerV2.OnDeath += ActivateOnDeath;
+        CameraTrigger.OnActivate += SetStopOnDeath;
+    }
+
+
+    void OnDisable()
+    {
+        PlayerControllerV2.OnDeath -= ActivateOnDeath;
+        CameraTrigger.OnActivate -= SetStopOnDeath;
+    }
 }
