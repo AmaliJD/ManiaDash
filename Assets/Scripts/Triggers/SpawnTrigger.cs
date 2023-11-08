@@ -441,7 +441,7 @@ public class SpawnTrigger : MonoBehaviour
                     i++;
                 }                
 
-                float delayParallel = ignorefinish ? (delay.Length != 0 && i < delay.Length ? delay[0] : 0) : longestDelay;
+                float delayParallel = ignorefinish ? delay[0] : longestDelay;
                 float delayTime = 0;
 
                 if (!(onDeathStop || onCheckpointStop))

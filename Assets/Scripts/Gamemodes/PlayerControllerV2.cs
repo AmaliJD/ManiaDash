@@ -2244,6 +2244,10 @@ public class PlayerControllerV2 : MonoBehaviour
             }
         }
 
+
+        // ----------------------- GAMEMODES ------------------------------------------------
+
+
         //if (pad) { jump = false; jump_hold = false; }
         if((jump || jump_hold) && !(inDash || cancel_jump) && groundBuffer > GROUNDBUFFERTIME && !pad)
         {
@@ -2313,6 +2317,7 @@ public class PlayerControllerV2 : MonoBehaviour
                         ground_impact_particles.Play();
                         main_trail.emitting = true;
                         jump = false;
+                        eyeType = 0;
                     }
                     break;
 
