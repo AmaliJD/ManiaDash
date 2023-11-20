@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-[ExecuteAlways]
+//[ExecuteAlways]
 public class PostProcessTrigger : MonoBehaviour
 {
     static Dictionary<VolumeProfile, PPData> ActivePPTrigger = new Dictionary<VolumeProfile, PPData>();
@@ -90,13 +90,28 @@ public class PostProcessTrigger : MonoBehaviour
     [Min(0)] [SerializeField] private float duration;
 
     [SerializeField] private bool hideTexture;
+    [SerializeField] private bool activateOnStart;
     [SerializeField] private bool activateOnDeath;
     [SerializeField] private bool activateOnRespawn;
+
+    private void Awake()
+    {
+        if (hideTexture) { gameObject.transform.GetChild(0).gameObject.SetActive(false); }
+    }
 
     private void Start()
     {
         if (!ActivePPTrigger.ContainsKey(volumeProfile))
+        {
+            //Debug.Log("adding pp data");
             AddPPData();
+        }
+
+        if (activateOnStart)
+        {
+            //Debug.Log("start");
+            Activate();
+        }
     }
 
     void AddPPData()
@@ -308,6 +323,8 @@ public class PostProcessTrigger : MonoBehaviour
         if (!ActivePPTrigger.ContainsKey(volumeProfile))
             AddPPData();
 
+        //Debug.Log("set profile");
+
         bool useBloom = setBloom && ActivePPTrigger[volumeProfile].bloom != null;
         if (useBloom)
         {
@@ -368,9 +385,86 @@ public class PostProcessTrigger : MonoBehaviour
         }
     }
 
+    public void GrabProfile()
+    {
+        if (!ActivePPTrigger.ContainsKey(volumeProfile))
+            AddPPData();
+
+        bool useBloom = setBloom && ActivePPTrigger[volumeProfile].bloom != null;
+        if (useBloom)
+        {
+            if (setThreshold) { threshold = ActivePPTrigger[volumeProfile].bloom.threshold.value; }
+            if (setIntensity) { intensity = ActivePPTrigger[volumeProfile].bloom.intensity.value; }
+            if (setScatter) { scatter = ActivePPTrigger[volumeProfile].bloom.scatter.value; }
+            if (setTint) { tint = ActivePPTrigger[volumeProfile].bloom.tint.value; }
+        }
+
+        bool useVignette = setBloom && ActivePPTrigger[volumeProfile].vig != null;
+        if (useVignette)
+        {
+            if (setVigColor) { vigColor = ActivePPTrigger[volumeProfile].vig.color.value; }
+            if (setVigCenter) { vigCenter = ActivePPTrigger[volumeProfile].vig.center.value; }
+            if (setVigIntensity) { vigIntensity = ActivePPTrigger[volumeProfile].vig.intensity.value; }
+            if (setVigSmoothness) { vigSmoothness = ActivePPTrigger[volumeProfile].vig.smoothness.value; }
+        }
+
+        bool useChrAbr = setChromaticAberration && ActivePPTrigger[volumeProfile].chrabr != null;
+        if (useChrAbr)
+        {
+            if (setChrAbrIntensity) { chrAbrIntensity = ActivePPTrigger[volumeProfile].chrabr.intensity.value; }
+        }
+
+        bool useFilmGrain = setFilmGrain && ActivePPTrigger[volumeProfile].filmgrain != null;
+        if (useFilmGrain)
+        {
+            if (setFilmIntensity) { filmIntensity = ActivePPTrigger[volumeProfile].filmgrain.intensity.value; }
+            if (setFilmResponse) { filmResponse = ActivePPTrigger[volumeProfile].filmgrain.response.value; }
+        }
+
+        bool useColorAdj = setColorAdjustments && ActivePPTrigger[volumeProfile].colorAdj != null;
+        if (useColorAdj)
+        {
+            if (setPostExposure) { postExposure = ActivePPTrigger[volumeProfile].colorAdj.postExposure.value; }
+            if (setContrast) { contrast = ActivePPTrigger[volumeProfile].colorAdj.contrast.value; }
+            if (setColorFilter) { colorFilter = ActivePPTrigger[volumeProfile].colorAdj.colorFilter.value; }
+            if (setHueShift) { hueShift = ActivePPTrigger[volumeProfile].colorAdj.hueShift.value; }
+            if (setSaturation) { saturation = ActivePPTrigger[volumeProfile].colorAdj.saturation.value; }
+        }
+
+        //Vector4 shadowsVector4 = new Vector4(shadows.r, shadows.g, shadows.b, shadowsSlider);
+        //Vector4 midtonesVector4 = new Vector4(midtones.r, midtones.g, midtones.b, midtonesSlider);
+        //Vector4 highlightsVector4 = new Vector4(highlights.r, highlights.g, highlights.b, highlightsSlider);
+        bool useSMH = setSMH && ActivePPTrigger[volumeProfile].smh != null;
+        if (useSMH)
+        {
+            if (setShadows)
+            {
+                shadows = ActivePPTrigger[volumeProfile].smh.shadows.value;
+                shadowsSlider = ActivePPTrigger[volumeProfile].smh.shadows.value.w;
+            }
+            if (setMidtones)
+            {
+                midtones = ActivePPTrigger[volumeProfile].smh.midtones.value;
+                midtonesSlider = ActivePPTrigger[volumeProfile].smh.midtones.value.w;
+            }
+            if (setHighlights)
+            {
+                highlights = ActivePPTrigger[volumeProfile].smh.highlights.value;
+                highlightsSlider = ActivePPTrigger[volumeProfile].smh.highlights.value.w;
+            }
+            if (setLimits)
+            {
+                shadowLimitStart = ActivePPTrigger[volumeProfile].smh.shadowsStart.value;
+                shadowLimitEnd = ActivePPTrigger[volumeProfile].smh.shadowsEnd.value;
+                highlightsLimitStart = ActivePPTrigger[volumeProfile].smh.highlightsStart.value;
+                highlightsLimitEnd = ActivePPTrigger[volumeProfile].smh.highlightsEnd.value;
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag != "Player" && !collision.isTrigger)
+        if (collision.tag != "Player" || collision.isTrigger)
             return;
 
         if (!ActivePPTrigger.ContainsKey(volumeProfile))
@@ -389,6 +483,7 @@ public class PostProcessTrigger : MonoBehaviour
         if (volumeProfile == null)
             return;
 
+        //Debug.Log("activate: " + this.GetHashCode());
         if (duration == 0) { SetProfile(); }
         else { StartCoroutine(ModifyProfile()); }
     }
@@ -404,21 +499,15 @@ public class PostProcessTrigger : MonoBehaviour
 
     public void Log()
     {
-        //if (volumeProfile == null)
-        //    return;
+        if (volumeProfile == null)
+            return;
 
-        //if (!ActivePPTrigger.ContainsKey(volumeProfile))
-        //    AddPPData();
+        if (!ActivePPTrigger.ContainsKey(volumeProfile))
+            AddPPData();
 
-        //Debug.Log("Shadows: " + ActivePPTrigger[volumeProfile].smh.shadows);
-        //Debug.Log("Midtones: " + ActivePPTrigger[volumeProfile].smh.midtones);
-        //Debug.Log("Highlights: " + ActivePPTrigger[volumeProfile].smh.highlights);
-
-        if(!Application.isPlaying)
-        {
-            Debug.Log("Hello?");
-        }
-        //ActivePPTrigger.Clear();
+        Debug.Log("Shadows: " + ActivePPTrigger[volumeProfile].smh.shadows);
+        Debug.Log("Midtones: " + ActivePPTrigger[volumeProfile].smh.midtones);
+        Debug.Log("Highlights: " + ActivePPTrigger[volumeProfile].smh.highlights);
     }
 
     void OnEnable()

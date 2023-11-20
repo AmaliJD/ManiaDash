@@ -265,13 +265,16 @@ public class PostProcessTriggerEditor : Editor
 
         EditorGUILayout.LabelField("Settings", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("hideTexture"), true);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("activateOnStart"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("activateOnDeath"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("activateOnRespawn"), true);
         EditorGUILayout.Space();
 
         if (GUILayout.Button("Set Profile")) { trigger.SetProfile(); }
+        if (GUILayout.Button("Grab Profile")) { trigger.GrabProfile(); }
         if (GUILayout.Button("Log Data")) { trigger.Log(); }
 
+        EditorUtility.SetDirty(target);
         serializedObject.ApplyModifiedProperties();
     }
 

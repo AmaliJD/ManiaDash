@@ -708,7 +708,7 @@ public class PlayerControllerV2 : MonoBehaviour
         return new Vector2(Mathf.Abs(v.x), Mathf.Abs(v.y));
     }
 
-    void ChangeSize()
+    public void ChangeSize()
     {
         bool currMini = transform.localScale.x < .5;
 
@@ -3629,6 +3629,11 @@ public class PlayerControllerV2 : MonoBehaviour
         respawn.reverseDir = rev;
     }
 
+    public void setMini(bool m)
+    {
+        mini = m;
+    }
+
     public void IncrementCheckpointCount(int add)
     {
         ClearTriggers();
@@ -3649,107 +3654,26 @@ public class PlayerControllerV2 : MonoBehaviour
         ResetScaleTriggers();
     }
 
-    public Quaternion getIconRotation()
-    {
-        return iconParent.rotation;
-    }
-
-    public Transform getIconTransform()
-    {
-        return iconParent;
-    }
-
-    public int getCheckpointCount()
-    {
-        return checkpointCount;
-    }
-
-    public int getDeathCount()
-    {
-        return deathCount;
-    }
-
-    public int getJumpCount()
-    {
-        return jumpCount;
-    }
-
-    public bool getAble()
-    {
-        return able;
-    }
-
-    public bool getCrouched()
-    {
-        return isCrouched;
-    }
-    public bool getMini()
-    {
-        return mini;
-    }
-
-    public bool getDead()
-    {
-        return dead;
-    }
-
-    public bool getGrounded()
-    {
-        return grounded;
-    }
-
-    public float getCopterAnimSpeed()
-    {
-        return Copter_Anim.speed;
-    }
-
-    public float getSpiderAnimSpeed()
-    {
-        return Spider_Anim.speed;
-    }
-
-    public int getSpiderAnimType()
-    {
-        return SPT;
-    }
-
-    public float getVelocityComponentY()
-    {
-        return Vector2.Dot(player_body.velocity, -gravityOrientation);
-    }
-
-    public Vector2 getGravityOrientation()
-    {
-        return gravityOrientation;
-    }
-
-    public Vector2 getForwardOrientation()
-    {
-        return forwardOrientation;
-    }
-
-    public Gamemode getMode()
-    {
-        return gamemode;
-    }
-
-    public float getXVelocity()
-    {
-        float value = Vector2.Dot(player_body.velocity, forwardOrientation);
-        return value;
-    }
-
-    public float getYVelocity()
-    {
-        float value = Vector2.Dot(player_body.velocity, -gravityOrientation);
-        return value;
-    }
-
-    public Vector2 getForces()
-    {
-        Vector2 value = additionalForce + (gamemodeConstants[gamemode].gravityStrength * gravityOrientation);
-        return value;
-    }
+    public Quaternion getIconRotation() => iconParent.rotation;
+    public Transform getIconTransform() => iconParent;
+    public int getCheckpointCount() => checkpointCount;
+    public int getDeathCount() => deathCount;
+    public int getJumpCount() => jumpCount;
+    public bool getAble() => able;
+    public bool getCrouched() => isCrouched;
+    public bool getMini() => mini;
+    public bool getDead() => dead;
+    public bool getGrounded() => grounded;
+    public float getCopterAnimSpeed() => Copter_Anim.speed;
+    public float getSpiderAnimSpeed() => Spider_Anim.speed;
+    public int getSpiderAnimType() => SPT;
+    public float getVelocityComponentY() => Vector2.Dot(player_body.velocity, -gravityOrientation);
+    public Vector2 getGravityOrientation() => gravityOrientation;
+    public Vector2 getForwardOrientation() => forwardOrientation;
+    public Gamemode getMode() => gamemode;
+    public float getXVelocity() => Vector2.Dot(player_body.velocity, forwardOrientation);
+    public float getYVelocity() => Vector2.Dot(player_body.velocity, -gravityOrientation);
+    public Vector2 getForces() => additionalForce + (gamemodeConstants[gamemode].gravityStrength * gravityOrientation);
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

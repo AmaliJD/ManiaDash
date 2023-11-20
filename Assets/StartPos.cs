@@ -13,6 +13,9 @@ public class StartPos : MonoBehaviour
         public bool disable;
     }
 
+    public bool mini;
+    public PlayerControllerV2.Gamemode gamemode;
+
     public InitObj[] InitObjects;
 
     private void Awake()
@@ -25,6 +28,17 @@ public class StartPos : MonoBehaviour
             o.obj.transform.position = o.centerOnStartPos ? o.obj.transform.position.SetXY(new Vector2(transform.position.x, transform.position.y)) : o.obj.transform.position;
             o.obj.transform.Translate(o.move, Space.World);
             o.obj.gameObject.SetActive(o.disable);
+        }
+
+        if(mini)
+        {
+            playerController.setMini(mini);
+            playerController.ChangeSize();
+        }
+
+        if(gamemode != PlayerControllerV2.Gamemode.cube)
+        {
+            playerController.setGamemode((int)gamemode);
         }
     }
 }

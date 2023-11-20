@@ -80,6 +80,7 @@ TagManager:
   - SuperOrb
   - CameraSwitch
   - AssignerTrigger
+  - PostProcessTrigger
   layers:
   - Default
   - TransparentFX
