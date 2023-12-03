@@ -16,7 +16,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.38792446, g: 0.06755915, b: 0.0043230983, a: 1}
+    m_Value: {r: 0.49019608, g: 0.06666667, b: 0, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
@@ -25,7 +25,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.36765164
+    m_Value: 0.349
     min: 0
     max: 1
   smoothness:
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.25147572
+    m_Value: 0.17
     min: 0
     max: 1
 --- !u!114 &-3553110863717037096
@@ -75,11 +75,11 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.5554303
+    m_Value: 0.4
     min: 0
   scatter:
     m_OverrideState: 1
-    m_Value: 0.6719254
+    m_Value: 0.8
     min: 0
     max: 1
   clamp:
@@ -155,20 +155,20 @@ MonoBehaviour:
   m_AdvancedMode: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.93108606, y: 0.93997365, z: 1, w: -0.07780155}
+    m_Value: {x: 0.9, y: 1, z: 1, w: -0.2}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.8003192, z: 0.69997895, w: 0.068913944}
+    m_Value: {x: 1, y: 0.8, z: 0.7, w: 0.1}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.9, z: 0.9, w: 0.06002634}
+    m_Value: {x: 1, y: 0.9, z: 0.9, w: 0}
   shadowsStart:
     m_OverrideState: 1
     m_Value: 0
     min: 0
   shadowsEnd:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0.01
     min: 0
   highlightsStart:
     m_OverrideState: 1
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 1
-    m_Value: -0.62172115
+    m_Value: 0
   contrast:
     m_OverrideState: 1
     m_Value: 0
@@ -230,12 +230,12 @@ MonoBehaviour:
     showEyeDropper: 1
   hueShift:
     m_OverrideState: 1
-    m_Value: -7
+    m_Value: 0
     min: -180
     max: 180
   saturation:
     m_OverrideState: 1
-    m_Value: -6.2172117
+    m_Value: 0
     min: -100
     max: 100
 --- !u!114 &2671319058914024883
@@ -257,7 +257,7 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.282
+    m_Value: 0.918
     min: 0
     max: 1
   response:
