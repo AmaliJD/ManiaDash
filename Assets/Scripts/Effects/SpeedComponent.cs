@@ -10,6 +10,9 @@ public class SpeedComponent : MonoBehaviour
     private float red = 255, green = 255, blue = 255, scale = 1;
     private float ring_speed;
 
+    [Range(-1, 3)]
+    public int reverseDir = 0;
+
 
     void Awake()
     {

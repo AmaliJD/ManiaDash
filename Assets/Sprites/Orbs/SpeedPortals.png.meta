@@ -47,8 +47,29 @@ TextureImporter:
   - first:
       213: -4652894674669010091
     second: SpeedPortals_9
+  - first:
+      213: 7355133003594285088
+    second: SpeedPortals_5
+  - first:
+      213: -5465136745729223588
+    second: SpeedPortals_6
+  - first:
+      213: 3954614280600844523
+    second: SpeedPortals_7
+  - first:
+      213: -2122861589509431572
+    second: SpeedPortals_8
+  - first:
+      213: 7379011199754096952
+    second: SpeedPortals_9
+  - first:
+      213: 4939648843094356765
+    second: SpeedPortals_10
+  - first:
+      213: -8959004104440071305
+    second: SpeedPortals_11
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -102,6 +123,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -286,8 +308,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 797dced7e5dcd6da0800000000000000
-      internalID: -5949873726963263593
+      spriteID: 0204df26f7ea21660800000000000000
+      internalID: 7355133003594285088
       vertices: []
       indices: 
       edges: []
@@ -307,8 +329,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 913bc94990678f3c0800000000000000
-      internalID: -4325577658569280743
+      spriteID: c5410e5d51fe724b0800000000000000
+      internalID: -5465136745729223588
       vertices: []
       indices: 
       edges: []
@@ -328,8 +350,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04ed7bd4b1496be40800000000000000
-      internalID: 5671883625708641856
+      spriteID: be876ea5cbc91e630800000000000000
+      internalID: 3954614280600844523
       vertices: []
       indices: 
       edges: []
@@ -349,8 +371,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39a48feadf7a65d30800000000000000
-      internalID: 4419904792314792595
+      spriteID: cee18f9b1a41a82e0800000000000000
+      internalID: -2122861589509431572
       vertices: []
       indices: 
       edges: []
@@ -370,8 +392,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5530c0b02f89d6fb0800000000000000
-      internalID: -4652894674669010091
+      spriteID: 831d8fa2793876660800000000000000
+      internalID: 7379011199754096952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpeedPortals_10
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 0
+        width: 276
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d13fecf83782d8440800000000000000
+      internalID: 4939648843094356765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpeedPortals_11
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 0
+        width: 276
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77b359ddb393ba380800000000000000
+      internalID: -8959004104440071305
       vertices: []
       indices: 
       edges: []

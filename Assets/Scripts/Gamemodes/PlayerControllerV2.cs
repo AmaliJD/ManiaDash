@@ -220,6 +220,7 @@ public class PlayerControllerV2 : MonoBehaviour
     private float moveX, moveY;
     private float prevMoveX;
     private int speed = 1;
+    private bool speedPaused;
     private Vector2 ref_Velocity;
     private float velocityComponentX, velocityComponentY, prev_velocityComponentY;
     private Vector2 velocityVectorX, velocityVectorY;
@@ -3356,24 +3357,39 @@ public class PlayerControllerV2 : MonoBehaviour
                 pad = true;
                 break;
             case "Speed0x":
-                if (speed != 0) { playSpeedParticles(0); }
+                if (speed != 0 || speedPaused) { playSpeedParticles(0); }
                 speed = 0;
+                speedPaused = false;
+                ReverseDir(collision.gameObject.GetComponent<SpeedComponent>().reverseDir);
                 break;
             case "Speed1x":
-                if (speed != 1) { playSpeedParticles(1); }
+                if (speed != 1 || speedPaused) { playSpeedParticles(1); }
                 speed = 1;
+                speedPaused = false;
+                ReverseDir(collision.gameObject.GetComponent<SpeedComponent>().reverseDir);
                 break;
             case "Speed2x":
-                if (speed != 2) { playSpeedParticles(2); }
+                if (speed != 2 || speedPaused) { playSpeedParticles(2); }
                 speed = 2;
+                speedPaused = false;
+                ReverseDir(collision.gameObject.GetComponent<SpeedComponent>().reverseDir);
                 break;
             case "Speed3x":
-                if (speed != 3) { playSpeedParticles(3); }
+                if (speed != 3 || speedPaused) { playSpeedParticles(3); }
                 speed = 3;
+                speedPaused = false;
+                ReverseDir(collision.gameObject.GetComponent<SpeedComponent>().reverseDir);
                 break;
             case "Speed4x":
-                if (speed != 4) { playSpeedParticles(4); }
+                if (speed != 4 || speedPaused) { playSpeedParticles(4); }
                 speed = 4;
+                speedPaused = false;
+                ReverseDir(collision.gameObject.GetComponent<SpeedComponent>().reverseDir);
+                break;
+            case "SpeedPause":
+                if (!speedPaused) { playSpeedParticles(-1); }
+                speedPaused = true;
+                ReverseDir(collision.gameObject.GetComponent<SpeedComponent>().reverseDir);
                 break;
             case "Mini":
                 mini = true;
@@ -3426,6 +3442,51 @@ public class PlayerControllerV2 : MonoBehaviour
                     player_body.velocity = new Vector2(player_body.velocity.x, 0);
                 }
                 break;            
+        }
+    }
+
+    void ReverseDir(int value)
+    {
+        bool shrink_wave_trail = false;
+
+        switch (value)
+        {
+            case -1:
+                if (reverseDir == 0)
+                {
+                    firstFramesBuffer = FRAMEBUFFERTIME;
+                    shrink_wave_trail = true;
+                }
+                reverseDir = 0;
+                break;
+
+            case 1:
+                if (reverseDir == -1)
+                {
+                    firstFramesBuffer = FRAMEBUFFERTIME;
+                    shrink_wave_trail = true;
+                }
+                reverseDir = 1;
+                break;
+            case 2:
+                if (reverseDir == 1)
+                {
+                    firstFramesBuffer = FRAMEBUFFERTIME;
+                    shrink_wave_trail = true;
+                }
+                reverseDir = -1;
+                break;
+            case 3:
+                shrink_wave_trail = true;
+                firstFramesBuffer = FRAMEBUFFERTIME;
+                reverseDir = (reverseDir == 1 ? -1 : 1);
+                break;
+        }
+
+        if (shrink_wave_trail && gamemode == Gamemode.auto_wave)
+        {
+            auto_wave_trail.GetComponent<TrailRenderer>().Clear();
+            auto_wave_trail.transform.GetChild(0).GetComponent<TrailRenderer>().Clear();
         }
     }
 
@@ -3546,6 +3607,10 @@ public class PlayerControllerV2 : MonoBehaviour
     public void playSpeedParticles(int s)
     {
         if (PlayerPrefs.GetInt("screen_particles") == 0) { return; }
+
+        if (s == -1)
+            s = speed_particles.Length - 1;
+
         speed_particles[s].Play();
     }
 
