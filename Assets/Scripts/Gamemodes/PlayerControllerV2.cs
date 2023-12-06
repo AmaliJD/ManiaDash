@@ -237,6 +237,8 @@ public class PlayerControllerV2 : MonoBehaviour
 
     // ORIENTATION    
     private Vector2 gravityOrientation, forwardOrientation, previousDirection;
+    [HideInInspector]
+    public bool waveScreenSpace = true;
 
     [Header("Gravity Orientation")]
     public int gravityDirection = 0;
@@ -739,8 +741,15 @@ public class PlayerControllerV2 : MonoBehaviour
         }
     }
 
+    //public GameObject text1, text2;
     private void Update()
     {
+        //if(Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    waveScreenSpace = !waveScreenSpace;
+        //    text1.SetActive(!text1.activeSelf);
+        //    text2.SetActive(!text1.activeSelf);
+        //}
         if (gamemanager.isPaused()) { return; }
         if (gameObject.scene.IsValid() && input.Player.Jump.ReadValue<float>() == 1)
         {
@@ -1439,11 +1448,15 @@ public class PlayerControllerV2 : MonoBehaviour
                 else
                 {
                     float targetX = (cancelCharge ? moveX : (moveX * (1 - clampedChargedTimer) + chargedTeleportVelocity.x * clampedChargedTimer)) * Time.fixedDeltaTime * 10f;
-                    Vector2 targetVelocityX = new Vector2(targetX, 0);
+                    //Vector2 targetVelocityX = new Vector2(targetX, 0);
+                    //if(waveScreenSpace)
+                    Vector2 targetVelocityX = targetX * (mainCamera.ScreenToWorldPoint(new Vector2(1, 0)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))).normalized;
                     //Vector2 targetVelocityX = targetX * forwardOrientation;
 
                     float targetY = (cancelCharge ? moveY : (moveY * (1 - clampedChargedTimer) + chargedTeleportVelocity.y * clampedChargedTimer)) * Time.fixedDeltaTime * 10f;
-                    Vector2 targetVelocityY = new Vector2(0, targetY);
+                    //Vector2 targetVelocityY = new Vector2(0, targetY);
+                    //if (waveScreenSpace)
+                    Vector2 targetVelocityY = targetY * (mainCamera.ScreenToWorldPoint(new Vector2(0, 1)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))).normalized;
                     //Vector2 targetVelocityY = targetY * -gravityOrientation;
 
                     //velocityVectorX = Vector2.SmoothDamp(velocityVectorX, targetVelocityX, ref ref_Velocity, gamemodeConstants[gamemode].accelerationNG * ((!grounded && !cancelCharge) ? CHARGEDSMOOTH : 1));
