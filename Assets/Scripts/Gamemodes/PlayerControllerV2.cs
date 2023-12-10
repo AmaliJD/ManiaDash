@@ -1448,15 +1448,15 @@ public class PlayerControllerV2 : MonoBehaviour
                 else
                 {
                     float targetX = (cancelCharge ? moveX : (moveX * (1 - clampedChargedTimer) + chargedTeleportVelocity.x * clampedChargedTimer)) * Time.fixedDeltaTime * 10f;
-                    //Vector2 targetVelocityX = new Vector2(targetX, 0);
-                    //if(waveScreenSpace)
-                    Vector2 targetVelocityX = targetX * (mainCamera.ScreenToWorldPoint(new Vector2(1, 0)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))).normalized;
+                    Vector2 targetVelocityX = new Vector2(targetX, 0);
+                    if(waveScreenSpace)
+                        targetVelocityX = targetX * (mainCamera.ScreenToWorldPoint(new Vector2(1, 0)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))).normalized;
                     //Vector2 targetVelocityX = targetX * forwardOrientation;
 
                     float targetY = (cancelCharge ? moveY : (moveY * (1 - clampedChargedTimer) + chargedTeleportVelocity.y * clampedChargedTimer)) * Time.fixedDeltaTime * 10f;
-                    //Vector2 targetVelocityY = new Vector2(0, targetY);
-                    //if (waveScreenSpace)
-                    Vector2 targetVelocityY = targetY * (mainCamera.ScreenToWorldPoint(new Vector2(0, 1)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))).normalized;
+                    Vector2 targetVelocityY = new Vector2(0, targetY);
+                    if (waveScreenSpace)
+                        targetVelocityY = targetY * (mainCamera.ScreenToWorldPoint(new Vector2(0, 1)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))).normalized;
                     //Vector2 targetVelocityY = targetY * -gravityOrientation;
 
                     //velocityVectorX = Vector2.SmoothDamp(velocityVectorX, targetVelocityX, ref ref_Velocity, gamemodeConstants[gamemode].accelerationNG * ((!grounded && !cancelCharge) ? CHARGEDSMOOTH : 1));
@@ -3451,9 +3451,9 @@ public class PlayerControllerV2 : MonoBehaviour
                     firstFramesBuffer = FRAMEBUFFERTIME;
                 }
                 if (pst.cancelY)
-                {
                     player_body.velocity = new Vector2(player_body.velocity.x, 0);
-                }
+
+                waveScreenSpace = pst.waveScreenSpace;
                 break;            
         }
     }

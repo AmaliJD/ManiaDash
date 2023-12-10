@@ -15,6 +15,7 @@ public class PlayerSettingsTrigger : MonoBehaviour
     public bool cancelJump;
     public bool cancelY;
     public bool disableSelfDestruct;
+    public bool waveScreenSpace;
 
     public Transform setPosition;
 

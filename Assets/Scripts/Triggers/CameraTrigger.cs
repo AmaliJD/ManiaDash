@@ -35,6 +35,7 @@ public class CameraTrigger : MonoBehaviour
     [Header("Look Ahead")]
     public bool useLookAhead;
     public bool getCurrentLookAhead;
+    public bool resetLookAhead;
     public bool ignoreY;
     [Min(0)] public float lookaheadTimeValue;
     [Min(0)] public float lookaheadSmoothingValue;
@@ -58,6 +59,7 @@ public class CameraTrigger : MonoBehaviour
     [Header("Locks")]
     public bool useLockCenter;
     public bool getCurrentLockCenter;
+    public bool startFromCurrent;
     public Transform lockCenterTarget;
     public Vector2 lockCenterOffset;
     public LockCameraXY.LockType lockCenterType;
@@ -355,7 +357,7 @@ public class CameraTrigger : MonoBehaviour
         }
         if (useLookAhead)
         {
-            cameraControl.StartLookAhead(lookaheadTimeValue, lookaheadSmoothingValue, lookaheadDuration, ignoreY, lookaheadEase);
+            cameraControl.StartLookAhead(lookaheadTimeValue, lookaheadSmoothingValue, lookaheadDuration, ignoreY, lookaheadEase, resetLookAhead);
         }
         if (useDeadZone)
         {
@@ -367,7 +369,7 @@ public class CameraTrigger : MonoBehaviour
         }
         if (useLockCenter)
         {
-            cameraControl.StartLockCenter(lockCenterTarget, lockCenterOffset, lockCenterType, lockCenterLerp, lockCenterDuration, lockCenterEase);
+            cameraControl.StartLockCenter(lockCenterTarget, lockCenterOffset, lockCenterType, lockCenterLerp, lockCenterDuration, lockCenterEase, startFromCurrent);
         }
         if (useLockLeft)
         {

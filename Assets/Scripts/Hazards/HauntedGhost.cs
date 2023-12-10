@@ -128,9 +128,9 @@ public class HauntedGhost : MonoBehaviour
         StartCoroutine(Shrink());
     }
 
-    public IEnumerator Follow()
-    {        
-        switch (newPlayer.getMode())
+    void SwitchGamemodeIcon(PlayerControllerV2.Gamemode mode)
+    {
+        switch (mode)
         {
             case PlayerControllerV2.Gamemode.cube:
             case PlayerControllerV2.Gamemode.auto_cube:
@@ -142,6 +142,8 @@ public class HauntedGhost : MonoBehaviour
                 {
                     ICONS.GetChild(j).gameObject.SetActive(false);
                 }
+                foreach (ParticleSystem ps in particles)
+                    ps.Play();
                 break;
             case PlayerControllerV2.Gamemode.ball:
             case PlayerControllerV2.Gamemode.auto_ball:
@@ -151,8 +153,26 @@ public class HauntedGhost : MonoBehaviour
                 {
                     ICONS.GetChild(j).gameObject.SetActive(j == 33);
                 }
+                foreach (ParticleSystem ps in particles)
+                    ps.Stop();
+                break;
+            case PlayerControllerV2.Gamemode.wave:
+            case PlayerControllerV2.Gamemode.auto_wave:
+                icon = ICONS.GetChild(icon_index);
+                icon.gameObject.SetActive(false);
+                for (int j = 30; j <= 36; j++)
+                {
+                    ICONS.GetChild(j).gameObject.SetActive(j == 32);
+                }
+                foreach (ParticleSystem ps in particles)
+                    ps.Stop();
                 break;
         }
+    }
+
+    public IEnumerator Follow()
+    {
+        SwitchGamemodeIcon(newPlayer.getMode());
 
         PlayerControllerV2.Gamemode prevState;
         int put = 0;
@@ -179,29 +199,7 @@ public class HauntedGhost : MonoBehaviour
 
                 if (data[i].state != prevState)
                 {
-                    switch (data[i].state)
-                    {
-                        case PlayerControllerV2.Gamemode.cube:
-                        case PlayerControllerV2.Gamemode.auto_cube:
-                            Transform icon = ICONS.GetChild(icon_index);
-                            icon.gameObject.SetActive(true);
-                            icon.localScale = Vector3.one;
-                            icon.localPosition = Vector3.zero;
-                            for (int j = 30; j <= 36; j++)
-                            {
-                                ICONS.GetChild(j).gameObject.SetActive(false);
-                            }
-                            break;
-                        case PlayerControllerV2.Gamemode.ball:
-                        case PlayerControllerV2.Gamemode.auto_ball:
-                            icon = ICONS.GetChild(icon_index);
-                            icon.gameObject.SetActive(false);
-                            for (int j = 30; j <= 36; j++)
-                            {
-                                ICONS.GetChild(j).gameObject.SetActive(j == 33);
-                            }
-                            break;
-                    }
+                    SwitchGamemodeIcon(data[i].state);
                 }
 
                 prevState = data[i].state;
