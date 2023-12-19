@@ -50,7 +50,7 @@ public class Leaderboard : MonoBehaviour
     //                    scroll4, scroll400, scroll5, scroll500, scroll6, scroll600;
     public GameObject[] scrollsAny, scrolls100;
 
-    private string[] LevelTitles = new string[] { "Dark Dungeon", "Topala City", "Toxic Factory", "Sky Fortress", "Dashlands", "Mystic Forest" }; 
+    private string[] LevelTitles = new string[] { "Dark Dungeon", "Topala City", "Toxic Factory", "Sky Fortress", "Dashlands", "Mystic Forest", "Volcanic Rush" }; 
 
     public GameObject Home, Intro, Cutoff, downloadButton;
     public Text cutoffText;
@@ -64,7 +64,7 @@ public class Leaderboard : MonoBehaviour
     private void Start()
     {
         savedata = GetComponent<MainMenu>().getSaveData();
-        savedata.update = 2.24f;
+        savedata.update = 2.3f;
         max_diamond_values = GetComponent<LevelSelect>().getMaxDiamondValues();
         inputusername.text = savedata.username;
         Cutoff.SetActive(false); Login();
@@ -285,7 +285,7 @@ public class Leaderboard : MonoBehaviour
 
     public void SendLeaderboard()
     {
-        for (int i = 1; i <= 6; i++)
+        for (int i = 1; i <= 7; i++)
         {
             if (savedata.level_times[i] != float.MaxValue)
             {
@@ -336,8 +336,8 @@ public class Leaderboard : MonoBehaviour
         //Debug.Log("Leaderboard Update Successful!");
     }
 
-    int[] offboardPositions = new int[] { -1, -1, -1, -1, -1, -1 };
-    int[] offboardPositions100 = new int[] { -1, -1, -1, -1, -1, -1 };
+    int[] offboardPositions = new int[] { -1, -1, -1, -1, -1, -1, -1 };
+    int[] offboardPositions100 = new int[] { -1, -1, -1, -1, -1, -1, -1 };
     public IEnumerator GetOffboardLeaderboard()
     {
         Transform icons = offBoard.GetChild(2);
@@ -364,7 +364,7 @@ public class Leaderboard : MonoBehaviour
         }
 
         //lbget = true;
-        for (int i = 1; i <= 6; i++)
+        for (int i = 1; i <= 7; i++)
         {
             if (savedata.level_times[i] != float.MaxValue)
             {
@@ -435,7 +435,7 @@ public class Leaderboard : MonoBehaviour
     {
         lbget = true;
         getleaderboardcontinue = true;
-        for (int i = 1; i <= 6; i++)
+        for (int i = 1; i <= 7; i++)
         {
             if (true)//savedata.level_times[i] != float.MaxValue)
             {
@@ -713,7 +713,7 @@ public class Leaderboard : MonoBehaviour
         if (playerpos > 9)
             Leaderboard.GetComponent<ScrollRect>().verticalScrollbar.value = 1 - Mathf.Clamp((playerpos / totalpos), 0, totalpos);
 
-        if (board == 106)
+        if (board == 107)
         {
             lbget = false;
         }

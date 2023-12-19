@@ -666,7 +666,7 @@ public class GameManager : MonoBehaviour
                 light_intensities.Key.intensity = set ? light_intensities.Value.x : light_intensities.Value.y;
             }
         }
-        //Debug.Log(main_camera_brain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>() == null);
+        
         postfxon = set;
         if (postfxon && main_camera_brain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVolumeSettings>() != null)
         {

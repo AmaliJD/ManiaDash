@@ -294,7 +294,7 @@ public class MainMenu : MonoBehaviour
 
     void UnlockChallenge()
     {
-        for (int i = 1; i <= 6; i++)
+        for (int i = 1; i <= 7; i++)
         {
             if(savedata.levels_completed_and_coins[i,0] == 0)
             {
@@ -395,7 +395,7 @@ public class MainMenu : MonoBehaviour
             Debug.LogError("No Save File Found");
         }
 
-        savedata.update = 2.24f;
+        savedata.update = 2.3f;
     }
 
     public void SaveData()

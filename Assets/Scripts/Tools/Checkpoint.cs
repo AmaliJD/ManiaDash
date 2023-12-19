@@ -14,7 +14,8 @@ public class Checkpoint : MonoBehaviour
     [Range(-1, 1)]
     public int reverseDirection = 1;
     public bool reversed = false, mini = false, respawnCentered = false, auto = false;
-    
+
+    public bool ignoreSpeed;
     public enum Speed { x0, x1, x2, x3, x4 }
     public Speed speed;
 
@@ -71,7 +72,7 @@ public class Checkpoint : MonoBehaviour
             Vector3 pos = transform.position + offset;
             Vector3 add = new Vector3(auto ? -.5f : 0f, 0, 0);
 
-            player.setRespawn(respawnCentered ? transform.position + add : pos + add, gravityDirection, Convert.ToInt32(speed.ToString().Substring(1)), mini, reverseDirection);
+            player.setRespawn(respawnCentered ? transform.position + add : pos + add, gravityDirection, Convert.ToInt32(speed.ToString().Substring(1)), mini, reverseDirection, ignoreSpeed);
             //player.setRepawnSpeed(Convert.ToInt32(speed.ToString().Substring(1)));
             //Debug.Log(Convert.ToInt32(speed.ToString().Substring(1)));
         }

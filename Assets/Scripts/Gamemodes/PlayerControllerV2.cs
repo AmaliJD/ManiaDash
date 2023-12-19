@@ -2967,7 +2967,7 @@ public class PlayerControllerV2 : MonoBehaviour
         Vector3 positionDelta = respawn.position - transform.position;
         transform.position = respawn.position;
         gravityDirection = respawn.gravityDirection;
-        speed = respawn.speed;
+        speed = respawn.speed != -1 ? respawn.speed : speed;
         reverseDir = respawn.reverseDir;
         mini = respawn.mini;
 
@@ -3698,19 +3698,17 @@ public class PlayerControllerV2 : MonoBehaviour
         bgmusic = audio;
     }
 
-    public void setRespawn(Vector3 pos, int grav, int sd, bool min, int rev)
+    public void setRespawn(Vector3 pos, int grav, int sd, bool min, int rev, bool ignoreSpeed = false)
     {
         respawn.position = new Vector3(pos.x, pos.y, transform.position.z);
         respawn.gravityDirection = grav;
-        respawn.speed = sd;
+        respawn.speed = !ignoreSpeed ? sd : -1;
         respawn.mini = min;
         respawn.reverseDir = rev;
     }
 
-    public void setMini(bool m)
-    {
-        mini = m;
-    }
+    public void setMini(bool m) => mini = m;
+    public void setSpeed(int s) => speed = s;
 
     public void IncrementCheckpointCount(int add)
     {

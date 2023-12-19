@@ -24,7 +24,7 @@ public class LevelSelect : MonoBehaviour
 
     private void Awake()
     {
-        max_diamond_values = new int[] { 10, 12, 17, 32, 20, 21, 1000, 1000, 1000, 1000, 1000, 1000};
+        max_diamond_values = new int[] { 10, 12, 17, 32, 20, 21, 14, 1000, 1000, 1000, 1000, 1000};
         recordToggle.isOn = PlayerPrefs.GetInt("record_playback", 0) == 1 ? true : false;
         recordToggle100.isOn = PlayerPrefs.GetInt("record_playback_100", 0) == 1 ? true : false;
         if (!Directory.Exists(Application.persistentDataPath + "/LevelRecordingData")) { recordToggle.gameObject.SetActive(false); }

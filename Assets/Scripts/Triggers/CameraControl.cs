@@ -277,6 +277,27 @@ public class CameraControl : MonoBehaviour
             endLerpValue = 0;
         }
 
+        //switch((lockCam.lockAxis, type))
+        //{
+        //    case (LockCameraXY.LockType.lock_Y, LockCameraXY.LockType.lock_XY):
+        //        target.position = target.position.SetX(lockCam.GetCamPosition("center").x);
+        //        break;
+        //    case (LockCameraXY.LockType.lock_X, LockCameraXY.LockType.lock_XY):
+        //        target.position = target.position.SetY(lockCam.GetCamPosition("center").y);
+        //        break;
+        //}
+
+        if (lockCam.lockTarget != null && lockCam.lockTarget.parent != null && target != null && lockCam.lockAxis == LockCameraXY.LockType.lock_Y && type == LockCameraXY.LockType.lock_XY)
+        {
+            lockCam.lockTarget.parent.position = lockCam.lockTarget.parent.position.SetX(target.position.x);
+            lockCam.lockTarget.localPosition = lockCam.lockTarget.localPosition.SetX(0);
+        }
+        else if (lockCam.lockTarget != null && lockCam.lockTarget.parent && target != null && lockCam.lockAxis == LockCameraXY.LockType.lock_X && type == LockCameraXY.LockType.lock_XY)
+        {
+            lockCam.lockTarget.parent.position = lockCam.lockTarget.parent.position.SetY(target.position.y);
+            lockCam.lockTarget.localPosition = lockCam.lockTarget.localPosition.SetY(0);
+        }
+
         lockCam.lockTarget.parent = target;
 
         Vector2 startTargetPos = lockCam.lockTarget != null ? (startFromCenter ? lockCam.GetCamPosition("center") : lockCam.lockTarget.position) : target.position;
@@ -293,7 +314,7 @@ public class CameraControl : MonoBehaviour
         float endAxisYWeight = type == LockCameraXY.LockType.lock_Y ? 1 : 0;
         float endAxisXYWeight = type == LockCameraXY.LockType.lock_XY ? 1 : 0;
 
-        //lockCam.lockAxis = type;
+        lockCam.lockAxis = type;
 
         // ease value
         while (time < duration)
@@ -331,7 +352,7 @@ public class CameraControl : MonoBehaviour
         lockCam.lerpAxisXY = EasingFunction.GetEasingFunction(ease)(startAxisXYWeight, endAxisXYWeight, Mathf.Clamp01(time / duration));
 
         if (target == null || endLerpValue == 0) { lockCam.lockTarget = null; }
-        lockCam.lockAxis = type;
+        //lockCam.lockAxis = type;
     }
 
     public void StartLockLeft(Transform target, float endLerpValue, float duration, EasingFunction.Ease ease)

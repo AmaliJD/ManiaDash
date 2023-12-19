@@ -16,6 +16,9 @@ public class StartPos : MonoBehaviour
     public bool mini;
     public PlayerControllerV2.Gamemode gamemode;
 
+    [Range(0, 4)]
+    public int speed;
+
     public InitObj[] InitObjects;
 
     private void Awake()
@@ -40,5 +43,7 @@ public class StartPos : MonoBehaviour
         {
             playerController.setGamemode((int)gamemode);
         }
+
+        playerController.setSpeed(speed);
     }
 }
