@@ -81,6 +81,7 @@ TagManager:
   - CameraSwitch
   - AssignerTrigger
   - PostProcessTrigger
+  - SpeedPause
   layers:
   - Default
   - TransparentFX
