@@ -23,7 +23,7 @@ public class EditSaveData : MonoBehaviour
         icon_button_x = new GameObject[30];
         color_button_x = new GameObject[32];
         shader_button_x = new GameObject[6];
-        coin_button_x = new GameObject[18];
+        coin_button_x = new GameObject[21];
 
         int i = 0;
         foreach (Transform tr in icon_button_grid)
@@ -81,7 +81,7 @@ public class EditSaveData : MonoBehaviour
         }
 
         i = 0;
-        for (int a = 1; a <= 6; a++)
+        for (int a = 1; a <= 7; a++)
         {
             coin_button_x[i].SetActive(savedata.levels_completed_and_coins[a, 1] == 0);
             i++;

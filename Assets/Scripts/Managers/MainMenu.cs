@@ -282,6 +282,24 @@ public class MainMenu : MonoBehaviour
             unlock = true;
         }
 
+        if (savedata.color_availability[12] == 0 && savedata.levels_completed_and_coins[7, 0] == 1)
+        {
+            savedata.color_availability[12] = 1;
+            unlock = true;
+        }
+
+        if (savedata.color_availability[16] == 0 && savedata.level_times[7] <= 120)
+        {
+            savedata.color_availability[16] = 1;
+            unlock = true;
+        }
+
+        if (savedata.color_availability[31] == 0 && savedata.total_coins >= 21)
+        {
+            savedata.color_availability[31] = 1;
+            unlock = true;
+        }
+
         // SLIDER UNLOCK
         if (savedata.total_coins >= 9)
         {
@@ -319,7 +337,7 @@ public class MainMenu : MonoBehaviour
             }
         }
 
-        int[] unlockableColors = new int[] { 0, 2, 3, 5, 6, 8, 9, 11, 19, 20, 21, 27, 28, 29, 30 };
+        int[] unlockableColors = new int[] { 0, 2, 3, 5, 6, 8, 9, 11, 12, 16, 19, 20, 21, 27, 28, 29, 30, 31 };
         foreach (int i in unlockableColors)
         {
             if (savedata.color_availability[i] != 1)
