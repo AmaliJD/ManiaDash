@@ -257,6 +257,9 @@ public class MoveObject : MonoBehaviour
         paused = !paused;
     }
 
+    public float getDuration() => duration;
+    public bool getFinished() => !inUse;
+
     private IEnumerator OffScreenCheck()
     {
         yield return new WaitUntil(() => isVisible());

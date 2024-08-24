@@ -13295,6 +13295,7 @@ MonoBehaviour:
   increasing: 1
   sprites: {fileID: 1010925640789310842}
   sfx: {fileID: 0}
+  spawn: {fileID: 0}
   disableVisibleCheck: 0
 --- !u!58 &1327249332328270708
 CircleCollider2D:

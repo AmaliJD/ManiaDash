@@ -57,6 +57,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Super Testroom.unity
     guid: a986001c67f5e2e4bbd08dab48079ab0
   - enabled: 1
+    path: Assets/Scenes/Level 8.unity
+    guid: a92452f9a4b7f024db43bbb9b55dd7d4
+  - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: 90a54a4597c2a474aa80087bab78cd7e
   - enabled: 1

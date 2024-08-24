@@ -267,7 +267,8 @@ public class CameraControl : MonoBehaviour
             lockCam.lerpLock = 0;
             startLerpValue = 0;
 
-            emptyLockCenter.position = target.position;
+            //emptyLockCenter.position = target.position;
+            emptyLockCenter.position = lockCam.GetCamPosition("center");
             lockCam.lockTarget = emptyLockCenter;
         }
         else if (lockCam.lockTarget != null && target == null)

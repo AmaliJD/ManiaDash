@@ -76,6 +76,9 @@ public class OrbComponent : MonoBehaviour
     public AudioSource sfx;
     private GameManager gamemanager;
 
+    [Header("Spawn Trigger")]
+    public SpawnTrigger spawn;
+
     // Start is called before the first frame update
     void Awake()
     {

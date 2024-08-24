@@ -21,6 +21,7 @@ public class SpawnTrigger : MonoBehaviour
     public bool oneuse;
     public bool onDeathStop, onCheckpointStop;
     public bool ignorefinish, disableColliderOnFinish;
+    public bool reuseSequential;
 
     private bool inuse = false, finished = false;
 
@@ -98,6 +99,7 @@ public class SpawnTrigger : MonoBehaviour
                             MoveTrigger move = trigger.GetComponent<MoveTrigger>();
                             RotateTrigger rotate = trigger.GetComponent<RotateTrigger>();
                             ScaleTrigger scale = trigger.GetComponent<ScaleTrigger>();
+                            MoveObject moveV2 = trigger.GetComponent<MoveObject>();
 
                             if (move != null)
                             {
@@ -158,6 +160,19 @@ public class SpawnTrigger : MonoBehaviour
                                 }
 
                                 scale.StopAllCoroutines();
+                            }
+                            else if (moveV2 != null)
+                            {
+                                d2 = moveV2.getDuration();
+                                time = 0;
+
+                                move.Move();
+
+                                if (d2 > 0 && !ignorefinish) yield return new WaitForSeconds(d2);
+                                while (move.getFinished() != true && !ignorefinish)
+                                    yield return null;
+
+                                move.StopAllCoroutines();
                             }
 
                             /*d2 = move.getDuration();
@@ -307,6 +322,12 @@ public class SpawnTrigger : MonoBehaviour
                             ass.SpawnActivate();
                             break;
 
+                        // POST PROCESS TRIGGER
+                        case "PostProcessTrigger":
+                            PostProcessTrigger pp = trigger.GetComponent<PostProcessTrigger>();
+                            pp.SpawnAcitvate();
+                            break;
+
                         default:
                             break;
                     }
@@ -433,6 +454,30 @@ public class SpawnTrigger : MonoBehaviour
                                 sfx.Play();
                                 break;
 
+                            // CAMERA TRIGGER
+                            case "CameraSwitch":
+                                CameraSwitch camSwitch = trigger.GetComponent<CameraSwitch>();
+                                camSwitch.Activate();
+                                break;
+
+                            // CAMERA SWITCH
+                            case "CameraTrigger":
+                                CameraTrigger cam = trigger.GetComponent<CameraTrigger>();
+                                cam.Activate();
+                                break;
+
+                            // ASSIGNER TRIGGER
+                            case "AssignerTrigger":
+                                AssignerTrigger ass = trigger.GetComponent<AssignerTrigger>();
+                                ass.SpawnActivate();
+                                break;
+
+                            // POST PROCESS TRIGGER
+                            case "PostProcessTrigger":
+                                PostProcessTrigger pp = trigger.GetComponent<PostProcessTrigger>();
+                                pp.SpawnAcitvate();
+                                break;
+
                             default:
                                 break;
                         }
@@ -474,7 +519,9 @@ public class SpawnTrigger : MonoBehaviour
             if (disableColliderOnFinish) GetComponent<Collider2D>().enabled = false;
         }
 
-        //inuse = false;
+        //
+        if(reuseSequential)
+            inuse = false;
     }
 
     public void Activate()

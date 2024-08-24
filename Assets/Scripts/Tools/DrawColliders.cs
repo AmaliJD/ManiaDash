@@ -33,7 +33,9 @@ public class DrawColliders : MonoBehaviour
 
 	public string[] ignoreTypes;
 
-	private Color color;
+    public Collider2D[] overrideIgnore;
+
+    private Color color;
 
 	private List<Collider2D> colliders;
 
@@ -110,24 +112,32 @@ public class DrawColliders : MonoBehaviour
 				color = ignore;
 			}
 
-			string[] array = ignoreTags;
-			foreach (string text in array)
+			if (!overrideIgnore.Contains(collider))
 			{
-				if (collider.tag == text)
+				string[] array = ignoreTags;
+				foreach (string text in array)
 				{
-					color = ignore;
-					break;
+					if (collider.tag == text)
+					{
+						color = ignore;
+						break;
+					}
+				}
+				array = ignoreTypes;
+				foreach (string type in array)
+				{
+					if (collider.GetComponent(type) != null)
+					{
+						color = ignore;
+						break;
+					}
 				}
 			}
-			array = ignoreTypes;
-			foreach (string type in array)
+			else
 			{
-				if (collider.GetComponent(type) != null)
-				{
-					color = ignore;
-					break;
-				}
+				color.a = .25f;
 			}
+
 			if ((collider.tag == "ToggleTrigger" && collider.GetComponent<ToggleTrigger>() != null && collider.GetComponent<ToggleTrigger>().activeCount > 0) || (collider.tag == "MoveTrigger" && collider.GetComponent<MoveTrigger>() != null && collider.GetComponent<MoveTrigger>().activate > 0))
 			{
 				color = special;

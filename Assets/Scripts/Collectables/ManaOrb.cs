@@ -76,6 +76,9 @@ public class ManaOrb : MonoBehaviour
 
     private IEnumerator Collect()
     {
+        if (GetComponent<ProximityEffector>() != null)
+            GetComponent<ProximityEffector>().enabled = false;
+
         transform.parent = null;
         if (pickup != null && pickup.name != "None") { pickup.PlayOneShot(pickup.clip, gamemanager.sfx_volume); }
         jumpPos = transform.position + new Vector3(x, y, 0);

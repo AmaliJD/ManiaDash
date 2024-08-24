@@ -100,6 +100,10 @@ MonoBehaviour:
   setFilmResponse: 1
   filmResponse: 0
   duration: 0.5
+  hideTexture: 1
+  activateOnStart: 0
+  activateOnDeath: 0
+  activateOnRespawn: 0
 --- !u!61 &5803739600026852343
 BoxCollider2D:
   m_ObjectHideFlags: 0

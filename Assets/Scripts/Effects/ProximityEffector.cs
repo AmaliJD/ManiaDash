@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -9,6 +10,10 @@ using UnityEditor;
 
 public class ProximityEffector : MonoBehaviour
 {
+    [Header("Target")]
+    [SerializeField]
+    private Transform[] targets;
+
     [Header("Options")]
     [Min(0)]
     public float range;
@@ -18,6 +23,7 @@ public class ProximityEffector : MonoBehaviour
     public float fadein;
     [Min(0)]
     public float fadeout;
+    public bool local;
 
     public bool scaledRange;
     public bool invert;
@@ -91,6 +97,7 @@ public class ProximityEffector : MonoBehaviour
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
         light = gameObject.GetComponent<Light2D>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
 
@@ -136,25 +143,30 @@ public class ProximityEffector : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        Vector2 targetSelfPosition = !local ? initWorldPosition : (Vector2)transform.TransformPoint(initPosition);
+
+        if (targets.Count() > 0)
+            player = targets.OrderBy(t => Vector2.Distance(targetSelfPosition, t.position)).FirstOrDefault();
+
         Vector3 ajdustedPlayerPosition = player.position;
 
         if (exclusive)
         {
-            if (!xPos && ajdustedPlayerPosition.x - initWorldPosition.x > 0) { ajdustedPlayerPosition.x = int.MaxValue; if (keepstate) return; }
-            if (!xNeg && ajdustedPlayerPosition.x - initWorldPosition.x < 0) { ajdustedPlayerPosition.x = -int.MaxValue; if (keepstate) return; }
-            if (!yPos && ajdustedPlayerPosition.y - initWorldPosition.y > 0) { ajdustedPlayerPosition.y = int.MaxValue; if (keepstate) return; }
-            if (!yNeg && ajdustedPlayerPosition.y - initWorldPosition.y < 0) { ajdustedPlayerPosition.y = -int.MaxValue; if (keepstate) return; }
+            if (!xPos && ajdustedPlayerPosition.x - targetSelfPosition.x > 0) { ajdustedPlayerPosition.x = int.MaxValue; if (keepstate) return; }
+            if (!xNeg && ajdustedPlayerPosition.x - targetSelfPosition.x < 0) { ajdustedPlayerPosition.x = -int.MaxValue; if (keepstate) return; }
+            if (!yPos && ajdustedPlayerPosition.y - targetSelfPosition.y > 0) { ajdustedPlayerPosition.y = int.MaxValue; if (keepstate) return; }
+            if (!yNeg && ajdustedPlayerPosition.y - targetSelfPosition.y < 0) { ajdustedPlayerPosition.y = -int.MaxValue; if (keepstate) return; }
         }
 
-        float distance = Vector2.Distance(ajdustedPlayerPosition, initWorldPosition);
+        float distance = Vector2.Distance(ajdustedPlayerPosition, targetSelfPosition);
         switch (directionType)
         {
             case distanceDirection.radial:
-                distance = Vector2.Distance(ajdustedPlayerPosition, initWorldPosition); break;
+                distance = Vector2.Distance(ajdustedPlayerPosition, targetSelfPosition); break;
             case distanceDirection.x:
-                distance = Mathf.Abs(ajdustedPlayerPosition.x - initWorldPosition.x); break;
+                distance = Mathf.Abs(ajdustedPlayerPosition.x - targetSelfPosition.x); break;
             case distanceDirection.y:
-                distance = Mathf.Abs(ajdustedPlayerPosition.y - initWorldPosition.y); break;
+                distance = Mathf.Abs(ajdustedPlayerPosition.y - targetSelfPosition.y); break;
         }
 
         float prevLerp = lerp;
@@ -184,7 +196,7 @@ public class ProximityEffector : MonoBehaviour
             lerp = Mathf.Lerp(lastLerp, lerp, timer / fade);
         }
 
-        Vector2 basePosition = initWorldPosition;
+        Vector2 basePosition = targetSelfPosition;
         if (affectintensity)
         {
             light.intensity = Mathf.Lerp(initIntensity, intensityValue, lerp);

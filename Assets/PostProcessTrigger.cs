@@ -467,6 +467,12 @@ public class PostProcessTrigger : MonoBehaviour
         if (collision.tag != "Player" || collision.isTrigger)
             return;
 
+        PreCheck();
+        Activate();
+    }
+
+    private void PreCheck()
+    {
         if (!ActivePPTrigger.ContainsKey(volumeProfile))
             AddPPData();
 
@@ -474,8 +480,6 @@ public class PostProcessTrigger : MonoBehaviour
             ActivePPTrigger[volumeProfile].trigger.StopAllCoroutines();
 
         ActivePPTrigger[volumeProfile].trigger = this;
-
-        Activate();
     }
 
     private void Activate()
@@ -488,13 +492,27 @@ public class PostProcessTrigger : MonoBehaviour
         else { StartCoroutine(ModifyProfile()); }
     }
 
+    public void SpawnAcitvate()
+    {
+        PreCheck();
+        Activate();
+    }
+
     private void ActivateOnDeath()
     {
-        if (activateOnDeath) { Activate(); }
+        if (activateOnDeath)
+        {
+            PreCheck();
+            Activate();
+        }
     }
     private void ActivateOnRespawn()
     {
-        if (activateOnRespawn) { Activate(); }
+        if (activateOnRespawn)
+        {
+            PreCheck();
+            Activate();
+        }
     }
 
     public void Log()

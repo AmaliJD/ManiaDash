@@ -14,6 +14,7 @@ public class PlayerSettingsTrigger : MonoBehaviour
     public bool disableTrail;
     public bool cancelJump;
     public bool cancelY;
+    public bool zeroMovingPlatformVelocity;
     public bool disableSelfDestruct;
     public bool waveScreenSpace;
 

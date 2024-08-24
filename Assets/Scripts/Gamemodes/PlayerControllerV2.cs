@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 using Shapes2D;
+using UnityEngine.U2D;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -228,6 +230,7 @@ public class PlayerControllerV2 : MonoBehaviour
     private Vector2 additionalForce;
     private float posMaxSpeed, posMaxSpeedTimer;
     private List<Rigidbody2D> MovingObjectVelocities;
+    private float movingObjectsVelocityMultiplier = 1;
     private Vector2 movingObjectVelocity;
     private bool goingUp;
     private bool springDown;
@@ -1314,6 +1317,7 @@ public class PlayerControllerV2 : MonoBehaviour
         //Vector2 angularVelocity = MovingObjectVelocities.Count > 0 ? MovingObjectVelocities[MovingObjectVelocities.Count - 1].angularVelocity * Vector2.Perpendicular(player_body.position - MovingObjectVelocities[MovingObjectVelocities.Count - 1].position).normalized : Vector2.zero;
 
         movingObjectVelocity = MovingObjectVelocities.Count > 0 ? MovingObjectVelocities[MovingObjectVelocities.Count - 1].velocity : Vector2.zero;
+        movingObjectVelocity *= movingObjectsVelocityMultiplier;
 
         previousDirection = forwardOrientation * reverseDir;
 
@@ -1599,6 +1603,7 @@ public class PlayerControllerV2 : MonoBehaviour
         if (jump_orb || (gamemodeConstants[gamemode].orbBuffer ? jump_air : false))
         {
             OrbComponent orbscript = null;
+            SpawnTrigger spawnTrigger = null;
             float multiplier = 1;
             int changeDirection = 0;
             Vector2 direction = Vector2.zero;
@@ -1607,6 +1612,7 @@ public class PlayerControllerV2 : MonoBehaviour
             if (OrbTouched != null)
             {
                 orbscript = OrbTouched.GetComponent<OrbComponent>();
+                spawnTrigger = orbscript.spawn;
                 multiplier = orbscript.multiplier;
                 direction = orbscript.GetDirection();
                 changeDirection = orbscript.reverse;
@@ -1892,7 +1898,7 @@ public class PlayerControllerV2 : MonoBehaviour
 
                 bool connect = true;
 
-                Collider2D collider = !crouch ? player_collider : crouch_collider;
+                Collider2D collider = !crouch || !grounded ? player_collider : crouch_collider;
                 groundhit = Physics2D.BoxCast(player_body.position + (.2f * -gravityOrientation), new Vector2(Mathf.Abs(Vector2.Dot(collider.bounds.size, -gravityOrientation)) * .5f, .1f), 0f, -gravityOrientation, 30, groundLayer);
                 deathhit = Physics2D.BoxCast(player_body.position + (.2f * -gravityOrientation), new Vector2(Mathf.Abs(Vector2.Dot(collider.bounds.size, -gravityOrientation)) * .5f, .1f), 0f, -gravityOrientation, 30, deathLayer);
                 
@@ -2255,6 +2261,9 @@ public class PlayerControllerV2 : MonoBehaviour
                 }
 
                 jump_from_ground = false;
+
+                if(spawnTrigger != null)
+                    StartCoroutine(spawnTrigger.Begin());
             }
         }
 
@@ -3134,6 +3143,10 @@ public class PlayerControllerV2 : MonoBehaviour
                 {
                     sdtimer = 0;
                 }
+                else if(pst.zeroMovingPlatformVelocity)
+                {
+                    movingObjectsVelocityMultiplier = 0;
+                }
                 break;
         }
     }
@@ -3586,6 +3599,10 @@ public class PlayerControllerV2 : MonoBehaviour
                     //jump_air = false;
                     //jump_orb = false;
                     cancel_jump = false;
+                }
+                else if (pst.zeroMovingPlatformVelocity)
+                {
+                    movingObjectsVelocityMultiplier = 1;
                 }
                 break;
         }
