@@ -56,6 +56,14 @@ public class CameraTrigger : MonoBehaviour
     [Min(0)] public float dampingDuration;
     public EasingFunction.Ease dampingEase;
 
+    [Header("Noise")]
+    public bool useNoise;
+    public bool getCurrentNoise;
+    [Min(0)] public float amplitudeValue;
+    [Min(0)] public float frequencyValue;
+    [Min(0)] public float noiseDuration;
+    public EasingFunction.Ease noiseEase;
+
     [Header("Locks")]
     public bool useLockCenter;
     public bool getCurrentLockCenter;
@@ -124,16 +132,17 @@ public class CameraTrigger : MonoBehaviour
             gameObject.transform.GetChild(0).GetChild(4).GetComponent<TextMeshPro>().color = useLookAhead ? Color.white : new Color(1, 1, 1, .25f);
             gameObject.transform.GetChild(0).GetChild(5).GetComponent<TextMeshPro>().color = useDeadZone ? Color.white : new Color(1, 1, 1, .25f);
             gameObject.transform.GetChild(0).GetChild(6).GetComponent<TextMeshPro>().color = useDamping ? Color.white : new Color(1, 1, 1, .25f);
-            gameObject.transform.GetChild(0).GetChild(7).GetComponent<TextMeshPro>().color = useLockCenter ? Color.white : new Color(1, 1, 1, .25f);
-            gameObject.transform.GetChild(0).GetChild(8).GetComponent<TextMeshPro>().color = useLockLeft ? Color.white : new Color(1, 1, 1, .25f);
-            gameObject.transform.GetChild(0).GetChild(9).GetComponent<TextMeshPro>().color = useLockRight ? Color.white : new Color(1, 1, 1, .25f);
-            gameObject.transform.GetChild(0).GetChild(10).GetComponent<TextMeshPro>().color = useLockTop ? Color.white : new Color(1, 1, 1, .25f);
-            gameObject.transform.GetChild(0).GetChild(11).GetComponent<TextMeshPro>().color = useLockBottom ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(7).GetComponent<TextMeshPro>().color = useNoise ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(8).GetComponent<TextMeshPro>().color = useLockCenter ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(9).GetComponent<TextMeshPro>().color = useLockLeft ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(10).GetComponent<TextMeshPro>().color = useLockRight ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(11).GetComponent<TextMeshPro>().color = useLockTop ? Color.white : new Color(1, 1, 1, .25f);
+            gameObject.transform.GetChild(0).GetChild(12).GetComponent<TextMeshPro>().color = useLockBottom ? Color.white : new Color(1, 1, 1, .25f);
         }
 
         if(getCurrentValues)
         {
-            getCurrentZoom = getCurrentRotation = getCurrentOffset = getCurrentLookAhead = getCurrentDeadZone = getCurrentDamping
+            getCurrentZoom = getCurrentRotation = getCurrentOffset = getCurrentLookAhead = getCurrentDeadZone = getCurrentDamping = getCurrentNoise
                 = getCurrentLockCenter = getCurrentLockLeft = getCurrentLockRight = getCurrentLockTop = getCurrentLockBottom = true;
         }
 
@@ -145,6 +154,7 @@ public class CameraTrigger : MonoBehaviour
             lookaheadDuration += duration;
             deadzoneDuration += duration;
             dampingDuration += duration;
+            noiseDuration += duration;
             lockCenterDuration += duration;
             lockLeftDuration += duration;
             lockRightDuration += duration;
@@ -182,6 +192,22 @@ public class CameraTrigger : MonoBehaviour
             useDeadZone = false;
             useDamping = false;
         }
+
+
+        if (virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>() != null)
+        {
+            CinemachineBasicMultiChannelPerlin perlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            if (getCurrentNoise)
+            {
+                amplitudeValue = perlin.m_AmplitudeGain;
+                frequencyValue = perlin.m_FrequencyGain;
+            }
+        }
+        else
+        {
+            getCurrentNoise = false;
+        }
+        
 
         if (virtualCamera.GetComponent<LockCameraXY>() != null)
         {
@@ -258,6 +284,16 @@ public class CameraTrigger : MonoBehaviour
                 }
                 if (getCurrentDeadZone) { deadzoneValue = new Vector2(validate_transposer.m_DeadZoneWidth, validate_transposer.m_DeadZoneHeight); }
                 if (getCurrentDamping) { dampingValue = new Vector2(validate_transposer.m_XDamping, validate_transposer.m_YDamping); }
+            }
+
+            if (validate_virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>() != null)
+            {
+                CinemachineBasicMultiChannelPerlin validate_perlin = validate_virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                if (getCurrentNoise)
+                {
+                    amplitudeValue = validate_perlin.m_AmplitudeGain;
+                    frequencyValue = validate_perlin.m_FrequencyGain;
+                }
             }
 
             if (validate_virtualCamera.GetComponent<LockCameraXY>() != null)
@@ -367,6 +403,10 @@ public class CameraTrigger : MonoBehaviour
         {
             cameraControl.StartDamping(dampingValue.x, dampingValue.y, dampingDuration, dampingEase);
         }
+        if (useNoise)
+        {
+            cameraControl.StartNoise(amplitudeValue, frequencyValue, noiseDuration, noiseEase);
+        }
         if (useLockCenter)
         {
             cameraControl.StartLockCenter(lockCenterTarget, lockCenterOffset, lockCenterType, lockCenterLerp, lockCenterDuration, lockCenterEase, startFromCurrent);
@@ -432,60 +472,77 @@ public class CameraTrigger : MonoBehaviour
                 scale = 110f; break;
         }
 
-        gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().color = useZoom ? Color.white : new Color(1,1,1,.25f);
-        Gizmos.color = Color.green;
-        if(useZoom)
-            Gizmos.DrawLine(transform.position + (Vector3.down * .4f), transform.position + (Vector3.down * .4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (zoomDuration + duration), 0, 0));
+        bool[] uses = { useZoom, useRotation, useOffset, useLookAhead, useDeadZone, useDamping, useNoise, useLockCenter, useLockLeft, useLockRight, useLockTop, useLockBottom };
+        float[] durations = { zoomDuration, rotationDuration, offsetDuration, lookaheadDuration, deadzoneDuration, dampingDuration, noiseDuration, lockCenterDuration, lockLeftDuration, lockRightDuration, lockTopDuration, lockBottomDuration };
+        Color[] colors = { Color.green, new Color(.5f, 0, 1f), new Color(0, 1f, 1f), new Color(1f, 1f, 0f), new Color(1f, 0f, 0f), new Color(1f, 0f, 1f), new Color(.5f, .8f, 1f), Color.white };
 
-        gameObject.transform.GetChild(0).GetChild(2).GetComponent<TextMeshPro>().color = useRotation ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = new Color(.5f, 0, 1f);
-        if(useRotation)
-            Gizmos.DrawLine(transform.position + (Vector3.down * .6f), transform.position + (Vector3.down * .6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (rotationDuration + duration), 0, 0));
+        for(int i = 0; i < uses.Length; i++)
+        {
+            gameObject.transform.GetChild(0).GetChild(i + 1).GetComponent<TextMeshPro>().color = uses[i] ? Color.white : new Color(1, 1, 1, .25f);
+            Gizmos.color = colors[Mathf.Clamp(i, 0, colors.Length - 1)];
+            if(uses[i])
+                Gizmos.DrawLine(transform.position + (Vector3.down * (.4f + (.2f * i))), transform.position + (Vector3.down * (.4f + (.2f * i))) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (durations[i] + duration), 0, 0));
+        }
 
-        gameObject.transform.GetChild(0).GetChild(3).GetComponent<TextMeshPro>().color = useOffset ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = new Color(0, 1f, 1f);
-        if(useOffset)
-            Gizmos.DrawLine(transform.position + (Vector3.down * .8f), transform.position + (Vector3.down * .8f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (offsetDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().color = useZoom ? Color.white : new Color(1,1,1,.25f);
+        //Gizmos.color = Color.green;
+        //if(useZoom)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * .4f), transform.position + (Vector3.down * .4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (zoomDuration + duration), 0, 0));
 
-        gameObject.transform.GetChild(0).GetChild(4).GetComponent<TextMeshPro>().color = useLookAhead ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = new Color(1f, 1f, 0f);
-        if(useLookAhead)
-            Gizmos.DrawLine(transform.position + (Vector3.down * 1f), transform.position + (Vector3.down * 1f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lookaheadDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(2).GetComponent<TextMeshPro>().color = useRotation ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = new Color(.5f, 0, 1f);
+        //if(useRotation)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * .6f), transform.position + (Vector3.down * .6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (rotationDuration + duration), 0, 0));
 
-        gameObject.transform.GetChild(0).GetChild(5).GetComponent<TextMeshPro>().color = useDeadZone ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = new Color(1f, 0f, 0f);
-        if(useDeadZone)
-            Gizmos.DrawLine(transform.position + (Vector3.down * 1.2f), transform.position + (Vector3.down * 1.2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (deadzoneDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(3).GetComponent<TextMeshPro>().color = useOffset ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = new Color(0, 1f, 1f);
+        //if(useOffset)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * .8f), transform.position + (Vector3.down * .8f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (offsetDuration + duration), 0, 0));
 
-        gameObject.transform.GetChild(0).GetChild(6).GetComponent<TextMeshPro>().color = useDamping ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = new Color(1f, 0f, 1f);
-        if(useDamping)
-            Gizmos.DrawLine(transform.position + (Vector3.down * 1.4f), transform.position + (Vector3.down * 1.4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (dampingDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(4).GetComponent<TextMeshPro>().color = useLookAhead ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = new Color(1f, 1f, 0f);
+        //if(useLookAhead)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 1f), transform.position + (Vector3.down * 1f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lookaheadDuration + duration), 0, 0));
 
-        gameObject.transform.GetChild(0).GetChild(7).GetComponent<TextMeshPro>().color = useLockCenter ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = Color.white;
-        if(useLockCenter)
-            Gizmos.DrawLine(transform.position + (Vector3.down * 1.6f), transform.position + (Vector3.down * 1.6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockCenterDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(5).GetComponent<TextMeshPro>().color = useDeadZone ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = new Color(1f, 0f, 0f);
+        //if(useDeadZone)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 1.2f), transform.position + (Vector3.down * 1.2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (deadzoneDuration + duration), 0, 0));
 
-        gameObject.transform.GetChild(0).GetChild(8).GetComponent<TextMeshPro>().color = useLockLeft ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = Color.white;
-        if(useLockLeft)
-            Gizmos.DrawLine(transform.position + (Vector3.down * 1.8f), transform.position + (Vector3.down * 1.8f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockLeftDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(6).GetComponent<TextMeshPro>().color = useDamping ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = new Color(1f, 0f, 1f);
+        //if(useDamping)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 1.4f), transform.position + (Vector3.down * 1.4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (dampingDuration + duration), 0, 0));
 
-        gameObject.transform.GetChild(0).GetChild(9).GetComponent<TextMeshPro>().color = useLockRight ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = Color.white;
-        if(useLockRight)
-            Gizmos.DrawLine(transform.position + (Vector3.down * 2f), transform.position + (Vector3.down * 2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockRightDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(7).GetComponent<TextMeshPro>().color = useNoise ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = new Color(.5f, .8f, 1f);
+        //if (useNoise)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 1.6f), transform.position + (Vector3.down * 1.6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (noiseDuration + duration), 0, 0));
 
-        gameObject.transform.GetChild(0).GetChild(10).GetComponent<TextMeshPro>().color = useLockTop ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = Color.white;
-        if(useLockTop)
-            Gizmos.DrawLine(transform.position + (Vector3.down * 2.2f), transform.position + (Vector3.down * 2.2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockTopDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(8).GetComponent<TextMeshPro>().color = useLockCenter ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = Color.white;
+        //if(useLockCenter)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 1.8f), transform.position + (Vector3.down * 1.8f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockCenterDuration + duration), 0, 0));
 
-        gameObject.transform.GetChild(0).GetChild(11).GetComponent<TextMeshPro>().color = useLockBottom ? Color.white : new Color(1, 1, 1, .25f);
-        Gizmos.color = Color.white;
-        if(useLockBottom)
-            Gizmos.DrawLine(transform.position + (Vector3.down * 2.4f), transform.position + (Vector3.down * 2.4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockBottomDuration + duration), 0, 0));
+        //gameObject.transform.GetChild(0).GetChild(9).GetComponent<TextMeshPro>().color = useLockLeft ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = Color.white;
+        //if(useLockLeft)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 2f), transform.position + (Vector3.down * 2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockLeftDuration + duration), 0, 0));
+
+        //gameObject.transform.GetChild(0).GetChild(10).GetComponent<TextMeshPro>().color = useLockRight ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = Color.white;
+        //if(useLockRight)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 2.2f), transform.position + (Vector3.down * 2.2f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockRightDuration + duration), 0, 0));
+
+        //gameObject.transform.GetChild(0).GetChild(11).GetComponent<TextMeshPro>().color = useLockTop ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = Color.white;
+        //if(useLockTop)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 2.4f), transform.position + (Vector3.down * 2.4f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockTopDuration + duration), 0, 0));
+
+        //gameObject.transform.GetChild(0).GetChild(12).GetComponent<TextMeshPro>().color = useLockBottom ? Color.white : new Color(1, 1, 1, .25f);
+        //Gizmos.color = Color.white;
+        //if(useLockBottom)
+        //    Gizmos.DrawLine(transform.position + (Vector3.down * 2.6f), transform.position + (Vector3.down * 2.6f) + new Vector3((scale * Time.fixedDeltaTime * 10f) * (lockBottomDuration + duration), 0, 0));
     }
 #endif
 }

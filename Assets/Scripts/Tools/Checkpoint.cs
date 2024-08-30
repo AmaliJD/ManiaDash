@@ -70,7 +70,8 @@ public class Checkpoint : MonoBehaviour
                     offset.x = .7f * (mini ? .44f : 1); break;
             }
             Vector3 pos = transform.position + offset;
-            Vector3 add = new Vector3(auto ? -.5f : 0f, 0, 0);
+            //Vector3 add = new Vector3(auto ? -.5f : 0f, 0, 0);
+            Vector3 add = -player.getForwardOrientation() * (auto ? -.5f : 0f);
 
             player.setRespawn(respawnCentered ? transform.position + add : pos + add, gravityDirection, Convert.ToInt32(speed.ToString().Substring(1)), mini, reverseDirection, ignoreSpeed);
             //player.setRepawnSpeed(Convert.ToInt32(speed.ToString().Substring(1)));

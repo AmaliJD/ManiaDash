@@ -15,6 +15,7 @@ public class CameraControl : MonoBehaviour
     [HideInInspector] public Coroutine lookaheadCoroutine;
     [HideInInspector] public Coroutine deadzoneCoroutine;
     [HideInInspector] public Coroutine dampingCoroutine;
+    [HideInInspector] public Coroutine noiseCoroutine;
     [HideInInspector] public Coroutine lockCenterCoroutine;
     [HideInInspector] public Coroutine lockLeftCoroutine;
     [HideInInspector] public Coroutine lockRightCoroutine;
@@ -235,6 +236,40 @@ public class CameraControl : MonoBehaviour
         time = duration;
         transposer.m_XDamping = EasingFunction.GetEasingFunction(ease)(startXValue, endXValue, Mathf.Clamp01(time / duration));
         transposer.m_YDamping = EasingFunction.GetEasingFunction(ease)(startYValue, endYValue, Mathf.Clamp01(time / duration));
+    }
+
+    public void StartNoise(float endAmplitudeValue, float endFrequencyValue, float duration, EasingFunction.Ease ease)
+    {
+        if (noiseCoroutine != null) { StopCoroutine(noiseCoroutine); }
+        noiseCoroutine = StartCoroutine(SetNoise(endAmplitudeValue, endFrequencyValue, duration, ease));
+    }
+
+    public IEnumerator SetNoise(float endAmpValue, float endFreqValue, float duration, EasingFunction.Ease ease)
+    {
+        CinemachineBasicMultiChannelPerlin perlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        // break if already at value
+        if (perlin.m_AmplitudeGain == endAmpValue && perlin.m_FrequencyGain == endFreqValue) { yield break; }
+
+        // set parameters
+        float startAmpValue = perlin.m_AmplitudeGain;
+        float startFreqValue = perlin.m_FrequencyGain;
+        float time = duration != 0 ? 0 : 1;
+        duration = duration != 0 ? duration : 1;
+
+        // ease value
+        while (time < duration)
+        {
+            perlin.m_AmplitudeGain = EasingFunction.GetEasingFunction(ease)(startAmpValue, endAmpValue, Mathf.Clamp01(time / duration));
+            perlin.m_FrequencyGain = EasingFunction.GetEasingFunction(ease)(startFreqValue, endFreqValue, Mathf.Clamp01(time / duration));
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        // set end value
+        time = duration;
+        perlin.m_AmplitudeGain = EasingFunction.GetEasingFunction(ease)(startAmpValue, endAmpValue, Mathf.Clamp01(time / duration));
+        perlin.m_FrequencyGain = EasingFunction.GetEasingFunction(ease)(startFreqValue, endFreqValue, Mathf.Clamp01(time / duration));
     }
 
 
